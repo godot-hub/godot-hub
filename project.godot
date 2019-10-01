@@ -16,8 +16,9 @@ _global_script_class_icons={
 [application]
 
 config/name="godot-hub"
-run/main_scene="res://UI/Godot Hub.tscn"
-config/icon="res://icon.png"
+run/main_scene="res://src/UI/Godot Hub.tscn"
+boot_splash/image="res://src/Media/godot-hub-cover.png"
+config/icon="res://godot-hub-logo.png"
 
 [rendering]
 
