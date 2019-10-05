@@ -1,6 +1,6 @@
 <h1 align="center">Godot Hub</h1>
 
-![Godot Hub Cover](./src/Media/godot-hub-cover.png)
+![Godot Hub Cover](./src/images/godot-hub-cover.png)
 
 
 <h6 align="center">a hub for your <a href="https://godotengine.org/">Godot</a> needs</h6>
