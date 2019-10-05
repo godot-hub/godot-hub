@@ -2,8 +2,9 @@
   "name": "godot-hub",
   "version": "1.0.0",
   "description": "A hub for your Godot needs",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
+    "start": "electron .",
     "test": "jest --verbose"
   },
   "repository": {
@@ -20,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/godot-hub/godot-hub/issues"
   },
-  "homepage": "https://github.com/godot-hub/godot-hub#readme"
+  "homepage": "https://github.com/godot-hub/godot-hub#readme",
+  "devDependencies": {
+    "electron": "^6.0.11"
+  }
 }
