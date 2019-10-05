@@ -1,2 +1,5 @@
-.import
-*.import
+# ignore all installed modules
+node_modules
+
+# ignore files related to coverage tests
+coverage
