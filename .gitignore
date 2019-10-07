@@ -3,3 +3,6 @@ node_modules
 
 # ignore files related to coverage tests
 coverage
+
+# ignore app builds
+dist
