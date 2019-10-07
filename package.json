@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "description": "A hub for your Godot needs",
   "main": "main.js",
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
   "scripts": {
     "start": "electron .",
     "test": "jest --verbose"
