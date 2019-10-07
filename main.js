@@ -16,13 +16,13 @@ function createWindow () {
   })
 
   // and load the index.html of the app.
-  win.loadFile('./src/index.html')
+  win.loadFile('./dist/index.html')
 
   // hide menubar
   win.setMenuBarVisibility(false)
 
   // Open the DevTools.
- //  win.webContents.openDevTools()
+  win.webContents.openDevTools()
 
   // Emitted when the window is closed.
   win.on('closed', () => {
