@@ -23,6 +23,9 @@
   },
   "homepage": "https://github.com/godot-hub/godot-hub#readme",
   "devDependencies": {
+    "@babel/core": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/preset-react": "^7.0.0",
     "electron": "^6.0.11",
     "jest": "^24.9.0",
     "webpack": "^4.41.0",
