@@ -11,7 +11,7 @@
   },
   "scripts": {
     "prestart": "mkdir -p dist & webpack --config webpack.dev.js",
-    "start": "sleep 1 & electron .",
+    "start": "electron .",
     "test": "jest --verbose"
   },
   "repository": {
