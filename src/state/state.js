@@ -1,6 +1,6 @@
 // initial state
 const state = {
-    project: 'Godot Hub'
+    project: ''
 };
 
 export default state;
