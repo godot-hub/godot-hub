@@ -1,5 +1,5 @@
 const { app, BrowserWindow } = require('electron')
-const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer')
+const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -26,10 +26,14 @@ function createWindow () {
   win.webContents.openDevTools()
 
 
-  // install react dev tools
-  installExtension(REACT_DEVELOPER_TOOLS)
-  .then((name) => console.log(`Added extension: ${name}`))
-  .catch((err) => console.log(`An error occurred: ${err}`))
+  // install react & redux dev tools
+  const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
+
+  extensions.map(extension => {
+    installExtension(extension)
+      .then((name) => console.log(`Added extension: ${name}`))
+      .catch((err) => console.log(`An error occurred: ${err}`))
+  });
 
   // Emitted when the window is closed.
   win.on('closed', () => {
