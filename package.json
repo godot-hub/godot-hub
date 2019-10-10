@@ -9,6 +9,17 @@
       "@babel/preset-react"
     ]
   },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>src/setupTests.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json"
+    ],
+    "modulePaths": [
+      "<rootDir>/src"
+    ]
+  },
   "scripts": {
     "prestart": "mkdir -p dist & webpack --config webpack.dev.js",
     "start": "electron .",
