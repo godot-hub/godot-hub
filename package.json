@@ -15,6 +15,7 @@
     ]
   },
   "jest": {
+    "automock": false,
     "setupFilesAfterEnv": [
       "<rootDir>src/setupTests.js"
     ],
