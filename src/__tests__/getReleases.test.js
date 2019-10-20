@@ -1,5 +1,12 @@
+import getReleases from '../helpers/getReleases';
+import * as releases from '../__data__/releases.json';
+
 describe('getReleases()', () => {
-    it('should return godot releases', () => {
-        expect(true).toBeFalsy();
+    beforeEach(() => {
+        fetch.resetMocks();
+    });
+
+    it('should return godot releases', async () => {
+        fetch.mockResponse(JSON.stringify(releases)); // mocking getReleases
     });
 });
