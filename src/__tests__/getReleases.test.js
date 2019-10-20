@@ -8,5 +8,6 @@ describe('getReleases()', () => {
 
     it('should return godot releases', async () => {
         fetch.mockResponse(JSON.stringify(releases)); // mocking getReleases
+        expect(await getReleases()).toEqual(releases);
     });
 });
