@@ -1,0 +1,90 @@
+[
+    {
+        "version": "2.1.6-stable",
+        "url": "https://downloads.tuxfamily.org/godotengine/2.1.6/"
+    },
+    {
+        "version": "3.1.1-stable",
+        "url": "https://downloads.tuxfamily.org/godotengine/3.1.1/"
+    },
+    {
+        "version": "3.1-stable",
+        "url": "https://downloads.tuxfamily.org/godotengine/3.1"
+    },
+    {
+        "version": "2.1.5-stable",
+        "url": "https://downloads.tuxfamily.org/godotengine/2.1.5/"
+    },
+    {
+        "version": "3.0.6-stable",
+        "url": "https://downloads.tuxfamily.org/godotengine/3.0.6/"
+    },
+    {
+        "version": "3.0.4-stable",
+        "url": "https://downloads.tuxfamily.org/godotengine/3.0.4/"
+    },
+    {
+        "version": "3.0.5-stable",
+        "url": "https://downloads.tuxfamily.org/godotengine/3.0.5/"
+    },
+    {
+        "version": "3.0.3-stable",
+        "url": "https://downloads.tuxfamily.org/godotengine/3.0.3/"
+    },
+    {
+        "version": "3.0.2-stable",
+        "url": "https://downloads.tuxfamily.org/godotengine/3.0.2/"
+    },
+    {
+        "version": "3.0.1-stable",
+        "url": "https://downloads.tuxfamily.org/godotengine/3.0.1/"
+    },
+    {
+        "version": "3.0-stable",
+        "url": "https://downloads.tuxfamily.org/godotengine/3.0/"
+    },
+    {
+        "version": "2.1.4-stable",
+        "url": "http://downloads.tuxfamily.org/godotengine/2.1.4"
+    },
+    {
+        "version": "2.1.3-stable",
+        "url": "http://downloads.tuxfamily.org/godotengine/2.1.3"
+    },
+    {
+        "version": "2.1.2-stable",
+        "url": "http://downloads.tuxfamily.org/godotengine/2.1.2"
+    },
+    {
+        "version": "2.1.1-stable",
+        "url": "http://downloads.tuxfamily.org/godotengine/2.1.1"
+    },
+    {
+        "version": "2.1-stable",
+        "url": "https://downloads.tuxfamily.org/godotengine/2.1/"
+    },
+    {
+        "version": "2.0.4.1-stable",
+        "url": "http://downloads.tuxfamily.org/godotengine/2.0.4.1"
+    },
+    {
+        "version": "2.0.2-stable",
+        "url": "http://downloads.tuxfamily.org/godotengine/2.0.2"
+    },
+    {
+        "version": "2.0.1-stable",
+        "url": "http://downloads.tuxfamily.org/godotengine/2.0.1"
+    },
+    {
+        "version": "2.0.3-stable",
+        "url": "http://downloads.tuxfamily.org/godotengine/2.0.3"
+    },
+    {
+        "version": "2.0-stable",
+        "url": "https://downloads.tuxfamily.org/godotengine/2.0/"
+    },
+    {
+        "version": "1.1-stable",
+        "url": "https://downloads.tuxfamily.org/godotengine/1.1/"
+    }
+]
