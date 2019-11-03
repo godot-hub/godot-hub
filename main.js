@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require('electron')
+const path = require('path');
 const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer')
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -13,7 +14,7 @@ function createWindow () {
     webPreferences: {
       nodeIntegration: true
     },
-
+    icon: path.join(__dirname, '/src/images/godot-hub-logo.png')
   })
 
   // and load the index.html of the app.
