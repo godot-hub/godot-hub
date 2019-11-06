@@ -1,5 +1,5 @@
 // get godot releases
-const getReleases = async () => {
+const fetchReleases = async () => {
     const url = 'https://api.github.com/repos/godotengine/godot/releases';
 
     try {
@@ -10,4 +10,4 @@ const getReleases = async () => {
     }
 };
 
-export default getReleases;
+export default fetchReleases;
