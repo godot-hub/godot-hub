@@ -1,6 +1,6 @@
 // initial state
 const state = {
-    project: ''
-};
+  project: ''
+}
 
-export default state;
+export default state

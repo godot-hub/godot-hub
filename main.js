@@ -1,5 +1,5 @@
 const { app, BrowserWindow } = require('electron')
-const path = require('path');
+const path = require('path')
 const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer')
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -26,15 +26,14 @@ function createWindow () {
   // Open the DevTools.
   win.webContents.openDevTools()
 
-
   // install react & redux dev tools
-  const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
+  const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS]
 
   extensions.map(extension => {
     installExtension(extension)
       .then((name) => console.log(`Added extension: ${name}`))
       .catch((err) => console.log(`An error occurred: ${err}`))
-  });
+  })
 
   // Emitted when the window is closed.
   win.on('closed', () => {
