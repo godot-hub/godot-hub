@@ -26,10 +26,18 @@
       "<rootDir>/src"
     ]
   },
+  "standard": {
+    "env": ["jest"],
+    "globals": [
+      "fetch"
+    ]
+  },
   "scripts": {
     "prestart": "mkdir -p dist & webpack --config webpack.dev.js",
     "start": "electron .",
-    "test": "jest --verbose"
+    "test": "jest --verbose",
+    "fmt": "standard --fix",
+    "lint": "eslint --init" 
   },
   "repository": {
     "type": "git",
@@ -59,12 +67,20 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.0",
     "enzyme-to-json": "^3.4.2",
+    "eslint": "^6.6.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-standard": "^4.0.1",
     "file-loader": "^4.2.0",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^24.9.0",
     "jest-fetch-mock": "^2.1.2",
     "react-redux": "^7.1.1",
     "redux": "^4.0.4",
+    "standard": "^14.3.1",
     "style-loader": "^1.0.0",
     "webpack": "^4.41.0",
     "webpack-cli": "^3.3.9",
