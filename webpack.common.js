@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
   entry: './src/index.js',
+  target: 'electron-renderer',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].bundle.js'
