@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain, net } = require('electron')
 const path = require('path')
 const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer')
 
@@ -68,3 +68,22 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+// scrapURL request
+ipcMain.on('scrapURL-request', (event, arg) => {
+  console.log(`url: ${arg}`)
+  let data = ''
+  const req = net.request(arg)
+  // return data on request response
+  req.on('response', (res) => {
+    console.log(`STATUS: ${res.statusCode}`)
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`)
+    res.on('data', (chunk) => {
+      data += chunk
+    })
+    res.on('end', () => {
+      event.sender.send('scrapURL-response', data)
+    })
+  })
+  req.end()
+})
