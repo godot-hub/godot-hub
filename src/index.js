@@ -1,16 +1,7 @@
-import { render } from 'react-dom'
-import { Provider } from 'react-redux'
-import store from './store/store'
+const body = document.querySelector('#godot-hub');
 
-const Index = () => (
-  <>
-    <h1>Godot Hub</h1>
-  </>
-)
+// title - <h1>Godot Hub</h1>
+const title = document.createElement('h1');
+title.textContent = 'Godot Hub';
 
-render(
-  <Provider store={store}>
-    <Index />
-  </Provider>,
-  document.querySelector('#godot-hub')
-)
+body.appendChild(title);
