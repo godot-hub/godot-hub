@@ -20,7 +20,7 @@ function createWindow () {
   win.loadFile('./src/index.html');
 
   // hide menubar
-  win.setMenuBarVisibility(false);
+  win.autoHideMenuBar = true;
 
   // Open the DevTools.
   win.webContents.openDevTools();
