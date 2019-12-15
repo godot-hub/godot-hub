@@ -77,3 +77,25 @@ ipcMain.on('scrapURL-request', (event, arg) => {
   });
   req.end();
 });
+
+// getMonoURL request
+ipcMain.on('getMonoURL-request', (event, arg) => {
+  const { OS, url } = arg;
+
+  console.log(`ipcMain getMonoURL Request: ${OS}, ${url}`);
+
+  let data = '';
+  const req = net.request(url);
+  // return data on request response
+  req.on('response', (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.on('data', (chunk) => {
+      data += chunk;
+    });
+    res.on('end', () => {
+      event.sender.send('getMonoURL-response', { data, url: url });
+    });
+  });
+  req.end();
+});
