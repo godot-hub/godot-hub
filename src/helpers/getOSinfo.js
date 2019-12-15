@@ -1,7 +1,7 @@
 const os = require('os');
 
 // get OS name combined with its arch
-const getOSinfo = () => {
+const getOSinfo = (mono = false) => {
   // get OS's arch
   let arch;
 
@@ -24,10 +24,18 @@ const getOSinfo = () => {
       OS = `win${arch}`;
       break;
     case 'darwin':
-      OS = `osx.${arch}`;
+      if (mono) {
+        OS = 'osx';
+      } else {
+        OS = `osx.${arch}`;
+      }
       break;
     case 'linux':
-      OS = `x11.${arch}`;
+      if (mono) {
+        OS = `x11_${arch}`;
+      } else {
+        OS = `x11.${arch}`;
+      }
       break;
     default:
       OS = null;
