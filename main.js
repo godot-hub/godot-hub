@@ -72,7 +72,7 @@ ipcMain.on('scrapURL-request', (event, arg) => {
       data += chunk;
     });
     res.on('end', () => {
-      event.sender.send('scrapURL-response', data);
+      event.sender.send('scrapURL-response', { data, url: arg });
     });
   });
   req.end();
