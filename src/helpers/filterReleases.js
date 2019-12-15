@@ -14,4 +14,4 @@ const filterReleases = (rawReleases) => {
   });
 };
 
-export default filterReleases;
+module.exports = filterReleases;

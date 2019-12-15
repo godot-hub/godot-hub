@@ -10,4 +10,4 @@ const fetchReleases = async () => {
   }
 };
 
-export default fetchReleases;
+module.exports = fetchReleases;

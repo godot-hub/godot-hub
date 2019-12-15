@@ -6,7 +6,7 @@ const getScrappedURL = () => {
     // parsing DOM and getting required elements for releases
     const parser = new DOMParser();
     const elements = parser.parseFromString(arg, 'application/xhtml+xml');
-    const listOfReleases = elements.querySelectorAll('.n').forEach(n => console.log(n.innerHTML));
+    const listOfReleases = elements.querySelectorAll('.n').forEach(n => console.log(n.outerHTML));
 
     // logging
     console.log(`data = ${arg}`);

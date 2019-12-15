@@ -5,4 +5,4 @@ const scrapURL = (URL) => {
   ipcRenderer.send('scrapURL-request', URL);
 };
 
-export default scrapURL;
+module.exports = scrapURL;

@@ -10,4 +10,4 @@ const sortReleases = (releases) => {
   }, {});
 };
 
-export default sortReleases;
+module.exports = sortReleases;
