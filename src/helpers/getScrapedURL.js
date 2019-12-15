@@ -1,4 +1,6 @@
 const { ipcRenderer } = require('electron');
+const getOSinfo = require('./getOSinfo');
+const getMonoURL = require('./getMonoURL');
 
 // get the result of request for scrapping URL from main process
 const getScrappedURL = () => {
@@ -15,6 +17,14 @@ const getScrappedURL = () => {
     console.log(`class of n = ${[...elements.getElementsByClassName('n')]}`);
     console.log(`releases = ${listOfReleases}`);
     console.log(`url = ${url}`);
+
+    // get OS and arch info for mono
+    const OS = getOSinfo(true);
+
+    console.log(`url: ${url}, OS: ${OS}`);
+
+    // get url of mono and request downloading mono version
+    getMonoURL(url, OS);
   });
 };
 
