@@ -1,6 +1,7 @@
 const { ipcRenderer } = require('electron');
 const getOSinfo = require('./getOSinfo');
 const getMonoURL = require('./getMonoURL');
+const getGodotURL = require('./getGodotURL');
 
 // get the result of request for scrapping URL from main process
 const getScrappedURL = () => {
@@ -19,12 +20,17 @@ const getScrappedURL = () => {
     console.log(`url = ${url}`);
 
     // get OS and arch info for mono
-    const OS = getOSinfo(true);
+    let OS = getOSinfo(true);
 
     console.log(`url: ${url}, OS: ${OS}`);
 
     // get url of mono and request downloading mono version
     getMonoURL(url, OS);
+
+    // get OS and arch info for godot release
+    OS = getOSinfo();
+
+    getGodotURL(url, OS);
   });
 };
 
