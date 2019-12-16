@@ -4,9 +4,9 @@ const { ipcRenderer } = require('electron');
 const getGodotURL = (url, OS) => {
   console.log(`getGodotURL url: ${url}, OS: ${OS}`);
 
-  ipcRenderer.send('getMonoURL-request', { url, OS });
+  ipcRenderer.send('getGodotURL-request', { url, OS });
 
-  ipcRenderer.on('getMonoURL-response', (event, arg) => {
+  ipcRenderer.on('getGodotURL-response', (event, arg) => {
     const { data, url } = arg;
 
     console.log(`godot data: ${data}`);
@@ -19,7 +19,7 @@ const getGodotURL = (url, OS) => {
 
     // return if release is matching request url
     if (targetRelease) {
-      console.log(`getMonoURL: ${url}${targetRelease}`);
+      console.log(`getGodotURL: ${url}${targetRelease}`);
       return `${url}${targetRelease}`;
     }
   });
