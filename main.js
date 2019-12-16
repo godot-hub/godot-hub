@@ -99,3 +99,25 @@ ipcMain.on('getMonoURL-request', (event, arg) => {
   });
   req.end();
 });
+
+// getGodotURL request
+ipcMain.on('getGodotURL-request', (event, arg) => {
+  const { OS, url } = arg;
+
+  console.log(`ipcMain getGodotURL Request: ${OS}, ${url}`);
+
+  let data = '';
+  const req = net.request(url);
+  // return data on request response
+  req.on('response', (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.on('data', (chunk) => {
+      data += chunk;
+    });
+    res.on('end', () => {
+      event.sender.send('getGodotURL-response', { data, url: url });
+    });
+  });
+  req.end();
+});
