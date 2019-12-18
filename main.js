@@ -121,3 +121,25 @@ ipcMain.on('getGodotURL-request', (event, arg) => {
   });
   req.end();
 });
+
+// getExportTemplatesURL request
+ipcMain.on('getExportTemplatesURL-request', (event, arg) => {
+  const { url } = arg;
+
+  console.log(`ipcMain getExportTemplatesURL Request: ${url}`);
+
+  let data = '';
+  const req = net.request(url);
+  // return data on request response
+  req.on('response', (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.on('data', (chunk) => {
+      data += chunk;
+    });
+    res.on('end', () => {
+      event.sender.send('getExportTemplatesURL-response', { data, url: url });
+    });
+  });
+  req.end();
+});
