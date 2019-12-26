@@ -1,5 +1,10 @@
 const { app, BrowserWindow, ipcMain, net } = require('electron');
 const path = require('path');
+const process = require('process');
+
+// handle error exceptions and rejections
+process.on('unhandledRejection', (e) => console.error(new Error(e)));
+process.on('uncaughtException', (e) => console.error(new Error(e)));
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
