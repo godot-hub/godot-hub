@@ -1,6 +1,6 @@
 const { ipcRenderer } = require('electron');
 
-// return the full url of a export templates based on its godot version
+// return the full url of export templates based on its godot version
 const getExportTemplatesURL = (url) => {
   try {
     console.log(`getExportTemplatesURL url: ${url}`);
