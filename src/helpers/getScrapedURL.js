@@ -3,6 +3,7 @@ const getOSinfo = require('./getOSinfo');
 const getMonoURL = require('./getMonoURL');
 const getGodotURL = require('./getGodotURL');
 const getExportTemplatesURL = require('./getExportTemplatesURL');
+const getMonoExportTemplatesURL = require('./getMonoExportTemplatesURL');
 
 // get the result of request for scrapping URL from main process
 const getScrappedURL = () => {
@@ -36,6 +37,10 @@ const getScrappedURL = () => {
 
       // get export templates url
       getExportTemplatesURL(url);
+
+      // get mono export templates url
+      getMonoExportTemplatesURL(url);
+
     });
   } catch (e) {
     console.error(new Error(e));
