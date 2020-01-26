@@ -148,3 +148,25 @@ ipcMain.on('getExportTemplatesURL-request', (event, arg) => {
   });
   req.end();
 });
+
+// getMonoExportTemplatesURL request
+ipcMain.on('getMonoExportTemplatesURL-request', (event, arg) => {
+  const { url } = arg;
+
+  console.log(`ipcMain getMonoExportTemplatesURL Request: ${url}`);
+
+  let data = '';
+  const req = net.request(url);
+  // return data on request response
+  req.on('response', (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.on('data', (chunk) => {
+      data += chunk;
+    });
+    res.on('end', () => {
+      event.sender.send('getMonoExportTemplatesURL-response', { data, url: url });
+    });
+  });
+  req.end();
+});
