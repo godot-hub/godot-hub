@@ -8,11 +8,11 @@ body.appendChild(title);
 
 (async () => {
   try {
-    const fetchReleases = require('./helpers/fetchReleases');
-    const filterReleases = require('./helpers/filterReleases');
-    const sortReleases = require('./helpers/sortReleases');
-    const scrapURL = require('./helpers/scrapURL');
-    const getScrapedURL = require('./helpers/getScrapedURL');
+    const fetchReleases = require('./helpers/Releases/fetchReleases');
+    const filterReleases = require('./helpers/Releases/filterReleases');
+    const sortReleases = require('./helpers/Releases/sortReleases');
+    const scrapURL = require('./helpers/URL/scrapURL');
+    const getScrapedURL = require('./helpers/URL/getScrapedURL');
 
     const releases = await fetchReleases();
     const filter = await filterReleases(releases);

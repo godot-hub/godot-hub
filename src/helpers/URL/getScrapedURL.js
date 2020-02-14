@@ -1,5 +1,5 @@
 const { ipcRenderer } = require('electron');
-const getOSinfo = require('./getOSinfo');
+const getOSinfo = require('../getOSinfo');
 const getMonoURL = require('./getMonoURL');
 const getGodotURL = require('./getGodotURL');
 const getExportTemplatesURL = require('./getExportTemplatesURL');
