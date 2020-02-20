@@ -9,7 +9,7 @@ const getMonoExportTemplatesURL = require('./getMonoExportTemplatesURL');
 const getScrappedURL = () => {
   try {
     ipcRenderer.on('scrapURL-response', (event, arg) => {
-      const { data, url } = arg;
+      const { data, url, version } = arg;
       // parsing DOM and getting required elements for releases
       const parser = new DOMParser();
       const elements = parser.parseFromString(data, 'application/xhtml+xml');
@@ -25,10 +25,10 @@ const getScrappedURL = () => {
       // get OS and arch info for mono
       let OS = getOSinfo(true);
 
-      console.log(`url: ${url}, OS: ${OS}`);
+      console.log(`url: ${url}, OS: ${OS}, version: ${version}`);
 
       // get url of mono and request downloading mono version
-      getMonoURL(url, OS);
+      getMonoURL(url, OS, version);
 
       // get OS and arch info for godot release
       OS = getOSinfo();
@@ -39,7 +39,7 @@ const getScrappedURL = () => {
       getExportTemplatesURL(url);
 
       // get mono export templates url
-      getMonoExportTemplatesURL(url);
+      getMonoExportTemplatesURL(url, version);
 
     });
   } catch (e) {

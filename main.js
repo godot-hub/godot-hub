@@ -66,9 +66,12 @@ app.on('activate', () => {
 
 // scrapURL request
 ipcMain.on('scrapURL-request', (event, arg) => {
-  console.log(`url: ${arg}`);
+  const { url, version } = arg;
+  console.log(`args: ${JSON.stringify(arg, null, 2)}`);
+  console.log(`url: ${url}`);
+  console.log(`version: ${version}`);
   let data = '';
-  const req = net.request(arg);
+  const req = net.request(url);
   // return data on request response
   req.on('response', (res) => {
     console.log(`STATUS: ${res.statusCode}`);
@@ -77,7 +80,7 @@ ipcMain.on('scrapURL-request', (event, arg) => {
       data += chunk;
     });
     res.on('end', () => {
-      event.sender.send('scrapURL-response', { data, url: arg });
+      event.sender.send('scrapURL-response', { data, url, version });
     });
   });
   req.end();

@@ -17,7 +17,7 @@ body.appendChild(title);
     const releases = await fetchReleases();
     const filter = await filterReleases(releases);
     const sort = await sortReleases(filter);
-    const scrap = scrapURL('https://downloads.tuxfamily.org/godotengine/3.1.1/');
+    const scrap = scrapURL('https://downloads.tuxfamily.org/godotengine/2.1.1/', '2.1.1');
     const getScraped = getScrapedURL();
 
     console.log(`versions: ${JSON.stringify(sort, null, 2)}`);
