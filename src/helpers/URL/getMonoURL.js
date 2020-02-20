@@ -1,10 +1,17 @@
 const { ipcRenderer } = require('electron');
 
 // return the full url of a mono version based on its godot version, OS and arch
-const getMonoURL = (url, OS) => {
+const getMonoURL = (url, OS, version) => {
   try {
     console.log(`mono url: ${url}`);
     console.log(`mono OS info: ${OS}`);
+    console.log(`godot version: ${version}`);
+
+    // stop scrapping if godot version is less than 3
+    if (parseInt(version) < 3) {
+      console.log('mono is only available in godot starting from version 3');
+      return false;
+    }
 
     const monoRequestURL = `${url}mono/`;
 

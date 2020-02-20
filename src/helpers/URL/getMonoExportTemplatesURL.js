@@ -1,9 +1,15 @@
 const { ipcRenderer } = require('electron');
 
 // return the full url of export templates based on its godot mono version
-const getMonoExporTemplatesURL = (url) => {
+const getMonoExporTemplatesURL = (url, version) => {
   try {
     console.log(`mono url: ${url}`);
+
+    // stop scrapping if godot version is less than 3
+    if (parseInt(version) < 3) {
+      console.log('mono export templates are only available in godot starting from version 3');
+      return false;
+    }
 
     const monoRequestURL = `${url}mono/`;
 
