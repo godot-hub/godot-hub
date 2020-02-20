@@ -5,9 +5,12 @@ const filterReleases = (rawReleases) => {
     const releases = rawReleases.slice(0, rawReleases.length - 1);
     // filter each release to only include the version & url
     return releases.map(release => {
-    // filtered release values
+      // filtered release values
+      const startOfIndex = release.body.indexOf('[Download](') + 11;
+      const endOfIndex = release.body.lastIndexOf(')');
+
       const version = release.name;
-      const url = release.body.slice(release.body.indexOf('[Download](') + 11, release.body.length - 1);
+      const url = release.body.slice(startOfIndex, endOfIndex);
 
       return {
         version,
