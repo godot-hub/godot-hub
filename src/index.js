@@ -14,6 +14,7 @@ body.appendChild(title);
     const scrapURL = require('./helpers/URL/scrapURL');
     const getScrapedURL = require('./helpers/URL/getScrapedURL');
     const initGodotHubDir = require('./helpers/Init/initGodotHubDir');
+    const initReleaseDir = require('./helpers/Init/initReleaseDir');
 
     const releases = await fetchReleases();
     const filter = await filterReleases(releases);
@@ -22,6 +23,7 @@ body.appendChild(title);
     const getScraped = getScrapedURL();
 
     initGodotHubDir();
+    initReleaseDir('3.1');
 
     console.log(`versions: ${JSON.stringify(sort, null, 2)}`);
     console.log(`getScraped: ${getScraped}`);
