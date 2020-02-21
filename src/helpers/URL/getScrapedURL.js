@@ -40,7 +40,6 @@ const getScrappedURL = () => {
 
       // get mono export templates url
       getMonoExportTemplatesURL(url, version);
-
     });
   } catch (e) {
     console.error(new Error(e));

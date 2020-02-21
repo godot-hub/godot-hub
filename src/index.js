@@ -13,12 +13,15 @@ body.appendChild(title);
     const sortReleases = require('./helpers/Releases/sortReleases');
     const scrapURL = require('./helpers/URL/scrapURL');
     const getScrapedURL = require('./helpers/URL/getScrapedURL');
+    const initGodotHubDir = require('./helpers/Init/initGodotHubDir');
 
     const releases = await fetchReleases();
     const filter = await filterReleases(releases);
     const sort = await sortReleases(filter);
     const scrap = scrapURL('https://downloads.tuxfamily.org/godotengine/2.1.1/', '2.1.1');
     const getScraped = getScrapedURL();
+
+    initGodotHubDir();
 
     console.log(`versions: ${JSON.stringify(sort, null, 2)}`);
     console.log(`getScraped: ${getScraped}`);
