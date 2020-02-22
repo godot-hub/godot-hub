@@ -16,16 +16,19 @@ body.appendChild(title);
     const initGodotHubDir = require('./helpers/Init/initGodotHubDir');
     const initReleaseDir = require('./helpers/Init/initReleaseDir');
     const initProjectsDir = require('./helpers/Init/initProjectsDir');
+    const getFileNameFromURL = require('./helpers/URL/getFileNameFromURL');
 
     const releases = await fetchReleases();
     const filter = await filterReleases(releases);
     const sort = await sortReleases(filter);
-    const scrap = scrapURL('https://downloads.tuxfamily.org/godotengine/2.1.1/', '2.1.1');
+    const scrap = scrapURL('https://downloads.tuxfamily.org/godotengine/3.2/', '3.2');
     const getScraped = getScrapedURL();
 
     initGodotHubDir();
-    initReleaseDir('3.1');
-    initProjectsDir('3.1');
+    initReleaseDir('3.2');
+    initProjectsDir('3.2');
+    console.log(getFileNameFromURL('https://downloads.tuxfamily.org/godotengine/3.2/mono/Godot_v3.2-stable_mono_export_templates.tpz'));
+    console.log(getFileNameFromURL('https://downloads.tuxfamily.org/godotengine/3.2/Godot_v3.2-stable_x11.64.zip'));
 
     console.log(`versions: ${JSON.stringify(sort, null, 2)}`);
     console.log(`getScraped: ${getScraped}`);
