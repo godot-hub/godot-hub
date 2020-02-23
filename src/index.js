@@ -20,6 +20,7 @@ body.appendChild(title);
     const getGodot = require('./helpers/Get/getGodot');
     const getExportTemplates = require('./helpers/Get/getExportTemplates');
     const getMono = require('./helpers/Get/getMono');
+    const getMonoExportTemplates = require('./helpers/Get/getMonoExportTemplates');
 
     const releases = await fetchReleases();
     const filter = await filterReleases(releases);
@@ -50,6 +51,12 @@ body.appendChild(title);
     const getMonoFileName = getFileNameFromURL('https://downloads.tuxfamily.org/godotengine/3.2/mono/Godot_v3.2-stable_mono_x11_64.zip');
 
     getMono(getMonoURL, getMonoPath, getMonoFileName);
+
+    const getMonoExportTemplatesURL = 'https://downloads.tuxfamily.org/godotengine/3.2/mono/Godot_v3.2-stable_mono_export_templates.tpz';
+    const getMonoExportTemplatesPath = 'Godot Hub/3.2';
+    const getMonoExportTemplatesFileName = getFileNameFromURL('https://downloads.tuxfamily.org/godotengine/3.2/mono/Godot_v3.2-stable_mono_export_templates.tpz');
+
+    getMonoExportTemplates(getMonoExportTemplatesURL, getMonoExportTemplatesPath, getMonoExportTemplatesFileName);
 
     console.log(`versions: ${JSON.stringify(sort, null, 2)}`);
     console.log(`getScraped: ${getScraped}`);

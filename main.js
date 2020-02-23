@@ -290,3 +290,40 @@ ipcMain.on('getMono-request', (event, arg) => {
 
   req.end();
 });
+
+// getMonoExportTemplates request
+ipcMain.on('getMonoExportTemplates-request', (event, arg) => {
+  const { url, path } = arg;
+
+  if (fs.existsSync(path)) {
+    console.log('getMonoExportTemplates exists');
+    return;
+  }
+
+  console.log(`ipcMain getMonoExportTemplates request: ${url}`);
+
+  const req = net.request(url);
+
+  const data = [];
+  let dataLength = 0;
+
+  // return data on request response
+  req.on('response', (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    console.log(`content-length:  ${res.headers['content-length']}`);
+
+    res.on('data', (chunk) => {
+      data.push(chunk);
+      dataLength += chunk.length;
+      console.log(`progress: ${dataLength} / ${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100)}%`);
+    });
+
+    res.on('end', () => {
+      fs.writeFileSync(path, Buffer.concat(data));
+      console.log('getMonoExportTemplates - DONE');
+    });
+  });
+
+  req.end();
+});
