@@ -205,7 +205,7 @@ ipcMain.on('getGodot-request', (event, arg) => {
     res.on('data', (chunk) => {
       data.push(chunk);
       dataLength += chunk.length;
-      console.log(`progress: ${dataLength}/${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100)}%`);
+      console.log(`progress: ${dataLength} / ${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100)}%`);
     });
 
     res.on('end', () => {
@@ -242,12 +242,49 @@ ipcMain.on('getExportTemplates-request', (event, arg) => {
     res.on('data', (chunk) => {
       data.push(chunk);
       dataLength += chunk.length;
-      console.log(`progress: ${dataLength}/${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100)}%`);
+      console.log(`progress: ${dataLength} / ${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100)}%`);
     });
 
     res.on('end', () => {
       fs.writeFileSync(path, Buffer.concat(data));
       console.log('getExportTemplates - DONE');
+    });
+  });
+
+  req.end();
+});
+
+// getMono request
+ipcMain.on('getMono-request', (event, arg) => {
+  const { url, path } = arg;
+
+  if (fs.existsSync(path)) {
+    console.log('getMono exists');
+    return;
+  }
+
+  console.log(`ipcMain getMono request: ${url}`);
+
+  const req = net.request(url);
+
+  const data = [];
+  let dataLength = 0;
+
+  // return data on request response
+  req.on('response', (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    console.log(`content-length:  ${res.headers['content-length']}`);
+
+    res.on('data', (chunk) => {
+      data.push(chunk);
+      dataLength += chunk.length;
+      console.log(`progress: ${dataLength} / ${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100)}%`);
+    });
+
+    res.on('end', () => {
+      fs.writeFileSync(path, Buffer.concat(data));
+      console.log('getMono - DONE');
     });
   });
 
