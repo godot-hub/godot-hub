@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, net } = require('electron');
 const path = require('path');
 const process = require('process');
+const fs = require('fs');
 
 // handle error exceptions and rejections
 process.on('unhandledRejection', (e) => console.error(new Error(e)));
@@ -76,6 +77,7 @@ ipcMain.on('scrapURL-request', (event, arg) => {
   req.on('response', (res) => {
     console.log(`STATUS: ${res.statusCode}`);
     console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    console.log(`content-length:  ${res.headers['content-length']}`);
     res.on('data', (chunk) => {
       data += chunk;
     });
@@ -98,6 +100,7 @@ ipcMain.on('getMonoURL-request', (event, arg) => {
   req.on('response', (res) => {
     console.log(`STATUS: ${res.statusCode}`);
     console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    console.log(`content-length:  ${res.headers['content-length']}`);
     res.on('data', (chunk) => {
       data += chunk;
     });
@@ -120,6 +123,7 @@ ipcMain.on('getGodotURL-request', (event, arg) => {
   req.on('response', (res) => {
     console.log(`STATUS: ${res.statusCode}`);
     console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    console.log(`content-length:  ${res.headers['content-length']}`);
     res.on('data', (chunk) => {
       data += chunk;
     });
@@ -142,6 +146,7 @@ ipcMain.on('getExportTemplatesURL-request', (event, arg) => {
   req.on('response', (res) => {
     console.log(`STATUS: ${res.statusCode}`);
     console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    console.log(`content-length:  ${res.headers['content-length']}`);
     res.on('data', (chunk) => {
       data += chunk;
     });
@@ -164,6 +169,7 @@ ipcMain.on('getMonoExportTemplatesURL-request', (event, arg) => {
   req.on('response', (res) => {
     console.log(`STATUS: ${res.statusCode}`);
     console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    console.log(`content-length:  ${res.headers['content-length']}`);
     res.on('data', (chunk) => {
       data += chunk;
     });
@@ -171,5 +177,44 @@ ipcMain.on('getMonoExportTemplatesURL-request', (event, arg) => {
       event.sender.send('getMonoExportTemplatesURL-response', { data, url: url });
     });
   });
+  req.end();
+});
+
+// getGodot request
+ipcMain.on('getGodot-request', (event, arg) => {
+  const { url, path } = arg;
+
+  if (fs.existsSync(path)) {
+    console.log('file exists');
+    return;
+  }
+
+  console.log(`ipcMain getGodot request: ${url}`);
+
+  // const file = fs.createWriteStream(path);
+
+  const req = net.request(url);
+
+  const data = [];
+  let dataLength = 0;
+
+  // return data on request response
+  req.on('response', (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    console.log(`content-length:  ${res.headers['content-length']}`);
+
+    res.on('data', (chunk) => {
+      data.push(chunk);
+      dataLength += chunk.length;
+      console.log(`progress: ${dataLength}/${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100)}%`);
+    });
+
+    res.on('end', () => {
+      fs.writeFileSync(path, Buffer.concat(data));
+      console.log('getGodot - DONE');
+    });
+  });
+
   req.end();
 });

@@ -17,6 +17,7 @@ body.appendChild(title);
     const initReleaseDir = require('./helpers/Init/initReleaseDir');
     const initProjectsDir = require('./helpers/Init/initProjectsDir');
     const getFileNameFromURL = require('./helpers/URL/getFileNameFromURL');
+    const getGodot = require('./helpers/Get/getGodot');
 
     const releases = await fetchReleases();
     const filter = await filterReleases(releases);
@@ -29,6 +30,12 @@ body.appendChild(title);
     initProjectsDir('3.2');
     console.log(getFileNameFromURL('https://downloads.tuxfamily.org/godotengine/3.2/mono/Godot_v3.2-stable_mono_export_templates.tpz'));
     console.log(getFileNameFromURL('https://downloads.tuxfamily.org/godotengine/3.2/Godot_v3.2-stable_x11.64.zip'));
+
+    const godotURL = 'https://downloads.tuxfamily.org/godotengine/3.2/Godot_v3.2-stable_x11.64.zip';
+    const godotPath = 'Godot Hub/3.2';
+    const godotFileName = getFileNameFromURL('https://downloads.tuxfamily.org/godotengine/3.2/Godot_v3.2-stable_x11.64.zip');
+
+    getGodot(godotURL, godotPath, godotFileName);
 
     console.log(`versions: ${JSON.stringify(sort, null, 2)}`);
     console.log(`getScraped: ${getScraped}`);
