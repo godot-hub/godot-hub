@@ -185,13 +185,11 @@ ipcMain.on('getGodot-request', (event, arg) => {
   const { url, path } = arg;
 
   if (fs.existsSync(path)) {
-    console.log('file exists');
+    console.log('getGodot exists');
     return;
   }
 
   console.log(`ipcMain getGodot request: ${url}`);
-
-  // const file = fs.createWriteStream(path);
 
   const req = net.request(url);
 
@@ -213,6 +211,43 @@ ipcMain.on('getGodot-request', (event, arg) => {
     res.on('end', () => {
       fs.writeFileSync(path, Buffer.concat(data));
       console.log('getGodot - DONE');
+    });
+  });
+
+  req.end();
+});
+
+// getExportTemplates request
+ipcMain.on('getExportTemplates-request', (event, arg) => {
+  const { url, path } = arg;
+
+  if (fs.existsSync(path)) {
+    console.log('getExportTemplates exists');
+    return;
+  }
+
+  console.log(`ipcMain getExportTemplates request: ${url}`);
+
+  const req = net.request(url);
+
+  const data = [];
+  let dataLength = 0;
+
+  // return data on request response
+  req.on('response', (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    console.log(`content-length:  ${res.headers['content-length']}`);
+
+    res.on('data', (chunk) => {
+      data.push(chunk);
+      dataLength += chunk.length;
+      console.log(`progress: ${dataLength}/${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100)}%`);
+    });
+
+    res.on('end', () => {
+      fs.writeFileSync(path, Buffer.concat(data));
+      console.log('getExportTemplates - DONE');
     });
   });
 
