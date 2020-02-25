@@ -6,7 +6,7 @@ const process = require('process');
 const getMono = (url, monoPath, filename) => {
   const filePath = path.join(process.cwd(), monoPath, filename);
 
-  ipcRenderer.send('getMono-request', { url, path: filePath });
+  ipcRenderer.send('getMono-request', { url, path: filePath, extractTarget: path.join(process.cwd(), monoPath) });
 };
 
 module.exports = getMono;
