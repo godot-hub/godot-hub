@@ -264,7 +264,7 @@ ipcMain.on('getExportTemplates-request', (event, arg) => {
 
 // getMono request
 ipcMain.on('getMono-request', (event, arg) => {
-  const { url, path } = arg;
+  const { url, path, extractTarget } = arg;
 
   if (fs.existsSync(path)) {
     console.log('getMono exists');
@@ -292,6 +292,13 @@ ipcMain.on('getMono-request', (event, arg) => {
 
     res.on('end', () => {
       fs.writeFileSync(path, Buffer.concat(data));
+      extract(path, { dir: extractTarget }, (err) => {
+        if (err) {
+          console.error(new Error(err));
+        }
+
+        console.log('getMono - Unzipped!');
+      });
       console.log('getMono - DONE');
     });
   });
