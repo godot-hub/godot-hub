@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain, net } = require('electron');
 const path = require('path');
 const process = require('process');
 const fs = require('fs');
+const extract = require('extract-zip');
 
 // handle error exceptions and rejections
 process.on('unhandledRejection', (e) => console.error(new Error(e)));
@@ -182,7 +183,7 @@ ipcMain.on('getMonoExportTemplatesURL-request', (event, arg) => {
 
 // getGodot request
 ipcMain.on('getGodot-request', (event, arg) => {
-  const { url, path } = arg;
+  const { url, path, extractTarget } = arg;
 
   if (fs.existsSync(path)) {
     console.log('getGodot exists');
@@ -210,6 +211,13 @@ ipcMain.on('getGodot-request', (event, arg) => {
 
     res.on('end', () => {
       fs.writeFileSync(path, Buffer.concat(data));
+      extract(path, { dir: extractTarget }, (err) => {
+        if (err) {
+          console.error(new Error(err));
+        }
+
+        console.log('getGodot - Unzipped!');
+      });
       console.log('getGodot - DONE');
     });
   });
