@@ -22,6 +22,11 @@ const downloads = `
     <input id="download-mono" type="button" value="Download">
     <progress id="mono-progress" max="100" value="0">0%</progress>
   </article>
+  <article>
+    <label>Mono Export Templates</label>
+    <input id="download-mono-export-templates"  type="button" value="Download">
+    <progress id="mono-export-templates-progress" max="100" value="0">0%</progress>
+  </article>
 `;
 
 body.appendChild(title);
@@ -90,6 +95,18 @@ body.insertAdjacentHTML('beforeend', downloads);
 
       ipcRenderer.on('getMono-progress', (event, arg) => {
         monoProgress.value += parseInt(arg);
+      });
+
+      // mono export templates button
+      const downloadMonoExportTemplates = document.querySelector('#download-mono-export-templates');
+      const monoExportTemplatesProgress = document.querySelector('#mono-export-templates-progress');
+
+      downloadMonoExportTemplates.addEventListener('click', () => {
+        getMonoExportTemplatesURL(url, version);
+      });
+
+      ipcRenderer.on('getMonoExportTemplates-progress', (event, arg) => {
+        monoExportTemplatesProgress.value += parseInt(arg);
       });
     });
 

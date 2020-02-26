@@ -1,4 +1,7 @@
 const { ipcRenderer } = require('electron');
+const path = require('path');
+const getFileNameFromURL = require('../URL/getFileNameFromURL');
+const getMonoExportTemplates = require('../Get/getMonoExportTemplates');
 
 // return the full url of export templates based on its godot mono version
 const getMonoExporTemplatesURL = (url, version) => {
@@ -29,7 +32,12 @@ const getMonoExporTemplatesURL = (url, version) => {
       // return if release is matching request url
       if (targetRelease) {
         console.log(`getMonoExportTemplatesURL: ${url}${targetRelease}`);
-        return `${url}${targetRelease}`;
+
+        const monoExportTemplatesURL = `${url}${targetRelease}`;
+        const monoExportTemplatesPath = path.join('Godot Hub', '3.2');
+        const monoExportTemplatesFileName = getFileNameFromURL(monoExportTemplatesURL);
+
+        getMonoExportTemplates(monoExportTemplatesURL, monoExportTemplatesPath, monoExportTemplatesFileName);
       }
     });
   } catch (e) {
