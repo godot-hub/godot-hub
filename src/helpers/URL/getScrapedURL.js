@@ -23,23 +23,18 @@ const getScrappedURL = () => {
       console.log(`url = ${url}`);
 
       // get OS and arch info for mono
-      let OS = getOSinfo(true);
+      const monoOS = getOSinfo(true);
+      const OS = getOSinfo();
 
       console.log(`url: ${url}, OS: ${OS}, version: ${version}`);
 
-      // get url of mono and request downloading mono version
-      getMonoURL(url, OS, version);
-
-      // get OS and arch info for godot release
-      OS = getOSinfo();
-
-      getGodotURL(url, OS);
-
-      // get export templates url
-      getExportTemplatesURL(url);
-
-      // get mono export templates url
-      getMonoExportTemplatesURL(url, version);
+      // pass release info to main to get passed to index.js
+      ipcRenderer.send('release-info-main', {
+        url,
+        monoOS,
+        OS,
+        version
+      });
     });
   } catch (e) {
     console.error(new Error(e));

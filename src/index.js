@@ -1,10 +1,21 @@
+const { ipcRenderer } = require('electron');
+
 const body = document.querySelector('#godot-hub');
 
 // title - <h1>Godot Hub</h1>
 const title = document.createElement('h1');
 title.textContent = 'Godot Hub';
 
+const downloads = `
+  <article>
+    <label>Godot</label>
+    <input id="download-godot" type="button" value="Download">
+    <progress id="godot-progress" max="100" value="0">0%</progress>
+  </article>
+`;
+
 body.appendChild(title);
+body.insertAdjacentHTML('beforeend', downloads);
 
 (async () => {
   try {
@@ -16,11 +27,10 @@ body.appendChild(title);
     const initGodotHubDir = require('./helpers/Init/initGodotHubDir');
     const initReleaseDir = require('./helpers/Init/initReleaseDir');
     const initProjectsDir = require('./helpers/Init/initProjectsDir');
-    const getFileNameFromURL = require('./helpers/URL/getFileNameFromURL');
-    const getGodot = require('./helpers/Get/getGodot');
-    const getExportTemplates = require('./helpers/Get/getExportTemplates');
-    const getMono = require('./helpers/Get/getMono');
-    const getMonoExportTemplates = require('./helpers/Get/getMonoExportTemplates');
+    const getGodotURL = require('./helpers/URL/getGodotURL');
+    const getExportTemplatesURL = require('./helpers/URL/getExportTemplatesURL');
+    const getMonoURL = require('./helpers/URL/getMonoURL');
+    const getMonoExportTemplatesURL = require('./helpers/URL/getMonoExportTemplatesURL');
 
     const releases = await fetchReleases();
     const filter = await filterReleases(releases);
@@ -31,32 +41,23 @@ body.appendChild(title);
     initGodotHubDir();
     initReleaseDir('3.2');
     initProjectsDir('3.2');
-    console.log(getFileNameFromURL('https://downloads.tuxfamily.org/godotengine/3.2/mono/Godot_v3.2-stable_mono_export_templates.tpz'));
-    console.log(getFileNameFromURL('https://downloads.tuxfamily.org/godotengine/3.2/Godot_v3.2-stable_x11.64.zip'));
 
-    const godotURL = 'https://downloads.tuxfamily.org/godotengine/3.2/Godot_v3.2-stable_x11.64.zip';
-    const godotPath = 'Godot Hub/3.2';
-    const godotFileName = getFileNameFromURL('https://downloads.tuxfamily.org/godotengine/3.2/Godot_v3.2-stable_x11.64.zip');
+    // add temporary buttons for downloading godot release
+    ipcRenderer.on('release-info-client', (event, arg) => {
+      const { url, monoOS, OS, version } = arg;
 
-    getGodot(godotURL, godotPath, godotFileName);
+      // godot button
+      const downloadGodot = document.querySelector('#download-godot');
+      const godotProgress = document.querySelector('#godot-progress');
 
-    const exportTemplatesURL = 'https://downloads.tuxfamily.org/godotengine/3.2/Godot_v3.2-stable_export_templates.tpz';
-    const exportTemplatesPath = 'Godot Hub/3.2';
-    const exportTemplatesFileName = getFileNameFromURL('https://downloads.tuxfamily.org/godotengine/3.2/Godot_v3.2-stable_export_templates.tpz');
+      downloadGodot.addEventListener('click', () => {
+        getGodotURL(url, OS);
+      });
 
-    getExportTemplates(exportTemplatesURL, exportTemplatesPath, exportTemplatesFileName);
-
-    const getMonoURL = 'https://downloads.tuxfamily.org/godotengine/3.2/mono/Godot_v3.2-stable_mono_x11_64.zip';
-    const getMonoPath = 'Godot Hub/3.2';
-    const getMonoFileName = getFileNameFromURL('https://downloads.tuxfamily.org/godotengine/3.2/mono/Godot_v3.2-stable_mono_x11_64.zip');
-
-    getMono(getMonoURL, getMonoPath, getMonoFileName);
-
-    const getMonoExportTemplatesURL = 'https://downloads.tuxfamily.org/godotengine/3.2/mono/Godot_v3.2-stable_mono_export_templates.tpz';
-    const getMonoExportTemplatesPath = 'Godot Hub/3.2';
-    const getMonoExportTemplatesFileName = getFileNameFromURL('https://downloads.tuxfamily.org/godotengine/3.2/mono/Godot_v3.2-stable_mono_export_templates.tpz');
-
-    getMonoExportTemplates(getMonoExportTemplatesURL, getMonoExportTemplatesPath, getMonoExportTemplatesFileName);
+      ipcRenderer.on('getGodot-progress', (event, arg) => {
+        godotProgress.value += parseInt(arg);
+      });
+    });
 
     console.log(`versions: ${JSON.stringify(sort, null, 2)}`);
     console.log(`getScraped: ${getScraped}`);

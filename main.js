@@ -207,6 +207,7 @@ ipcMain.on('getGodot-request', (event, arg) => {
       data.push(chunk);
       dataLength += chunk.length;
       console.log(`progress: ${dataLength} / ${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100)}%`);
+      event.sender.send('getGodot-progress', Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100));
     });
 
     res.on('end', () => {
@@ -251,6 +252,7 @@ ipcMain.on('getExportTemplates-request', (event, arg) => {
       data.push(chunk);
       dataLength += chunk.length;
       console.log(`progress: ${dataLength} / ${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100)}%`);
+      event.sender.send('getExportTemplates-progress', Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100));
     });
 
     res.on('end', () => {
@@ -288,6 +290,7 @@ ipcMain.on('getMono-request', (event, arg) => {
       data.push(chunk);
       dataLength += chunk.length;
       console.log(`progress: ${dataLength} / ${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100)}%`);
+      event.sender.send('getMono-progress', Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100));
     });
 
     res.on('end', () => {
@@ -332,6 +335,7 @@ ipcMain.on('getMonoExportTemplates-request', (event, arg) => {
       data.push(chunk);
       dataLength += chunk.length;
       console.log(`progress: ${dataLength} / ${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100)}%`);
+      event.sender.send('getMonoExportTemplates-progress', Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100));
     });
 
     res.on('end', () => {
@@ -341,4 +345,10 @@ ipcMain.on('getMonoExportTemplates-request', (event, arg) => {
   });
 
   req.end();
+});
+
+// pass release info to index.js
+ipcMain.on('release-info-main', (event, arg) => {
+  console.log(JSON.stringify(arg));
+  event.sender.send('release-info-client', arg);
 });
