@@ -1,4 +1,7 @@
 const { ipcRenderer } = require('electron');
+const path = require('path');
+const getFileNameFromURL = require('../URL/getFileNameFromURL');
+const getExportTemplates = require('../Get/getExportTemplates');
 
 // return the full url of export templates based on its godot version
 const getExportTemplatesURL = (url) => {
@@ -21,7 +24,12 @@ const getExportTemplatesURL = (url) => {
       // return if release is matching request url
       if (targetRelease) {
         console.log(`getExportTemplatesURL: ${url}${targetRelease}`);
-        return `${url}${targetRelease}`;
+
+        const exportTemplatesURL = `${url}${targetRelease}`;
+        const exportTemplatesPath = path.join('Godot Hub', '3.2');
+        const exportTemplatesFileName = getFileNameFromURL(exportTemplatesURL);
+
+        getExportTemplates(exportTemplatesURL, exportTemplatesPath, exportTemplatesFileName);
       }
     });
   } catch (e) {

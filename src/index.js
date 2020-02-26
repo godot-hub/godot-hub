@@ -12,6 +12,11 @@ const downloads = `
     <input id="download-godot" type="button" value="Download">
     <progress id="godot-progress" max="100" value="0">0%</progress>
   </article>
+  <article>
+    <label>Export Templates</label>
+    <input id="download-export-templates" type="button" value="Download">
+    <progress id="export-templates-progress" max="100" value="0">0%</progress>
+  </article>
 `;
 
 body.appendChild(title);
@@ -56,6 +61,18 @@ body.insertAdjacentHTML('beforeend', downloads);
 
       ipcRenderer.on('getGodot-progress', (event, arg) => {
         godotProgress.value += parseInt(arg);
+      });
+
+      // export templates button
+      const downloadExportTemplates = document.querySelector('#download-export-templates');
+      const exportTemplatesProgress = document.querySelector('#export-templates-progress');
+
+      downloadExportTemplates.addEventListener('click', () => {
+        getExportTemplatesURL(url);
+      });
+
+      ipcRenderer.on('getExportTemplates-progress', (event, arg) => {
+        exportTemplatesProgress.value += parseInt(arg);
       });
     });
 
