@@ -1,4 +1,7 @@
 const { ipcRenderer } = require('electron');
+const path = require('path');
+const getFileNameFromURL = require('../URL/getFileNameFromURL');
+const getMono = require('../Get/getMono');
 
 // return the full url of a mono version based on its godot version, OS and arch
 const getMonoURL = (url, OS, version) => {
@@ -31,7 +34,12 @@ const getMonoURL = (url, OS, version) => {
       // return if release is matching request url
       if (targetRelease) {
         console.log(`getMonoURL: ${url}${targetRelease}`);
-        return `${url}${targetRelease}`;
+
+        const monoURL = `${url}${targetRelease}`;
+        const monoPath = path.join('Godot Hub', '3.2');
+        const monoFileName = getFileNameFromURL(monoURL);
+
+        getMono(monoURL, monoPath, monoFileName);
       }
     });
   } catch (e) {
