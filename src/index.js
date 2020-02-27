@@ -1,4 +1,6 @@
 const { ipcRenderer } = require('electron');
+const path = require('path');
+const process = require('process');
 
 const body = document.querySelector('#godot-hub');
 
@@ -109,6 +111,11 @@ body.insertAdjacentHTML('beforeend', downloads);
         monoExportTemplatesProgress.value += parseInt(arg);
       });
     });
+
+    // change file extension
+    const changeFileExtension = require('./helpers/Change/changeFileExtension');
+    changeFileExtension(path.join(process.cwd(), 'Godot Hub', '3.2'), 'Godot_v3.2-stable_export_templates', '.tpz', '.zip');
+    changeFileExtension(path.join(process.cwd(), 'Godot Hub', '3.2'), 'Godot_v3.2-stable_mono_export_templates', '.tpz', '.zip');
 
     console.log(`versions: ${JSON.stringify(sort, null, 2)}`);
     console.log(`getScraped: ${getScraped}`);
