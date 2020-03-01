@@ -1,6 +1,4 @@
 const { ipcRenderer } = require('electron');
-const path = require('path');
-const process = require('process');
 
 const body = document.querySelector('#godot-hub');
 
@@ -44,6 +42,10 @@ body.insertAdjacentHTML('beforeend', downloads);
     const initGodotHubDir = require('./helpers/Init/initGodotHubDir');
     const initReleaseDir = require('./helpers/Init/initReleaseDir');
     const initProjectsDir = require('./helpers/Init/initProjectsDir');
+    const initEngineDir = require('./helpers/Init/initEngineDir');
+    const initScFile = require('./helpers/Init/initScFile');
+    const initEditorDatadir = require('./helpers/Init/initEditorDataDir');
+    const initTemplatesDir = require('./helpers/Init/initTemplatesDir');
     const getGodotURL = require('./helpers/URL/getGodotURL');
     const getExportTemplatesURL = require('./helpers/URL/getExportTemplatesURL');
     const getMonoURL = require('./helpers/URL/getMonoURL');
@@ -55,9 +57,16 @@ body.insertAdjacentHTML('beforeend', downloads);
     const scrap = scrapURL('https://downloads.tuxfamily.org/godotengine/3.2/', '3.2');
     const getScraped = getScrapedURL();
 
+    console.log(`versions: ${JSON.stringify(sort, null, 2)}`);
+    console.log(`getScraped: ${getScraped}`);
+
     initGodotHubDir();
     initReleaseDir('3.2');
     initProjectsDir('3.2');
+    initEngineDir('3.2');
+    initScFile('3.2');
+    initEditorDatadir('3.2');
+    initTemplatesDir('3.2');
 
     // add temporary buttons for downloading godot release
     ipcRenderer.on('release-info-client', (event, arg) => {
@@ -80,7 +89,7 @@ body.insertAdjacentHTML('beforeend', downloads);
       const exportTemplatesProgress = document.querySelector('#export-templates-progress');
 
       downloadExportTemplates.addEventListener('click', () => {
-        getExportTemplatesURL(url);
+        getExportTemplatesURL(url, true);
       });
 
       ipcRenderer.on('getExportTemplates-progress', (event, arg) => {
@@ -110,15 +119,10 @@ body.insertAdjacentHTML('beforeend', downloads);
       ipcRenderer.on('getMonoExportTemplates-progress', (event, arg) => {
         monoExportTemplatesProgress.value += parseInt(arg);
       });
+
+      // install export templates
+      getExportTemplatesURL(url, false, version);
     });
-
-    // change file extension
-    const changeFileExtension = require('./helpers/Change/changeFileExtension');
-    changeFileExtension(path.join(process.cwd(), 'Godot Hub', '3.2'), 'Godot_v3.2-stable_export_templates', '.tpz', '.zip');
-    changeFileExtension(path.join(process.cwd(), 'Godot Hub', '3.2'), 'Godot_v3.2-stable_mono_export_templates', '.tpz', '.zip');
-
-    console.log(`versions: ${JSON.stringify(sort, null, 2)}`);
-    console.log(`getScraped: ${getScraped}`);
   } catch (e) {
     console.error(new Error(e));
   }
