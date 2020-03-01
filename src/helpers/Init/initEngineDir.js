@@ -9,7 +9,6 @@ const initEngineDir = (version) => {
   if (!fs.existsSync(dirPath)) {
     fs.mkdirSync(dirPath);
   }
-
 };
 
 module.exports = initEngineDir;
