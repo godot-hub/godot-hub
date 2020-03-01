@@ -1,9 +1,13 @@
 const fs = require('fs');
+const path = require('path');
+const process = require('process');
 
 // create a projects directory for a specific release version if it doesn't exist
 const initProjectsDir = (version) => {
-  if (!fs.existsSync(`Godot Hub/${version}/Projects`)) {
-    fs.mkdirSync(`Godot Hub/${version}/Projects`);
+  const dirPath = path.join(process.cwd(), 'Godot Hub', version, 'Projects');
+
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath);
   }
 };
 
