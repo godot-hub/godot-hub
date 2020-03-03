@@ -6,7 +6,7 @@ const process = require('process');
 const getGodot = (url, godotPath, filename) => {
   const filePath = path.join(process.cwd(), godotPath, 'Engine', filename);
 
-  ipcRenderer.send('getGodot-request', { url, path: filePath, extractTarget: path.join(process.cwd(), godotPath) });
+  ipcRenderer.send('getGodot-request', { url, path: filePath, extractTarget: path.join(process.cwd(), godotPath, 'Engine') });
 };
 
 module.exports = getGodot;
