@@ -2,11 +2,18 @@ const fs = require('fs');
 const path = require('path');
 const process = require('process');
 const extract = require('extract-zip');
+const initScFile = require('../Init/initScFile');
+const initEditorDatadir = require('../Init/initEditorDataDir');
+const initTemplatesDir = require('../Init/initTemplatesDir');
 const getFileNameFromURL = require('../URL/getFileNameFromURL');
 const changeFileExtension = require('../Change/changeFileExtension');
 
 // install export templates if its not installed depending on its godot version
 const installExportTemplates = (url, version) => {
+  initScFile(version);
+  initEditorDatadir(version);
+  initTemplatesDir(version);
+
   const dirPath = path.join(process.cwd(), 'Godot Hub', version, 'Engine', 'editor_data', 'templates', `${version}.stable`);
   const exportTemplatesFileNameWithoutExtension = getFileNameFromURL(url).slice(0, -4);
   const exportTemplatesDirPath = path.join(process.cwd(), 'Godot Hub', version, 'Engine', 'editor_data', 'templates', exportTemplatesFileNameWithoutExtension);

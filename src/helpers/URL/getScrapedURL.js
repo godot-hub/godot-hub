@@ -1,9 +1,5 @@
 const { ipcRenderer } = require('electron');
 const getOSinfo = require('../getOSinfo');
-const getMonoURL = require('./getMonoURL');
-const getGodotURL = require('./getGodotURL');
-const getExportTemplatesURL = require('./getExportTemplatesURL');
-const getMonoExportTemplatesURL = require('./getMonoExportTemplatesURL');
 
 // get the result of request for scrapping URL from main process
 const getScrappedURL = () => {

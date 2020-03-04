@@ -43,9 +43,6 @@ body.insertAdjacentHTML('beforeend', downloads);
     const initReleaseDir = require('./helpers/Init/initReleaseDir');
     const initProjectsDir = require('./helpers/Init/initProjectsDir');
     const initEngineDir = require('./helpers/Init/initEngineDir');
-    const initScFile = require('./helpers/Init/initScFile');
-    const initEditorDatadir = require('./helpers/Init/initEditorDataDir');
-    const initTemplatesDir = require('./helpers/Init/initTemplatesDir');
     const getGodotURL = require('./helpers/URL/getGodotURL');
     const getExportTemplatesURL = require('./helpers/URL/getExportTemplatesURL');
     const getMonoURL = require('./helpers/URL/getMonoURL');
@@ -64,9 +61,6 @@ body.insertAdjacentHTML('beforeend', downloads);
     initReleaseDir('3.2');
     initProjectsDir('3.2');
     initEngineDir('3.2');
-    initScFile('3.2');
-    initEditorDatadir('3.2');
-    initTemplatesDir('3.2');
 
     // add temporary buttons for downloading godot release
     ipcRenderer.on('release-info-client', (event, arg) => {
@@ -113,7 +107,7 @@ body.insertAdjacentHTML('beforeend', downloads);
       const monoExportTemplatesProgress = document.querySelector('#mono-export-templates-progress');
 
       downloadMonoExportTemplates.addEventListener('click', () => {
-        getMonoExportTemplatesURL(url, version);
+        getMonoExportTemplatesURL(url, version, monoOS, true);
       });
 
       ipcRenderer.on('getMonoExportTemplates-progress', (event, arg) => {
@@ -122,6 +116,7 @@ body.insertAdjacentHTML('beforeend', downloads);
 
       // install export templates
       getExportTemplatesURL(url, false, version);
+      getMonoExportTemplatesURL(url, version, monoOS);
     });
   } catch (e) {
     console.error(new Error(e));
