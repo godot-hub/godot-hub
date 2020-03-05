@@ -47,6 +47,8 @@ const installExportTemplates = (url, version) => {
 
       changeFileExtension(path.join(exportTemplatesPath), exportTemplatesFileNameWithoutExtension, '.zip', '.tpz');
     });
+  } else {
+    console.log('export templates is already installed');
   }
 };
 

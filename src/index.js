@@ -27,6 +27,14 @@ const downloads = `
     <input id="download-mono-export-templates"  type="button" value="Download">
     <progress id="mono-export-templates-progress" max="100" value="0">0%</progress>
   </article>
+  <article>
+    <label>Install Export Templates</label>
+    <input id="install-export-templates"  type="button" value="Download">
+  </article>
+<article>
+  <label>Install Mono Export Templates</label>
+  <input id="install-mono-export-templates"  type="button" value="Download">
+</article>
 `;
 
 body.appendChild(title);
@@ -115,8 +123,14 @@ body.insertAdjacentHTML('beforeend', downloads);
       });
 
       // install export templates
-      getExportTemplatesURL(url, false, version);
-      getMonoExportTemplatesURL(url, version, monoOS);
+      const installExportTemplates = document.querySelector('#install-export-templates');
+
+      installExportTemplates.addEventListener('click', () => {
+        getExportTemplatesURL(url, false, version);
+      });
+
+      // install mono export templates
+      // getMonoExportTemplatesURL(url, version, monoOS);
     });
   } catch (e) {
     console.error(new Error(e));
