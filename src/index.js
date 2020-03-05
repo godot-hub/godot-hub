@@ -130,7 +130,11 @@ body.insertAdjacentHTML('beforeend', downloads);
       });
 
       // install mono export templates
-      // getMonoExportTemplatesURL(url, version, monoOS);
+      const installMonoExportTemplates = document.querySelector('#install-mono-export-templates');
+
+      installMonoExportTemplates.addEventListener('click', () => {
+        getMonoExportTemplatesURL(url, version, monoOS);
+      });
     });
   } catch (e) {
     console.error(new Error(e));

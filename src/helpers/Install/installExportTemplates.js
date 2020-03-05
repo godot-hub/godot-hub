@@ -35,14 +35,14 @@ const installExportTemplates = (url, version) => {
 
       // change directory name of installed export templates
       const currentPath = path.join(installPath, 'templates');
-      const desiredPath = path.join(installPath, `${version}.stable`);
+      // const desiredPath = path.join(installPath, `${version}.stable`);
 
-      fs.rename(currentPath, desiredPath, (err) => {
+      fs.rename(currentPath, dirPath, (err) => {
         if (err) {
           console.error(new Error(err));
         }
 
-        console.log(`${currentPath} changed to ${desiredPath}`);
+        console.log(`${currentPath} changed to ${dirPath}`);
       });
 
       changeFileExtension(path.join(exportTemplatesPath), exportTemplatesFileNameWithoutExtension, '.zip', '.tpz');

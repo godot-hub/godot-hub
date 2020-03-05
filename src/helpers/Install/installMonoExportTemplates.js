@@ -47,6 +47,8 @@ const installMonoExportTemplates = (url, version, monoDir) => {
 
       changeFileExtension(path.join(monoExportTemplatesPath), monoExportTemplatesFileNameWithoutExtension, '.zip', '.tpz');
     });
+  } else {
+    console.log('mono export templates is already installed');
   }
 };
 
