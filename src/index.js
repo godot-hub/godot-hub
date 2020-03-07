@@ -161,10 +161,8 @@ body.insertAdjacentHTML('beforeend', elements);
 
       openProjectBtn.addEventListener('click', () => {
         if (openProjectInput.files[0] && openGodotInput.files[0]) {
-          const { name: projectName, path: projectFullPath } = openProjectInput.files[0];
+          const { name: projectName, path: projectPath } = openProjectInput.files[0];
           const { name: godotName, path: godotPath } = openGodotInput.files[0];
-
-          const projectPath = projectFullPath.slice(0, projectFullPath.lastIndexOf('/')) || projectFullPath.slice(0, projectFullPath.lastIndexOf('\\'));
 
           if ((projectName && godotName) && (projectPath && godotPath) && (projectName === 'project.godot' || projectName === 'engine.cfg') && (godotName.includes('Godot'))) {
             console.log(projectName);
