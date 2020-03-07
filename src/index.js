@@ -79,7 +79,7 @@ body.insertAdjacentHTML('beforeend', downloads);
       const godotProgress = document.querySelector('#godot-progress');
 
       downloadGodot.addEventListener('click', () => {
-        getGodotURL(url, OS);
+        getGodotURL(url, OS, version);
       });
 
       ipcRenderer.on('getGodot-progress', (event, arg) => {

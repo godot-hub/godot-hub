@@ -4,7 +4,7 @@ const getFileNameFromURL = require('../URL/getFileNameFromURL');
 const getGodot = require('../Get/getGodot');
 
 // get the godot release version url based on OS and arch
-const getGodotURL = (url, OS) => {
+const getGodotURL = (url, OS, version) => {
   try {
     console.log(`getGodotURL url: ${url}, OS: ${OS}`);
 
@@ -29,7 +29,7 @@ const getGodotURL = (url, OS) => {
         const godotPath = path.join('Godot Hub', '3.2');
         const godotFileName = getFileNameFromURL(godotURL);
 
-        getGodot(godotURL, godotPath, godotFileName);
+        getGodot(godotURL, godotPath, godotFileName, version);
       }
     });
   } catch (e) {

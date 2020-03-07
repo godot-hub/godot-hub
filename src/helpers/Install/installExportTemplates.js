@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const process = require('process');
 const extract = require('extract-zip');
-const initScFile = require('../Init/initScFile');
 const initEditorDatadir = require('../Init/initEditorDataDir');
 const initTemplatesDir = require('../Init/initTemplatesDir');
 const getFileNameFromURL = require('../URL/getFileNameFromURL');
@@ -10,7 +9,6 @@ const changeFileExtension = require('../Change/changeFileExtension');
 
 // install export templates if its not installed depending on its godot version
 const installExportTemplates = (url, version) => {
-  initScFile(version);
   initEditorDatadir(version);
   initTemplatesDir(version);
 
@@ -35,7 +33,6 @@ const installExportTemplates = (url, version) => {
 
       // change directory name of installed export templates
       const currentPath = path.join(installPath, 'templates');
-      // const desiredPath = path.join(installPath, `${version}.stable`);
 
       fs.rename(currentPath, dirPath, (err) => {
         if (err) {

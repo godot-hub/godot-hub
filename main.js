@@ -218,8 +218,9 @@ ipcMain.on('getGodot-request', (event, arg) => {
         }
 
         console.log('getGodot - Unzipped!');
+
+        event.sender.send('getGodot-Done');
       });
-      console.log('getGodot - DONE');
     });
   });
 
