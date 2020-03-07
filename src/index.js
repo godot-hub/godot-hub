@@ -6,39 +6,56 @@ const body = document.querySelector('#godot-hub');
 const title = document.createElement('h1');
 title.textContent = 'Godot Hub';
 
-const downloads = `
+const elements = `
   <article>
     <label>Godot</label>
     <input id="download-godot" type="button" value="Download">
     <progress id="godot-progress" max="100" value="0">0%</progress>
   </article>
+  <br>
   <article>
     <label>Export Templates</label>
     <input id="download-export-templates" type="button" value="Download">
     <progress id="export-templates-progress" max="100" value="0">0%</progress>
   </article>
+  <br>
   <article>
     <label>Mono</label>
     <input id="download-mono" type="button" value="Download">
     <progress id="mono-progress" max="100" value="0">0%</progress>
   </article>
+  <br>
   <article>
     <label>Mono Export Templates</label>
     <input id="download-mono-export-templates"  type="button" value="Download">
     <progress id="mono-export-templates-progress" max="100" value="0">0%</progress>
   </article>
+  <br>
   <article>
     <label>Install Export Templates</label>
     <input id="install-export-templates"  type="button" value="Download">
   </article>
-<article>
-  <label>Install Mono Export Templates</label>
-  <input id="install-mono-export-templates"  type="button" value="Download">
-</article>
+  <br>
+  <article>
+    <label>Install Mono Export Templates</label>
+    <input id="install-mono-export-templates"  type="button" value="Download">
+  </article>
+  <br>
+  <article>
+    <label>Choose godot project</label>
+    <br>
+    <label>Project Path</label>
+    <input id="open-project-input" type="file" accept=".godot, .cfg" name="Project Path">
+    <br>
+    <label>Godot Path</label>
+    <input id="open-godot-input" type="file" name="Godot Path">
+    <br>
+    <input id="open-project" type="button" value="open">
+  </article>
 `;
 
 body.appendChild(title);
-body.insertAdjacentHTML('beforeend', downloads);
+body.insertAdjacentHTML('beforeend', elements);
 
 (async () => {
   try {
@@ -134,6 +151,33 @@ body.insertAdjacentHTML('beforeend', downloads);
 
       installMonoExportTemplates.addEventListener('click', () => {
         getMonoExportTemplatesURL(url, version, monoOS);
+      });
+
+      // open godot project
+      const openProjectInput = document.querySelector('#open-project-input');
+      const openGodotInput = document.querySelector('#open-godot-input');
+      const openProjectBtn = document.querySelector('#open-project');
+      const openProject = require('./helpers/Project/openProject');
+
+      openProjectBtn.addEventListener('click', () => {
+        if (openProjectInput.files[0] && openGodotInput.files[0]) {
+          const { name: projectName, path: projectFullPath } = openProjectInput.files[0];
+          const { name: godotName, path: godotPath } = openGodotInput.files[0];
+
+          const projectPath = projectFullPath.slice(0, projectFullPath.lastIndexOf('/')) || projectFullPath.slice(0, projectFullPath.lastIndexOf('\\'));
+
+          if ((projectName && godotName) && (projectPath && godotPath) && (projectName === 'project.godot' || projectName === 'engine.cfg') && (godotName.includes('Godot'))) {
+            console.log(projectName);
+            console.log(projectPath);
+            console.log(godotName);
+            console.log(godotPath);
+            openProject(version, projectPath, godotPath);
+          } else {
+            console.log('incorrect file type');
+          }
+        } else {
+          console.log('no file selected');
+        }
       });
     });
   } catch (e) {
