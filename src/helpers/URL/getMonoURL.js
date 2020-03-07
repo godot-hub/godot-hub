@@ -38,8 +38,9 @@ const getMonoURL = (url, OS, version) => {
         const monoURL = `${url}${targetRelease}`;
         const monoPath = path.join('Godot Hub', '3.2');
         const monoFileName = getFileNameFromURL(monoURL);
+        const monoDir = monoFileName.slice(0, -4);
 
-        getMono(monoURL, monoPath, monoFileName);
+        getMono(monoURL, monoPath, monoFileName, monoDir, version);
       }
     });
   } catch (e) {
