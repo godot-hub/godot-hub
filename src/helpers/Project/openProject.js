@@ -1,6 +1,5 @@
-const exec = require('child_process').exec;
+const execFile = require('child_process').execFile;
 const process = require('process');
-const os = require('os');
 const path = require('path');
 
 // open godot project based on project and godot path
@@ -11,7 +10,7 @@ const openProject = (version, projectPath, godotPath) => {
   process.chdir(parsedProjectPath);
   console.log(process.cwd());
   console.log(godotPath);
-  exec(`${godotPath} -e`, (err, stdout, stderr) => {
+  execFile(godotPath, ['-e'], (err, stdout, stderr) => {
     if (err) {
       console.error(new Error(err));
     }
