@@ -12,12 +12,12 @@ const installExportTemplates = (url, version) => {
   initEditorDatadir(version);
   initTemplatesDir(version);
 
-  const dirPath = path.join(process.cwd(), 'Godot Hub', version, 'Engine', 'editor_data', 'templates', `${version}.stable`);
+  const dirPath = path.join(process.cwd(), 'Godot-Hub', version, 'Engine', 'editor_data', 'templates', `${version}.stable`);
   const exportTemplatesFileNameWithoutExtension = getFileNameFromURL(url).slice(0, -4);
-  const exportTemplatesDirPath = path.join(process.cwd(), 'Godot Hub', version, 'Engine', 'editor_data', 'templates', exportTemplatesFileNameWithoutExtension);
-  const exportTemplatesPath = path.join(process.cwd(), 'Godot Hub', version, 'Engine');
-  const zippedExportTemplatesPath = path.join(process.cwd(), 'Godot Hub', version, 'Engine', `${exportTemplatesFileNameWithoutExtension}.zip`);
-  const installPath = path.join(process.cwd(), 'Godot Hub', version, 'Engine', 'editor_data', 'templates');
+  const exportTemplatesDirPath = path.join(process.cwd(), 'Godot-Hub', version, 'Engine', 'editor_data', 'templates', exportTemplatesFileNameWithoutExtension);
+  const exportTemplatesPath = path.join(process.cwd(), 'Godot-Hub', version, 'Engine');
+  const zippedExportTemplatesPath = path.join(process.cwd(), 'Godot-Hub', version, 'Engine', `${exportTemplatesFileNameWithoutExtension}.zip`);
+  const installPath = path.join(process.cwd(), 'Godot-Hub', version, 'Engine', 'editor_data', 'templates');
 
   if (!fs.existsSync(dirPath) && !fs.existsSync(exportTemplatesDirPath)) {
     // change file extension

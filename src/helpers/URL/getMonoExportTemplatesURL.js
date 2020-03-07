@@ -53,7 +53,7 @@ const getMonoExporTemplatesURL = (url, version, OS, download = false) => {
             console.log(`getMonoExportTemplatesURL: ${url}${targetRelease}`);
 
             const monoExportTemplatesURL = `${url}${targetRelease}`;
-            const monoExportTemplatesPath = path.join('Godot Hub', '3.2');
+            const monoExportTemplatesPath = path.join('Godot-Hub', '3.2');
             const monoExportTemplatesFileName = getFileNameFromURL(monoExportTemplatesURL);
 
             getMonoExportTemplates(monoExportTemplatesURL, monoExportTemplatesPath, monoExportTemplatesFileName, monoDir);

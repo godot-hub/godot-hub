@@ -28,7 +28,7 @@ const getExportTemplatesURL = (url, download = false, version = false) => {
           console.log(`getExportTemplatesURL: ${url}${targetRelease}`);
 
           const exportTemplatesURL = `${url}${targetRelease}`;
-          const exportTemplatesPath = path.join('Godot Hub', '3.2');
+          const exportTemplatesPath = path.join('Godot-Hub', '3.2');
           const exportTemplatesFileName = getFileNameFromURL(exportTemplatesURL);
 
           getExportTemplates(exportTemplatesURL, exportTemplatesPath, exportTemplatesFileName);
