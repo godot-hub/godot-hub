@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { rename } = require('graceful-fs');
 const path = require('path');
 const process = require('process');
 const extract = require('extract-zip');
@@ -27,6 +28,8 @@ const installMonoExportTemplates = (url, version, monoDir) => {
 
     // extract export templates
     extract(zippedExportTemplatesPath, { dir: installPath }, (err) => {
+      console.log('extracting');
+
       if (err) {
         console.error(new Error(err));
       }
@@ -37,7 +40,7 @@ const installMonoExportTemplates = (url, version, monoDir) => {
       const currentPath = path.join(installPath, 'templates');
       const desiredPath = path.join(installPath, `${version}.stable.mono`);
 
-      fs.rename(currentPath, desiredPath, (err) => {
+      rename(currentPath, desiredPath, (err) => {
         if (err) {
           console.error(new Error(err));
         }
@@ -46,6 +49,8 @@ const installMonoExportTemplates = (url, version, monoDir) => {
       });
 
       changeFileExtension(path.join(monoExportTemplatesPath), monoExportTemplatesFileNameWithoutExtension, '.zip', '.tpz');
+
+      console.log('DONE extracting');
     });
   } else {
     console.log('mono export templates is already installed');
