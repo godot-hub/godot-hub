@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { rename } = require('graceful-fs');
 const path = require('path');
 const process = require('process');
 const extract = require('extract-zip');
@@ -25,6 +26,8 @@ const installExportTemplates = (url, version) => {
 
     // extract export templates
     extract(zippedExportTemplatesPath, { dir: installPath }, (err) => {
+      console.log('extracting');
+
       if (err) {
         console.error(new Error(err));
       }
@@ -34,7 +37,7 @@ const installExportTemplates = (url, version) => {
       // change directory name of installed export templates
       const currentPath = path.join(installPath, 'templates');
 
-      fs.rename(currentPath, dirPath, (err) => {
+      rename(currentPath, dirPath, (err) => {
         if (err) {
           console.error(new Error(err));
         }
@@ -43,6 +46,8 @@ const installExportTemplates = (url, version) => {
       });
 
       changeFileExtension(path.join(exportTemplatesPath), exportTemplatesFileNameWithoutExtension, '.zip', '.tpz');
+
+      console.log('DONE extracting');
     });
   } else {
     console.log('export templates is already installed');
