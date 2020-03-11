@@ -68,6 +68,7 @@ body.insertAdjacentHTML('beforeend', elements);
     const initReleaseDir = require('./helpers/Init/initReleaseDir');
     const initProjectsDir = require('./helpers/Init/initProjectsDir');
     const initEngineDir = require('./helpers/Init/initEngineDir');
+    const initCacheDir = require('./helpers/Init/initCacheDir');
     const getGodotURL = require('./helpers/URL/getGodotURL');
     const getExportTemplatesURL = require('./helpers/URL/getExportTemplatesURL');
     const getMonoURL = require('./helpers/URL/getMonoURL');
@@ -83,6 +84,7 @@ body.insertAdjacentHTML('beforeend', elements);
     console.log(`getScraped: ${getScraped}`);
 
     initGodotHubDir();
+    initCacheDir();
     initReleaseDir('3.2');
     initProjectsDir('3.2');
     initEngineDir('3.2');
