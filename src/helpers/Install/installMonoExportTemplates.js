@@ -15,12 +15,12 @@ const installMonoExportTemplates = (url, version, monoDir) => {
   initEditorDatadir(version, monoDir);
   initTemplatesDir(version, monoDir);
 
-  const dirPath = path.join(process.cwd(), 'Godot-Hub', version, 'Engine', monoDir, 'editor_data', 'templates', `${version}.stable.mono`);
+  const dirPath = path.join(process.cwd(), 'Godot-Hub', 'Releases', version, 'Engine', monoDir, 'editor_data', 'templates', `${version}.stable.mono`);
   const monoExportTemplatesFileNameWithoutExtension = getFileNameFromURL(url).slice(0, -4);
-  const monoExportTemplatesDirPath = path.join(process.cwd(), 'Godot-Hub', version, 'Engine', monoDir, 'editor_data', 'templates', monoExportTemplatesFileNameWithoutExtension);
-  const monoExportTemplatesPath = path.join(process.cwd(), 'Godot-Hub', version, 'Engine', monoDir);
-  const zippedExportTemplatesPath = path.join(process.cwd(), 'Godot-Hub', version, 'Engine', monoDir, `${monoExportTemplatesFileNameWithoutExtension}.zip`);
-  const installPath = path.join(process.cwd(), 'Godot-Hub', version, 'Engine', monoDir, 'editor_data', 'templates');
+  const monoExportTemplatesDirPath = path.join(process.cwd(), 'Godot-Hub', 'Releases', version, 'Engine', monoDir, 'editor_data', 'templates', monoExportTemplatesFileNameWithoutExtension);
+  const monoExportTemplatesPath = path.join(process.cwd(), 'Godot-Hub', 'Releases', version, 'Engine', monoDir);
+  const zippedExportTemplatesPath = path.join(process.cwd(), 'Godot-Hub', 'Releases', version, 'Engine', monoDir, `${monoExportTemplatesFileNameWithoutExtension}.zip`);
+  const installPath = path.join(process.cwd(), 'Godot-Hub', 'Releases', version, 'Engine', monoDir, 'editor_data', 'templates');
 
   if (!fs.existsSync(dirPath) && !fs.existsSync(monoExportTemplatesDirPath)) {
     // change file extension

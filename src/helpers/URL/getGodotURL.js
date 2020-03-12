@@ -26,7 +26,7 @@ const getGodotURL = (url, OS, version) => {
         console.log(`getGodotURL: ${url}${targetRelease}`);
 
         const godotURL = `${url}${targetRelease}`;
-        const godotPath = path.join('Godot-Hub', '3.2');
+        const godotPath = path.join('Godot-Hub', 'Releases', '3.2');
         const godotFileName = getFileNameFromURL(godotURL);
 
         getGodot(godotURL, godotPath, godotFileName, version);

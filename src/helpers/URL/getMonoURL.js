@@ -36,7 +36,7 @@ const getMonoURL = (url, OS, version) => {
         console.log(`getMonoURL: ${url}${targetRelease}`);
 
         const monoURL = `${url}${targetRelease}`;
-        const monoPath = path.join('Godot-Hub', '3.2');
+        const monoPath = path.join('Godot-Hub', 'Releases', '3.2');
         const monoFileName = getFileNameFromURL(monoURL);
         const monoDir = monoFileName.slice(0, -4);
 
