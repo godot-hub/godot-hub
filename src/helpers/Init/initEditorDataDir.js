@@ -11,7 +11,7 @@ const initEditorDataDir = (version, monoDir = false) => {
       fs.mkdirSync(dirPath);
     }
   } else {
-    const dirPath = path.join(process.cwd(), 'Godot-Hub', version, 'Engine', 'editor_data');
+    const dirPath = path.join(process.cwd(), 'Godot-Hub', 'Releases', version, 'Engine', 'editor_data');
 
     if (!fs.existsSync(dirPath)) {
       fs.mkdirSync(dirPath);
