@@ -303,7 +303,7 @@ ipcMain.on('getMono-request', (event, arg) => {
 
         console.log('getMono - Unzipped!');
 
-        event.sender.send('getGodot-Done');
+        event.sender.send('getMono-Done');
       });
       console.log('getMono - DONE');
     });

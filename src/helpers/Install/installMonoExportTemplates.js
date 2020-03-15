@@ -3,7 +3,6 @@ const { rename } = require('graceful-fs');
 const path = require('path');
 const process = require('process');
 const extract = require('extract-zip');
-const initScFile = require('../Init/initScFile');
 const initEditorDatadir = require('../Init/initEditorDataDir');
 const initTemplatesDir = require('../Init/initTemplatesDir');
 const getFileNameFromURL = require('../URL/getFileNameFromURL');
@@ -11,7 +10,6 @@ const changeFileExtension = require('../Change/changeFileExtension');
 
 // install export templates if its not installed depending on its godot version
 const installMonoExportTemplates = (url, version, monoDir) => {
-  initScFile(version, monoDir);
   initEditorDatadir(version, monoDir);
   initTemplatesDir(version, monoDir);
 
