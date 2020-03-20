@@ -23,8 +23,14 @@ function createWindow () {
     icon: path.join(__dirname, '/src/images/godot-hub-logo.png')
   });
 
-  // and load the index.html of the app.
-  win.loadFile('./src/index.html');
+  // show first time component if there is no defined path for godot hub
+  const godotHubConfigPath = path.join(process.cwd(), '.godot-hub');
+
+  if (!fs.existsSync(godotHubConfigPath)) {
+    win.loadFile('./src/components/FirstTime/firstTime.html');
+  } else {
+    win.loadFile('./src/index.html');
+  }
 
   // hide menubar
   win.autoHideMenuBar = true;
