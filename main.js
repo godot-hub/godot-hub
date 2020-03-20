@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, net } = require('electron');
+const { app, BrowserWindow, ipcMain, net, Menu } = require('electron');
 const path = require('path');
 const process = require('process');
 const fs = require('fs');
@@ -33,7 +33,7 @@ function createWindow () {
   }
 
   // hide menubar
-  win.autoHideMenuBar = true;
+  Menu.setApplicationMenu(null);
 
   // Open the DevTools.
   win.webContents.openDevTools();
