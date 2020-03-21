@@ -28,3 +28,7 @@ section {
 #import h1 {
   color: #56B7FF;
 }
+
+#import-godot-hub {
+  display: none;
+}

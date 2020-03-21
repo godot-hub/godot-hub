@@ -36,7 +36,7 @@ function createWindow () {
   Menu.setApplicationMenu(null);
 
   // Open the DevTools.
-  // win.webContents.openDevTools();
+  win.webContents.openDevTools();
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -360,4 +360,10 @@ ipcMain.on('getMonoExportTemplates-request', (event, arg) => {
 ipcMain.on('release-info-main', (event, arg) => {
   console.log(JSON.stringify(arg));
   event.sender.send('release-info-client', arg);
+});
+
+// navigate to certain view
+ipcMain.on('navigate', (event, arg) => {
+  const { filePath } = arg;
+  win.loadFile(filePath);
 });
