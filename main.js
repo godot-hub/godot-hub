@@ -24,7 +24,7 @@ function createWindow () {
   });
 
   // show first time component if there is no defined path for godot hub
-  const godotHubConfigPath = path.join(process.cwd(), '.godot-hub');
+  const godotHubConfigPath = path.join(process.cwd(), 'godot-hub.json');
 
   if (!fs.existsSync(godotHubConfigPath)) {
     win.loadFile('./src/components/FirstTime/firstTime.html');
