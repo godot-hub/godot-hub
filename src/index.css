@@ -7,4 +7,5 @@ html, body {
   height: 100%;
   font-family: 'Inter', sans-serif;
   background-color: #1F1F1F;
+  user-select: none;
 }

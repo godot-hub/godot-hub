@@ -85,13 +85,13 @@ body.insertAdjacentHTML('beforeend', elements);
     console.log(`versions: ${JSON.stringify(sort, null, 2)}`);
     console.log(`getScraped: ${getScraped}`);
 
-    initGodotHubDir();
-    initCacheDir();
-    initConfigDir();
-    initReleasesDir();
-    initReleaseDir('3.2');
-    initProjectsDir('3.2');
-    initEngineDir('3.2');
+    // initGodotHubDir();
+    // initCacheDir();
+    // initConfigDir();
+    // initReleasesDir();
+    // initReleaseDir('3.2');
+    // initProjectsDir('3.2');
+    // initEngineDir('3.2');
 
     // add temporary buttons for downloading godot release
     ipcRenderer.on('release-info-client', (event, arg) => {
