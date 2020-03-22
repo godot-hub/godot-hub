@@ -15,8 +15,8 @@ let win;
 function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({
-    minWidth: 800,
-    minHeight: 600,
+    minWidth: 1024,
+    minHeight: 768,
     webPreferences: {
       nodeIntegration: true
     },
