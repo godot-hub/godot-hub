@@ -1,10 +1,9 @@
 const fs = require('fs');
 const path = require('path');
-const process = require('process');
 
 // create godot hub directory if it doesn't exist
-const initGodotHubDir = () => {
-  const dirPath = path.join(process.cwd(), 'Godot-Hub');
+const initGodotHubDir = (godotHubPath) => {
+  const dirPath = path.join(godotHubPath, 'Godot-Hub');
 
   if (!fs.existsSync(dirPath)) {
     fs.mkdirSync(dirPath);
