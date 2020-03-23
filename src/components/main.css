@@ -1,4 +1,4 @@
-@import url('./fonts/Inter/Inter-VariableFont_slnt\,wght.ttf');
+@import url('../fonts/Inter/Inter-VariableFont_slnt\,wght.ttf');
 
 html, body {
   margin: 0;
@@ -7,5 +7,11 @@ html, body {
   height: 100%;
   font-family: 'Inter', sans-serif;
   background-color: #1F1F1F;
+  color: white;
   user-select: none;
+}
+
+#back {
+  color: #56B7FF;
+  cursor: pointer;
 }
