@@ -15,6 +15,7 @@ let win;
 function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({
+    show: false,
     minWidth: 1024,
     minHeight: 768,
     webPreferences: {
@@ -37,6 +38,11 @@ function createWindow () {
 
   // Open the DevTools.
   // win.webContents.openDevTools();
+
+  // show window when it's ready
+  win.webContents.on('did-finish-load', () => {
+    win.show();
+  });
 
   // Emitted when the window is closed.
   win.on('closed', () => {
