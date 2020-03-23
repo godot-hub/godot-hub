@@ -29,7 +29,7 @@ function createWindow () {
   if (!fs.existsSync(godotHubConfigPath)) {
     win.loadFile('./src/components/FirstTime/firstTime.html');
   } else {
-    win.loadFile('./src/index.html');
+    win.loadFile('./src/components/Index/index.html');
   }
 
   // hide menubar

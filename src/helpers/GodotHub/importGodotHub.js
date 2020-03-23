@@ -22,7 +22,7 @@ const importGodotHub = (godotHubPath) => {
   // create godot hub config if godot hub directory is valid
   if (!isValidGodotHubDir.includes(false)) {
     initGodotHubConfig(godotHubPath);
-    ipcRenderer.send('navigate', { filePath: './src/index.html' });
+    ipcRenderer.send('navigate', { filePath: './src/components/Index/index.html' });
   }
 };
 

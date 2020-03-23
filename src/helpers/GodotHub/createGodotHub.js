@@ -18,7 +18,7 @@ const createGodotHub = (createGodotHubPath) => {
     initConfigDir(godotHubPath);
     initReleasesDir(godotHubPath);
     initGodotHubConfig(godotHubPath);
-    ipcRenderer.send('navigate', { filePath: './src/index.html' });
+    ipcRenderer.send('navigate', { filePath: './src/components/Index/index.html' });
   }
 };
 
