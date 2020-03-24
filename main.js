@@ -29,8 +29,15 @@ function createWindow () {
 
   if (!fs.existsSync(godotHubConfigPath)) {
     win.loadFile('./src/components/FirstTime/firstTime.html');
-  } else {
-    win.loadFile('./src/components/Index/index.html');
+  } else if (fs.existsSync(godotHubConfigPath)) {
+    // check if godot hub path
+    const currentGodotHubPath = JSON.parse(fs.readFileSync('godot-hub.json')).godotHubPath;
+
+    if (fs.existsSync(currentGodotHubPath)) {
+      win.loadFile('./src/components/Index/index.html');
+    } else {
+      win.loadFile('./src/components/FirstTime/firstTime.html');
+    }
   }
 
   // hide menubar
