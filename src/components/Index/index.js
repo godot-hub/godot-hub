@@ -3,6 +3,7 @@ const projects = document.querySelector('#projects');
 const versions = document.querySelector('#versions');
 const tutorials = document.querySelector('#tutorials');
 const about = document.querySelector('#about');
+const settings = document.querySelector('#settings');
 
 projects.addEventListener('click', () => {
   ipcRenderer.send('navigate', { filePath: './src/components/Projects/projects.html' });
@@ -18,4 +19,8 @@ tutorials.addEventListener('click', () => {
 
 about.addEventListener('click', () => {
   ipcRenderer.send('navigate', { filePath: './src/components/About/about.html' });
+});
+
+settings.addEventListener('click', () => {
+  ipcRenderer.send('navigate', { filePath: './src/components/Settings/settings.html' });
 });
