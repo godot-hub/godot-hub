@@ -9,6 +9,20 @@ html, body {
   background-color: #1F1F1F;
   color: white;
   user-select: none;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 0.65rem;
+}
+ 
+::-webkit-scrollbar-thumb {
+  background-color: #363636;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-button, ::-webkit-scrollbar-track-piece, ::-webkit-scrollbar-track, ::-webkit-scrollbar-track-piece, ::-webkit-scrollbar-corner {
+  background-color: #1F1F1F;
 }
 
 #back {
