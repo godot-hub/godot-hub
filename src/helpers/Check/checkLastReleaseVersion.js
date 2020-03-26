@@ -7,9 +7,9 @@ const checkLastReleaseVersion = async (lastLocalVersion) => {
   try {
     const res = await fetch(url);
     const releases = await res.json();
-    const lastRemoteversion = releases[0].name;
+    const lastRemoteversion = releases[0].name.slice(0, releases[0].name.indexOf('-'));
 
-    if (lastLocalVersion === lastRemoteversion) {
+    if (Number.parseFloat(lastLocalVersion) === Number.parseFloat(lastRemoteversion)) {
       console.log(`${lastRemoteversion} is equal to ${lastRemoteversion}`);
       return true;
     } else {
