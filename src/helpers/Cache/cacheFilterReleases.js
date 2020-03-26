@@ -1,11 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const process = require('process');
 
 // cache filter releases and save it to cache directory
-const cacheFilterReleases = (releases) => {
+const cacheFilterReleases = (releases, godotHubPath) => {
   try {
-    const cachePath = path.join(process.cwd(), 'Godot-Hub', '.cache');
+    const cachePath = path.join(godotHubPath, '.cache');
     const dirPath = path.join(cachePath, 'filterReleases.json');
 
     if (fs.existsSync(cachePath)) {
