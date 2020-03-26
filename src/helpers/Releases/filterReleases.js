@@ -1,7 +1,7 @@
 const cacheFilterReleases = require('../Cache/cacheFilterReleases');
 
 // filter releases to only include desired info
-const filterReleases = (rawReleases) => {
+const filterReleases = (rawReleases, godotHubPath) => {
   try {
     // don't include version 1.0-stable as there is no download link for it
     const releases = rawReleases.slice(0, rawReleases.length - 1);
@@ -20,7 +20,7 @@ const filterReleases = (rawReleases) => {
       };
     });
     // cache filter releases
-    cacheFilterReleases(mappedReleases);
+    cacheFilterReleases(mappedReleases, godotHubPath);
     // return mapped releases
     return mappedReleases;
   } catch (e) {
