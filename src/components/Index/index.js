@@ -42,3 +42,14 @@ const initConfigDir = require('../../helpers/Init/initConfigDir');
 initReleasesDir(godotHubPath);
 initCacheDir(godotHubPath);
 initConfigDir(godotHubPath);
+
+// cache releases if cache doesn't exist
+(async () => {
+  const fetchReleases = require('../../helpers/Releases/fetchReleases');
+  const filterReleases = require('../../helpers/Releases/filterReleases');
+  const sortReleases = require('../../helpers/Releases/sortReleases');
+
+  const releases = await fetchReleases(godotHubPath);
+  const filter = await filterReleases(releases, godotHubPath);
+  const sort = await sortReleases(filter, godotHubPath);
+})();
