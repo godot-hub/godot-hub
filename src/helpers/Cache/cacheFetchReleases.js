@@ -1,11 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const process = require('process');
 
 // cache fetch releases and save it to cache directory
-const cacheFetchReleases = (releases) => {
+const cacheFetchReleases = (releases, godotHubPath) => {
   try {
-    const cachePath = path.join(process.cwd(), 'Godot-Hub', '.cache');
+    const cachePath = path.join(godotHubPath, '.cache');
     const dirPath = path.join(cachePath, 'fetchReleases.json');
 
     if (fs.existsSync(cachePath)) {
