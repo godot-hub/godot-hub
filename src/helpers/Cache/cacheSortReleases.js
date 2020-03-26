@@ -1,11 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const process = require('process');
 
 // cache sort releases and save it to cache directory
-const cacheSortReleases = (releases) => {
+const cacheSortReleases = (releases, godotHubPath) => {
   try {
-    const cachePath = path.join(process.cwd(), 'Godot-Hub', '.cache');
+    const cachePath = path.join(godotHubPath, '.cache');
     const dirPath = path.join(cachePath, 'sortReleases.json');
 
     if (fs.existsSync(cachePath)) {
