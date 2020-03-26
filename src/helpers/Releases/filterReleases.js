@@ -11,10 +11,12 @@ const filterReleases = (rawReleases, godotHubPath) => {
       const startOfIndex = release.body.indexOf('[Download](') + 11;
       const endOfIndex = release.body.lastIndexOf(')');
 
+      const name = release.name.slice(0, release.name.indexOf('-'));
       const version = release.name;
       const url = release.body.slice(startOfIndex, endOfIndex);
 
       return {
+        name,
         version,
         url
       };
