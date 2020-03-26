@@ -1,7 +1,7 @@
 const cacheSortReleases = require('../Cache/cacheSortReleases');
 
 // sort releases based on their versions
-const sortReleases = (releases) => {
+const sortReleases = (releases, godotHubPath) => {
   try {
     const sortedReleases = releases.reduce((byVersion, release) => {
       const version = release.version[0];
@@ -12,7 +12,7 @@ const sortReleases = (releases) => {
       return byVersion;
     }, {});
     // cache sorted releases
-    cacheSortReleases(sortedReleases);
+    cacheSortReleases(sortedReleases, godotHubPath);
     // return sorted releases
     return sortedReleases;
   } catch (e) {
