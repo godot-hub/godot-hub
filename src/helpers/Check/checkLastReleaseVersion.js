@@ -10,10 +10,10 @@ const checkLastReleaseVersion = async (lastLocalVersion) => {
     const lastRemoteversion = releases[0].name.slice(0, releases[0].name.indexOf('-'));
 
     if (Number.parseFloat(lastLocalVersion) === Number.parseFloat(lastRemoteversion)) {
-      console.log(`${lastRemoteversion} is equal to ${lastRemoteversion}`);
+      console.log(`${lastLocalVersion} is equal to ${lastRemoteversion}`);
       return true;
     } else {
-      console.log(`${lastRemoteversion} is not equal to ${lastRemoteversion}`);
+      console.log(`${lastLocalVersion} is not equal to ${lastRemoteversion}`);
       return false;
     }
   } catch (err) {
