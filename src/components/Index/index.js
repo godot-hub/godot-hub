@@ -1,4 +1,13 @@
+// get dependencies
 const { ipcRenderer } = require('electron');
+const path = require('path');
+const fs = require('fs');
+
+// godot hub path
+const godotHubConfigPath = path.join(process.cwd(), 'godot-hub.json');
+const godotHubPath = JSON.parse(fs.readFileSync(godotHubConfigPath)).godotHubPath;
+
+// get elements
 const projects = document.querySelector('#projects');
 const versions = document.querySelector('#versions');
 const tutorials = document.querySelector('#tutorials');
@@ -24,3 +33,12 @@ about.addEventListener('click', () => {
 settings.addEventListener('click', () => {
   ipcRenderer.send('navigate', { filePath: './src/components/Settings/settings.html' });
 });
+
+// Init important directories if they don't exist
+const initReleasesDir = require('../../helpers/Init/initReleasesDir');
+const initCacheDir = require('../../helpers/Init/initCacheDir');
+const initConfigDir = require('../../helpers/Init/initConfigDir');
+
+initReleasesDir(godotHubPath);
+initCacheDir(godotHubPath);
+initConfigDir(godotHubPath);
