@@ -17,10 +17,8 @@ const initGodotHubConfig = (godotHubPath) => {
     const godotHubFile = fs.readFileSync(godotHubConfigPath);
 
     // modify godot hub path if godot hub key exists
-    if (godotHubPath) {
-      godotHubFile.godotHubPath = godotHubConfigPath;
-      fs.writeFileSync(godotHubConfigPath, JSON.stringify(godotHubConfig, null, 2));
-    }
+    godotHubFile.godotHubPath = godotHubConfigPath;
+    fs.writeFileSync(godotHubConfigPath, JSON.stringify(godotHubConfig, null, 2));
   }
 };
 
