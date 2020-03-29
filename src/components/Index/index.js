@@ -51,7 +51,7 @@ initConfigDir(godotHubPath);
   const cachedReleasesPath = path.join(godotHubPath, '.cache', 'sortReleases.json');
   const cachedReleases = JSON.parse(fs.readFileSync(cachedReleasesPath));
   const lastRelease = Object.keys(cachedReleases)[Object.keys(cachedReleases).length - 1];
-  const lastReleaseVersion = cachedReleases[lastRelease][0].name;
+  const lastReleaseVersion = cachedReleases[lastRelease][0].version;
 
   console.log(await checkLastReleaseVersion(lastReleaseVersion));
 
