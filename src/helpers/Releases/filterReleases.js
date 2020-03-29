@@ -22,8 +22,8 @@ const filterReleases = (rawReleases, godotHubPath) => {
       // include mono if last index version value is at least 3
       if (releases[i].name[0] >= 3) {
         // normal releases
-        name = releases[i].name.slice(0, releases[i].name.indexOf('-'));
-        version = releases[i].name;
+        name = releases[i].name;
+        version = releases[i].name.slice(0, releases[i].name.indexOf('-'));
         url = releases[i].body.slice(startOfIndex, endOfIndex);
 
         filteredReleases.push({
@@ -33,8 +33,8 @@ const filterReleases = (rawReleases, godotHubPath) => {
         });
 
         // mono releases
-        const monoName = `${releases[i].name.slice(0, releases[i].name.indexOf('-'))}-mono`;
-        const monoVersion = `${releases[i].name}-mono`;
+        const monoName = `${releases[i].name}-mono`;
+        const monoVersion = `${releases[i].name.slice(0, releases[i].name.indexOf('-'))}-mono`;
         const monoUrl = path.join(releases[i].body.slice(startOfIndex, endOfIndex), 'mono');
 
         const monoReleases = {
@@ -45,8 +45,8 @@ const filterReleases = (rawReleases, godotHubPath) => {
 
         filteredReleases.push(monoReleases);
       } else {
-        name = releases[i].name.slice(0, releases[i].name.indexOf('-'));
-        version = releases[i].name;
+        name = releases[i].name;
+        version = releases[i].name.slice(0, releases[i].name.indexOf('-'));
         url = releases[i].body.slice(startOfIndex, endOfIndex);
 
         filteredReleases.push({
