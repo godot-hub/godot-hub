@@ -29,3 +29,59 @@ const installedReleaseElement = (name) => {
 installedReleases.map(release => {
   installedVersionsListElement.insertAdjacentHTML('beforeend', installedReleaseElement(release));
 });
+
+// get cached releases
+const cachedReleasesPath = path.join(godotHubPath, '.cache', 'sortReleases.json');
+const cachedReleases = JSON.parse(fs.readFileSync(cachedReleasesPath));
+
+// render available releases as available releases in versions view
+const availableVersionsListElement = document.querySelector('#available-versions-list');
+const availableReleaseElement = (info) => {
+  const { type, name, url, version } = info;
+
+  if (type === 'mono') {
+    return `
+    <article 
+      data-type="${type}"
+      data-name="${name}"
+      data-version="${version}"
+      data-url="${url}"
+      data-godot-version="${info.godotVersion}"
+    >
+      <p>Godot ${version}</p>
+      <p class="install">Install</p>
+    </article>
+  `;
+
+  } else {
+    return `
+    <article 
+      data-type="${type}" 
+      data-name="${name}"
+      data-version="${version}"
+      data-url="${url}"
+    >
+      <p>Godot ${version}</p>
+      <p class="install">Install</p>
+    </article>
+  `;
+  }
+};
+
+for (const release in cachedReleases) {
+  const releaseSection = `
+    <section id="release-section"> 
+      <h3>Godot ${release}</h3>
+      <section id="release-${release}-body">
+      </seciton>
+    </section>
+  `;
+
+  availableVersionsListElement.insertAdjacentHTML('beforeend', releaseSection);
+
+  const releaseBody = document.querySelector('#release-' + release + '-body');
+
+  cachedReleases[release].map(release => {
+    releaseBody.insertAdjacentHTML('beforeend', availableReleaseElement(release));
+  });
+}
