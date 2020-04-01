@@ -1,21 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-const process = require('process');
 
 // create a templates directory for a specific release version if it doesn't exist
-const initTemplatesDir = (version, monoDir = false) => {
-  if (monoDir) {
-    const dirPath = path.join(process.cwd(), 'Godot-Hub', 'Releases', version, 'Engine', monoDir, 'editor_data', 'templates');
+const initTemplatesDir = (godotHubPath, version) => {
+  const dirPath = path.join(godotHubPath, 'Releases', version, 'Engine', 'editor_data', 'templates');
 
-    if (!fs.existsSync(dirPath)) {
-      fs.mkdirSync(dirPath);
-    }
-  } else {
-    const dirPath = path.join(process.cwd(), 'Godot-Hub', 'Releases', version, 'Engine', 'editor_data', 'templates');
-
-    if (!fs.existsSync(dirPath)) {
-      fs.mkdirSync(dirPath);
-    }
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath);
   }
 };
 
