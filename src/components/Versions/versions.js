@@ -85,3 +85,26 @@ for (const release in cachedReleases) {
     releaseBody.insertAdjacentHTML('beforeend', availableReleaseElement(release));
   });
 }
+
+// install godot version
+const getGodotURL = require('../../helpers/URL/getGodotURL');
+const getMonoURL = require('../../helpers/URL/getMonoURL');
+const getOSinfo = require('../../helpers/getOSinfo');
+const installElements = document.querySelectorAll('.install');
+
+installElements.forEach(installElement => {
+  installElement.addEventListener('click', (e) => {
+    const { type, url, version, godotVersion } = e.target.parentElement.dataset;
+
+    if (type === 'mono') {
+      const OS = getOSinfo(true);
+
+      getMonoURL(url, OS, version);
+    } else {
+      const OS = getOSinfo();
+
+      getGodotURL(url, OS, version);
+    }
+    console.log(e.target.parentElement.dataset);
+  });
+});
