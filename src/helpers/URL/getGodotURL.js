@@ -1,5 +1,6 @@
 const { ipcRenderer } = require('electron');
 const path = require('path');
+const fs = require('fs');
 const getFileNameFromURL = require('../URL/getFileNameFromURL');
 const getGodot = require('../Get/getGodot');
 
@@ -23,13 +24,16 @@ const getGodotURL = (url, OS, version) => {
 
       // return if release is matching request url
       if (targetRelease) {
-        console.log(`getGodotURL: ${url}${targetRelease}`);
+        // godot hub path
+        const godotHubConfigPath = path.join(process.cwd(), 'godot-hub.json');
+        const godotHubPath = JSON.parse(fs.readFileSync(godotHubConfigPath)).godotHubPath;
 
-        const godotURL = `${url}${targetRelease}`;
-        const godotPath = path.join('Godot-Hub', 'Releases', '3.2');
+        const godotURL = new URL(`${version}/${targetRelease}`, url).href;
         const godotFileName = getFileNameFromURL(godotURL);
 
-        getGodot(godotURL, godotPath, godotFileName, version);
+        console.log(`getGodotURL: ${godotURL}`);
+
+        getGodot(godotURL, godotHubPath, godotFileName, version);
       }
     });
   } catch (e) {
