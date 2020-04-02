@@ -26,20 +26,32 @@ const filterReleases = (rawReleases, godotHubPath) => {
         version = releases[i].name.slice(0, releases[i].name.indexOf('-'));
         url = releases[i].body.slice(startOfIndex, endOfIndex);
 
+        // make sure every url end with a front slash
+        if (url[url.length - 1] !== '/') {
+          url += '/';
+        }
+
+        console.log(`godotURL in filter: ${url}`);
+
         filteredReleases.push({
+          type: 'godot',
           name,
           version,
           url
         });
 
         // mono releases
-        const monoName = `${releases[i].name}-mono`;
-        const monoVersion = `${releases[i].name.slice(0, releases[i].name.indexOf('-'))}-mono`;
-        const monoUrl = path.join(releases[i].body.slice(startOfIndex, endOfIndex), 'mono');
+        const monoName = `${name}-mono`;
+        const monoVersion = `${version}-mono`;
+        const monoUrl = new URL('mono/', url).href;
+
+        console.log(`monoURL in filter: ${monoUrl}`);
 
         const monoReleases = {
+          type: 'mono',
           name: monoName,
           version: monoVersion,
+          godotVersion: version,
           url: monoUrl
         };
 
@@ -49,7 +61,13 @@ const filterReleases = (rawReleases, godotHubPath) => {
         version = releases[i].name.slice(0, releases[i].name.indexOf('-'));
         url = releases[i].body.slice(startOfIndex, endOfIndex);
 
+        // make sure every url end with a front slash
+        if (url[url.length - 1] !== '/') {
+          url += '/';
+        }
+
         filteredReleases.push({
+          type: 'godot',
           name,
           version,
           url
