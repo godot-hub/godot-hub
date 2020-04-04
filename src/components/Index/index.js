@@ -47,22 +47,23 @@ initConfigDir(godotHubPath);
 (async () => {
   // check if there is new release version
   const checkLastReleaseVersion = require('../../helpers/Check/checkLastReleaseVersion');
+  const cacheReleases = require('../../helpers/Cache/cacheReleases');
 
   const cachedReleasesPath = path.join(godotHubPath, '.cache', 'sortReleases.json');
-  const cachedReleases = JSON.parse(fs.readFileSync(cachedReleasesPath));
-  const lastRelease = Object.keys(cachedReleases)[Object.keys(cachedReleases).length - 1];
-  const lastReleaseVersion = cachedReleases[lastRelease][0].version;
 
-  console.log(await checkLastReleaseVersion(lastReleaseVersion));
+  // cache releases if there is no cached releases at all
+  if (!fs.existsSync(cachedReleasesPath)) {
+    cacheReleases(godotHubPath);
+  } else {
+    const cachedReleases = JSON.parse(fs.readFileSync(cachedReleasesPath));
+    const lastRelease = Object.keys(cachedReleases)[Object.keys(cachedReleases).length - 1];
+    const lastReleaseVersion = cachedReleases[lastRelease][0].version;
 
-  // refetch and recache if there is a new version
-  if (await checkLastReleaseVersion(lastReleaseVersion)) {
-    const fetchReleases = require('../../helpers/Releases/fetchReleases');
-    const filterReleases = require('../../helpers/Releases/filterReleases');
-    const sortReleases = require('../../helpers/Releases/sortReleases');
+    console.log(await checkLastReleaseVersion(lastReleaseVersion));
 
-    const releases = await fetchReleases(godotHubPath);
-    const filter = await filterReleases(releases, godotHubPath);
-    const sort = await sortReleases(filter, godotHubPath);
+    // refetch and recache if there is a new version or if there is no cached releases at all
+    if (await checkLastReleaseVersion(lastReleaseVersion)) {
+      cacheReleases(godotHubPath);
+    }
   }
 })();
