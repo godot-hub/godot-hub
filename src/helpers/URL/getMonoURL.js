@@ -4,21 +4,19 @@ const getFileNameFromURL = require('../URL/getFileNameFromURL');
 const getMono = require('../Get/getMono');
 
 // return the full url of a mono version based on its godot version, OS and arch
-const getMonoURL = (url, OS, version) => {
+const getMonoURL = (url, OS, version, godotHubPath) => {
   try {
     console.log(`mono url: ${url}`);
     console.log(`mono OS info: ${OS}`);
     console.log(`godot version: ${version}`);
 
     // stop scrapping if godot version is less than 3
-    if (parseInt(version) < 3) {
+    if (parseInt(version[0]) < 3) {
       console.log('mono is only available in godot starting from version 3');
       return false;
     }
 
-    const monoRequestURL = `${url}mono/`;
-
-    ipcRenderer.send('getMonoURL-request', { url: monoRequestURL, OS });
+    ipcRenderer.send('getMonoURL-request', { url, OS });
 
     ipcRenderer.on('getMonoURL-response', (event, arg) => {
       const { data, url } = arg;
@@ -33,14 +31,14 @@ const getMonoURL = (url, OS, version) => {
 
       // return if release is matching request url
       if (targetRelease) {
-        console.log(`getMonoURL: ${url}${targetRelease}`);
+        console.log(`getMonoURL: ${new URL(targetRelease, url).href}`);
 
-        const monoURL = `${url}${targetRelease}`;
-        const monoPath = path.join('Godot-Hub', 'Releases', '3.2');
+        const monoURL = new URL(targetRelease, url).href;
+        const monoPath = path.join(godotHubPath, 'Releases', version);
         const monoFileName = getFileNameFromURL(monoURL);
         const monoDir = monoFileName.slice(0, -4);
 
-        getMono(monoURL, monoPath, monoFileName, monoDir, version);
+        getMono(monoURL, monoPath, monoFileName, monoDir, version, godotHubPath);
       }
     });
   } catch (e) {
