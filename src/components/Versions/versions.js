@@ -19,7 +19,9 @@ const installedReleases = getInstalledReleases(godotHubPath);
 const installedVersionsListElement = document.querySelector('#installed-versions-list');
 const installedReleaseElement = (name) => {
   return `
-    <article>
+    <article
+      data-name="${name}"
+    >
       <p>Godot ${name}</p>
       <p class="uninstall">Uninstall</p>
     </article>
@@ -82,7 +84,12 @@ for (const release in cachedReleases) {
   const releaseBody = document.querySelector('#release-' + release + '-body');
 
   cachedReleases[release].map(release => {
-    releaseBody.insertAdjacentHTML('beforeend', availableReleaseElement(release));
+    // filter out installed releases from available versions
+    console.log(installedReleases);
+    if (!installedReleases.includes(release.version)) {
+      console.log(installedReleases.includes(release.version));
+      releaseBody.insertAdjacentHTML('beforeend', availableReleaseElement(release));
+    }
   });
 }
 
@@ -94,16 +101,16 @@ const installElements = document.querySelectorAll('.install');
 
 installElements.forEach(installElement => {
   installElement.addEventListener('click', (e) => {
-    const { type, url, version, godotVersion } = e.target.parentElement.dataset;
+    const { type, url, version } = e.target.parentElement.dataset;
 
     if (type === 'mono') {
       const OS = getOSinfo(true);
 
-      getMonoURL(url, OS, version);
+      getMonoURL(url, OS, version, godotHubPath);
     } else {
       const OS = getOSinfo();
 
-      getGodotURL(url, OS, version);
+      getGodotURL(url, OS, version, godotHubPath);
     }
     console.log(e.target.parentElement.dataset);
   });
