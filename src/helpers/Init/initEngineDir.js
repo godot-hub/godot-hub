@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const process = require('process');
 
 // create a engine directory for a specific release version if it doesn't exist
 const initEngineDir = (godotHubPath, version) => {
