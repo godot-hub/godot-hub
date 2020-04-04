@@ -23,21 +23,30 @@ const getReleaseName = (version, type, mono = false) => {
     switch (os.platform()) {
       case 'win32':
         if (mono) {
-          OS = `win${arch}.exe`;
+          OS = {
+            fileName: `win${arch}.exe`,
+            dirName: `win${arch}`
+          };
         } else {
           OS = `win${arch}`;
         }
         break;
       case 'darwin':
         if (mono) {
-          OS = 'osx';
+          OS = {
+            fileName: 'Godot',
+            dirName: `osx${arch}.app`
+          };
         } else {
           OS = `osx.${arch}`;
         }
         break;
       case 'linux':
         if (mono) {
-          OS = `x11_${arch}`;
+          OS = {
+            fileName: `x11.${arch}`,
+            dirName: `x11_${arch}`
+          };
         } else {
           OS = `x11.${arch}`;
         }
@@ -52,7 +61,7 @@ const getReleaseName = (version, type, mono = false) => {
     if (parseInt(version[0]) < 3) {
       switch (type) {
         case 'godot':
-          releaseName = `Godot_v${version}_stable_${OS}.zip`;
+          releaseName = `Godot_v${version}_stable_${OS}`;
           break;
         case 'export templates':
           releaseName = `Godot_v${version}_stable_export_templates.tpz`;
@@ -64,7 +73,17 @@ const getReleaseName = (version, type, mono = false) => {
       if (mono) {
         switch (type) {
           case 'mono':
-            releaseName = `Godot_v${version}-stable_mono_${OS}.zip`;
+            if (os.platform === 'darwin') {
+              releaseName = {
+                fileName: OS.fileName,
+                dirName: `Godot_v${version}-stable_mono_${OS.dirName}`
+              };
+            } else {
+              releaseName = {
+                fileName: `Godot_v${version}-stable_mono_${OS.fileName}`,
+                dirName: `Godot_v${version}-stable_mono_${OS.dirName}`
+              };
+            }
             break;
           case 'mono export templates':
             releaseName = `Godot_v${version}-stable_mono_export_templates.tpz`;
@@ -75,7 +94,14 @@ const getReleaseName = (version, type, mono = false) => {
       } else {
         switch (type) {
           case 'godot':
-            releaseName = `Godot_v${version}-stable_${OS}.zip`;
+            if (os.platform === 'darwin') {
+              releaseName = {
+                fileName: 'Godot',
+                dirName: 'Godot.app'
+              };
+            } else {
+              releaseName = `Godot_v${version}-stable_${OS}`;
+            }
             break;
           case 'export templates':
             releaseName = `Godot_v${version}-stable_export_templates.tpz`;
