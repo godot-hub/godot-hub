@@ -202,7 +202,7 @@ ipcMain.on('getMonoExportTemplatesURL-request', (event, arg) => {
 
 // getGodot request
 ipcMain.on('getGodot-request', (event, arg) => {
-  const { url, path, extractTarget } = arg;
+  const { url, path, extractTarget, version } = arg;
 
   if (fs.existsSync(path)) {
     console.log('getGodot exists');
@@ -210,6 +210,7 @@ ipcMain.on('getGodot-request', (event, arg) => {
   }
 
   console.log(`ipcMain getGodot request: ${url}`);
+  console.log('downloading mono');
 
   const req = net.request(url);
 
@@ -222,11 +223,19 @@ ipcMain.on('getGodot-request', (event, arg) => {
     console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
     console.log(`content-length:  ${res.headers['content-length']}`);
 
+    const totalLength = res.headers['content-length'];
+
     res.on('data', (chunk) => {
       data.push(chunk);
       dataLength += chunk.length;
-      console.log(`progress: ${dataLength} / ${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100)}%`);
-      event.sender.send('getGodot-progress', Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100));
+      console.log(`progress: ${dataLength} / ${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(totalLength) * 100)}%`);
+      event.sender.send(`${version}-progress`, {
+        percentage: Math.floor(parseInt(dataLength) / parseInt(totalLength) * 100),
+        total: totalLength,
+        current: dataLength,
+        totalMB: (totalLength / (1024 * 1024)).toFixed(2),
+        currentMB: (dataLength / (1024 * 1024)).toFixed(2)
+      });
     });
 
     res.on('end', () => {
@@ -286,7 +295,7 @@ ipcMain.on('getExportTemplates-request', (event, arg) => {
 
 // getMono request
 ipcMain.on('getMono-request', (event, arg) => {
-  const { url, path, extractTarget } = arg;
+  const { url, path, extractTarget, version } = arg;
 
   if (fs.existsSync(path)) {
     console.log('getMono exists');
@@ -294,6 +303,7 @@ ipcMain.on('getMono-request', (event, arg) => {
   }
 
   console.log(`ipcMain getMono request: ${url}`);
+  console.log('downloading mono');
 
   const req = net.request(url);
 
@@ -306,11 +316,19 @@ ipcMain.on('getMono-request', (event, arg) => {
     console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
     console.log(`content-length:  ${res.headers['content-length']}`);
 
+    const totalLength = res.headers['content-length'];
+
     res.on('data', (chunk) => {
       data.push(chunk);
       dataLength += chunk.length;
-      console.log(`progress: ${dataLength} / ${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100)}%`);
-      event.sender.send('getMono-progress', Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100));
+      console.log(`progress: ${dataLength} / ${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(totalLength) * 100)}%`);
+      event.sender.send(`${version}-progress`, {
+        percentage: Math.floor(parseInt(dataLength) / parseInt(totalLength) * 100),
+        total: totalLength,
+        current: dataLength,
+        totalMB: (totalLength / (1024 * 1024)).toFixed(2),
+        currentMB: (dataLength / (1024 * 1024)).toFixed(2)
+      });
     });
 
     res.on('end', () => {
