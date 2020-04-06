@@ -18,7 +18,7 @@ const getMono = (url, monoPath, filename, monoDir, version, godotHubPath) => {
   initEditorDataDir(godotHubPath, version);
   initTemplatesDir(godotHubPath, version);
 
-  ipcRenderer.send('getMono-request', { url, path: filePath, extractTarget: path.join(monoPath, 'Engine') });
+  ipcRenderer.send('getMono-request', { url, path: filePath, extractTarget: path.join(monoPath, 'Engine'), version });
   ipcRenderer.on('getMono-Done', () => {
     initScFile(godotHubPath, version);
     console.log('getMono - DONE');
