@@ -11,6 +11,7 @@ const installGodotVersion = (parent, type, url, version, godotHubPath) => {
     getMonoURL(url, OS, version, godotHubPath);
 
     const progressElement = parent.querySelector('.progress');
+    const stopDownloadElement = parent.querySelector('.stop');
     const installElement = parent.querySelector('.install');
 
     if (!progressElement) {
@@ -22,6 +23,35 @@ const installGodotVersion = (parent, type, url, version, godotHubPath) => {
       parent.removeChild(installElement);
       parent.appendChild(progress);
       progress.setAttribute('class', 'progress');
+
+      if (!stopDownloadElement) {
+        // show stop download element
+        const stopDownload = document.createElement('p');
+        const stopDownloadText = document.createTextNode('Stop Download');
+        stopDownload.setAttribute('class', 'stop');
+        stopDownload.appendChild(stopDownloadText);
+        parent.appendChild(stopDownload);
+
+        stopDownload.addEventListener('click', () => {
+          parent.removeChild(progress);
+          parent.removeChild(stopDownload);
+
+          ipcRenderer.send('getMono-Stop');
+
+          const install = document.createElement('p');
+          const installText = document.createTextNode('Install');
+          install.appendChild(installText);
+          parent.appendChild(install);
+          install.setAttribute('class', 'install');
+
+          install.addEventListener('click', (e) => {
+            const { type, url, version } = e.target.parentElement.dataset;
+            const parent = e.target.parentElement;
+
+            installGodotVersion(parent, type, url, version, godotHubPath);
+          });
+        });
+      }
 
       ipcRenderer.on(`${version}-progress`, (event, arg) => {
         const { percentage, total, current, totalMB, currentMB } = arg;
@@ -41,6 +71,7 @@ const installGodotVersion = (parent, type, url, version, godotHubPath) => {
     getGodotURL(url, OS, version, godotHubPath);
 
     const progressElement = parent.querySelector('.progress');
+    const stopDownloadElement = parent.querySelector('.stop');
     const installElement = parent.querySelector('.install');
 
     if (!progressElement) {
@@ -52,6 +83,35 @@ const installGodotVersion = (parent, type, url, version, godotHubPath) => {
       parent.removeChild(installElement);
       parent.appendChild(progress);
       progress.setAttribute('class', 'progress');
+
+      if (!stopDownloadElement) {
+        // show stop download element
+        const stopDownload = document.createElement('p');
+        const stopDownloadText = document.createTextNode('Stop Download');
+        stopDownload.setAttribute('class', 'stop');
+        stopDownload.appendChild(stopDownloadText);
+        parent.appendChild(stopDownload);
+
+        stopDownload.addEventListener('click', () => {
+          parent.removeChild(progress);
+          parent.removeChild(stopDownload);
+
+          ipcRenderer.send('getGodot-Stop');
+
+          const install = document.createElement('p');
+          const installText = document.createTextNode('Install');
+          install.appendChild(installText);
+          parent.appendChild(install);
+          install.setAttribute('class', 'install');
+
+          install.addEventListener('click', (e) => {
+            const { type, url, version } = e.target.parentElement.dataset;
+            const parent = e.target.parentElement;
+
+            installGodotVersion(parent, type, url, version, godotHubPath);
+          });
+        });
+      }
 
       ipcRenderer.on(`${version}-progress`, (event, arg) => {
         const { percentage, total, current, totalMB, currentMB } = arg;
