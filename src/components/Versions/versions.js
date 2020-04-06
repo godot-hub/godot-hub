@@ -72,7 +72,7 @@ const availableReleaseElement = (info) => {
 
 for (const release in cachedReleases) {
   const releaseSection = `
-    <section id="release-section"> 
+    <section class="release-section"> 
       <h3>Godot ${release}</h3>
       <section id="release-${release}-body">
       </seciton>
@@ -94,24 +94,14 @@ for (const release in cachedReleases) {
 }
 
 // install godot version
-const getGodotURL = require('../../helpers/URL/getGodotURL');
-const getMonoURL = require('../../helpers/URL/getMonoURL');
-const getOSinfo = require('../../helpers/getOSinfo');
+const installGodotVersion = require('../../components/Versions/installGodotVersion');
 const installElements = document.querySelectorAll('.install');
 
 installElements.forEach(installElement => {
   installElement.addEventListener('click', (e) => {
     const { type, url, version } = e.target.parentElement.dataset;
+    const parent = e.target.parentElement;
 
-    if (type === 'mono') {
-      const OS = getOSinfo(true);
-
-      getMonoURL(url, OS, version, godotHubPath);
-    } else {
-      const OS = getOSinfo();
-
-      getGodotURL(url, OS, version, godotHubPath);
-    }
-    console.log(e.target.parentElement.dataset);
+    installGodotVersion(parent, type, url, version, godotHubPath);
   });
 });
