@@ -15,12 +15,13 @@ const getMono = (url, monoPath, filename, monoDir, version, godotHubPath) => {
   initReleaseDir(godotHubPath, version);
   initEngineDir(godotHubPath, version);
   initProjectsDir(godotHubPath, version);
-  initEditorDataDir(godotHubPath, version);
-  initTemplatesDir(godotHubPath, version);
 
   ipcRenderer.send('getMono-request', { url, path: filePath, extractTarget: path.join(monoPath, 'Engine'), version });
   ipcRenderer.on('getMono-Done', () => {
     initScFile(godotHubPath, version, true, monoDir);
+    initEditorDataDir(godotHubPath, version, true, monoDir);
+    initTemplatesDir(godotHubPath, version, true, monoDir);
+
     console.log('getMono - DONE');
   });
 };
