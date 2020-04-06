@@ -210,7 +210,7 @@ ipcMain.on('getGodot-request', (event, arg) => {
   }
 
   console.log(`ipcMain getGodot request: ${url}`);
-  console.log('downloading mono');
+  console.log('downloading godot');
 
   const req = net.request(url);
 
@@ -250,6 +250,12 @@ ipcMain.on('getGodot-request', (event, arg) => {
         event.sender.send('getGodot-Done');
       });
     });
+  });
+
+  // stop download
+  ipcMain.on('getGodot-Stop', () => {
+    req.abort();
+    console.log('stopped downloading godot');
   });
 
   req.end();
@@ -344,6 +350,12 @@ ipcMain.on('getMono-request', (event, arg) => {
       });
       console.log('getMono - DONE');
     });
+  });
+
+  // stop download
+  ipcMain.on('getMono-Stop', () => {
+    req.abort();
+    console.log('stopped downloading mono');
   });
 
   req.end();
