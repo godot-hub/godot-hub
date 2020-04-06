@@ -20,7 +20,7 @@ const getMono = (url, monoPath, filename, monoDir, version, godotHubPath) => {
 
   ipcRenderer.send('getMono-request', { url, path: filePath, extractTarget: path.join(monoPath, 'Engine'), version });
   ipcRenderer.on('getMono-Done', () => {
-    initScFile(godotHubPath, version);
+    initScFile(godotHubPath, version, true, monoDir);
     console.log('getMono - DONE');
   });
 };
