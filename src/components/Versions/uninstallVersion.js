@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const renderVersions = require('./renderVersions');
 
 // uninstall a specific release's engine directory
 const uninstallVersion = (releasePath, godotHubPath) => {
@@ -15,6 +16,11 @@ const uninstallVersion = (releasePath, godotHubPath) => {
       });
 
       fs.rmdirSync(releasePath);
+
+      // rerender if there release is uninstalled
+      if (!fs.existsSync(releasePath)) {
+        renderVersions(godotHubPath);
+      }
     }
   } catch (err) {
     console.error(new Error(err));
