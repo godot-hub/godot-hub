@@ -25,6 +25,10 @@ html, body {
   background-color: #1F1F1F;
 }
 
+::-webkit-scrollbar-button {
+  display: none;
+}
+
 #back {
   color: #56B7FF;
   cursor: pointer;
