@@ -54,7 +54,6 @@ const renderVersions = (godotHubPath) => {
         <p class="install">Install</p>
       </article>
     `;
-
     } else {
       return `
       <article 

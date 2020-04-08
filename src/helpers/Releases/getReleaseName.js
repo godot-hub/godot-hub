@@ -28,7 +28,7 @@ const getReleaseName = (version, type, mono = false) => {
             dirName: `win${arch}`
           };
         } else {
-          OS = `win${arch}`;
+          OS = `win${arch}.exe`;
         }
         break;
       case 'darwin':
