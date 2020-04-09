@@ -24,7 +24,7 @@ article {
   align-items: center;
   height: 20vh;
   width: 20vw;
-  border-radius: 7.2%;
+  border-radius: 10px;
   font-weight: bold;
   font-size: 1.1rem;
   white-space: nowrap;
