@@ -5,9 +5,20 @@
     <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self';" />
     <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="projects.css">
   </head>
   <body>
-    <h1><span id="back">&larr;</span> Projects</h1>
+    <header id="projects-header">
+      <h1><span id="back">&larr;</span> Projects</h1>
+      <section id="project-buttons">
+        <p id="create-project">Create Project</p>
+        <p id="import-project">Import Project</p>
+      </section>
+    </header>
+    <section id="projects-body">
+      <input id="search" type="search" placeholder="Search">
+      <ul id="projects-list"></ul>
+    </section>
     <script src="projects.js"></script>
   </body>
 </html>
