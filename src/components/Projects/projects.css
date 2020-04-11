@@ -1,0 +1,135 @@
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 1%;
+}
+
+#project-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 40%;
+}
+
+#create-project, #import-project {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #363636;
+  padding: 2.5%;
+  text-align: center;
+  border-radius: 15px;
+  cursor: pointer;
+  width: 40%;
+  font-weight: bold;
+}
+
+#projects-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  margin: auto;
+}
+
+#search {
+  border: none;
+  align-self: center;
+  width: 100%;
+  padding: 2%;
+  border-radius: 20px;
+  background-color: #363636;
+  color: white;
+  text-align: center;
+  font-size: 2rem;
+}
+
+#search::-webkit-search-cancel-button {
+  color: white;
+  font-weight: bold;
+}
+
+::-webkit-search-cancel-button {
+  color: white;
+  background-color: white;
+}
+
+::placeholder {
+  text-align: center;
+  color: white;
+  font-weight: bold;
+}
+
+#projects-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  /* overflow-y: auto; */
+}
+
+.project {
+  background-color: #363636;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 25vh;
+  width: 25vw;
+  border-radius: 10px;
+  font-weight: bold;
+  white-space: nowrap;
+  margin-bottom: 2.5%;
+}
+
+.project-options {
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.project-options p {
+  cursor: pointer;
+}
+
+.launch, #create-project {
+  color: #56B7FF;
+}
+
+.delete {
+  color: #1F1F1F;
+}
+
+#project-dialog-parent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(31, 31, 31, 0.5);
+}
+
+#project-dialog {
+  width: 50%;
+  height: 50%;
+  background-color: #363636;
+}
+
+#project-dialog header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
