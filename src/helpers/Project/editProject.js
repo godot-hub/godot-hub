@@ -1,19 +1,10 @@
 const execFile = require('child_process').execFile;
 const process = require('process');
-const path = require('path');
 
 // edit godot project based on project and godot path
-const editProject = (version, projectPath, godotPath) => {
-  const godotHubPath = process.cwd();
-  const parsedProjectPath = path.parse(projectPath).dir;
-
-  console.log(process.cwd());
-
+const editProject = (projectPath, godotHubPath, godotPath) => {
   // change directory to project path
-  process.chdir(parsedProjectPath);
-
-  console.log(process.cwd());
-  console.log(godotPath);
+  process.chdir(projectPath);
 
   // open godot project
   execFile(godotPath, ['-e'], (err, stdout, stderr) => {
@@ -28,7 +19,6 @@ const editProject = (version, projectPath, godotPath) => {
 
   // change directory back to godot hub path
   process.chdir(godotHubPath);
-  console.log(godotHubPath);
 };
 
 module.exports = editProject;
