@@ -33,6 +33,22 @@ const renderProjects = (godotHubPath) => {
       });
     }
   });
+
+  const projectsOptions = document.querySelectorAll('.project-options');
+
+  projectsOptions.forEach(project => {
+    const editElement = project.querySelector('.edit');
+
+    // edit project on click
+    editElement.addEventListener('click', (e) => {
+      const currentProjectListData = e.target.parentElement.parentElement.dataset;
+      const { name, version, projectPath, filePath, godotPath } = currentProjectListData;
+
+      // edit project
+      const editProject = require('../../helpers/Project/editProject');
+      editProject(projectPath, godotHubPath, godotPath);
+    });
+  });
 };
 
 module.exports = renderProjects;
