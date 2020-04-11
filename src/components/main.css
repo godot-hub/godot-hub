@@ -16,6 +16,14 @@ h1 {
   padding-top: 1%;
 }
 
+ul {
+  list-style-type: none;
+}
+
+*:focus {
+  outline: none;
+}
+
 ::-webkit-scrollbar {
   width: 0.65rem;
 }
@@ -36,4 +44,9 @@ h1 {
 #back {
   color: #56B7FF;
   cursor: pointer;
+}
+
+::selection {
+  background-color: #56B7FF;
+  color: white;
 }
