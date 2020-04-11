@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const getReleaseName = require('../Releases/getReleaseName');
 
 // get a list of the current godot projects
 const getcurrentProjects = (godotHubPath) => {
@@ -10,6 +11,17 @@ const getcurrentProjects = (godotHubPath) => {
 
     const projects = releases.map(release => {
       const releaseVersion = parseInt(release[0]);
+
+      // get godot name
+      let godotName;
+
+      if (release.includes('mono')) {
+        const godotVersion = release.slice(0, release.indexOf('-'));
+
+        godotName = getReleaseName(godotVersion, 'godot', true);
+      } else {
+        godotName = getReleaseName(release, 'godot');
+      }
 
       const projectPath = path.join(releasesPath, release, 'Projects');
 
@@ -24,7 +36,8 @@ const getcurrentProjects = (godotHubPath) => {
                 name: currentProject,
                 version: release,
                 projectPath: path.join(releasesPath, release, 'Projects', currentProject),
-                filePath: path.join(releasesPath, release, 'Projects', currentProject, 'engine.cfg')
+                filePath: path.join(releasesPath, release, 'Projects', currentProject, 'engine.cfg'),
+                godotPath: path.join(releasesPath, release, 'Engine', godotName)
               };
             }
           } else {
@@ -33,7 +46,8 @@ const getcurrentProjects = (godotHubPath) => {
                 name: currentProject,
                 version: release,
                 projectPath: path.join(releasesPath, release, 'Projects', currentProject),
-                filePath: path.join(releasesPath, release, 'Projects', currentProject, 'project.godot')
+                filePath: path.join(releasesPath, release, 'Projects', currentProject, 'project.godot'),
+                godotPath: path.join(releasesPath, release, 'Engine', godotName)
               };
             }
           }
@@ -43,7 +57,7 @@ const getcurrentProjects = (godotHubPath) => {
       }
     });
 
-    console.log(projects);
+    return projects;
   }
 };
 
