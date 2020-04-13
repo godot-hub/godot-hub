@@ -78,6 +78,11 @@ createProjectbutton.addEventListener('click', () => {
   cancelButton.appendChild(cancelButtonText);
   buttons.appendChild(cancelButton);
 
+  // cancel button
+  cancelButton.addEventListener('click', () => {
+    body.removeChild(createProjectParentElement);
+  });
+
   const createProjectbuttonElement = document.createElement('button');
   const createProjectbuttonText = document.createTextNode('Create project');
   createProjectbuttonElement.setAttribute('class', 'create');
