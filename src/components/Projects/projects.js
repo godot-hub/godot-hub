@@ -58,15 +58,33 @@ createProjectbutton.addEventListener('click', () => {
   const versionParent = document.createElement('div');
   inputs.appendChild(versionParent);
 
-  const projectVersionLabel = document.createElement('label');
-  const projectVersionLabelText = document.createTextNode('Project version');
-  projectVersionLabel.setAttribute('for', 'project-version-input');
-  projectVersionLabel.appendChild(projectVersionLabelText);
-  versionParent.appendChild(projectVersionLabel);
+  const projectGodotVersionLabel = document.createElement('label');
+  const projectGodotVersionLabelText = document.createTextNode('Project godot version');
+  projectGodotVersionLabel.setAttribute('for', 'project-godot-version-input');
+  projectGodotVersionLabel.appendChild(projectGodotVersionLabelText);
+  versionParent.appendChild(projectGodotVersionLabel);
 
-  const projectVersionInput = document.createElement('select');
-  projectVersionInput.setAttribute('id', 'project-version-input');
-  versionParent.appendChild(projectVersionInput);
+  const projectGodotVersionInput = document.createElement('select');
+  projectGodotVersionInput.setAttribute('id', 'project-godot-version-input');
+  versionParent.appendChild(projectGodotVersionInput);
+
+  const getInstalledReleases = require('../../helpers/Releases/getInstalledReleases');
+  const installedReleases = getInstalledReleases(godotHubPath);
+
+  // show installed versions when selecting project godot version
+  if (installedReleases.length > 0) {
+    installedReleases.forEach(release => {
+      const currentOption = document.createElement('option');
+      const currentOptionText = document.createTextNode(release);
+      currentOption.appendChild(currentOptionText);
+      projectGodotVersionInput.appendChild(currentOption);
+    });
+  } else {
+    const currentOption = document.createElement('option');
+    const currentOptionText = document.createTextNode('No installed version yet');
+    currentOption.appendChild(currentOptionText);
+    projectGodotVersionInput.appendChild(currentOption);
+  }
 
   const buttons = document.createElement('section');
   buttons.setAttribute('id', 'buttons');
