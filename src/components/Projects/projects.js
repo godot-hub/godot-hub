@@ -15,7 +15,7 @@ const godotHubPath = JSON.parse(fs.readFileSync(godotHubConfigPath)).godotHubPat
 const renderProjects = require('./renderProjects');
 renderProjects(godotHubPath);
 
-// create project
+// create project dialog
 const body = document.querySelector('body');
 const createProjectbutton = document.querySelector('#create-project');
 
@@ -54,6 +54,14 @@ createProjectbutton.addEventListener('click', () => {
   projectNameInput.setAttribute('type', 'text');
   projectNameInput.setAttribute('id', 'project-name-input');
   nameParent.appendChild(projectNameInput);
+
+  const warningElement = document.createElement('p');
+  warningElement.setAttribute('class', 'warning');
+  nameParent.appendChild(warningElement);
+
+  projectNameInput.addEventListener('keydown', () => {
+    warningElement.textContent = '';
+  });
 
   const versionParent = document.createElement('div');
   inputs.appendChild(versionParent);
@@ -101,9 +109,51 @@ createProjectbutton.addEventListener('click', () => {
     body.removeChild(createProjectParentElement);
   });
 
+  // create project button
   const createProjectbuttonElement = document.createElement('button');
   const createProjectbuttonText = document.createTextNode('Create project');
   createProjectbuttonElement.setAttribute('class', 'create');
   createProjectbuttonElement.appendChild(createProjectbuttonText);
   buttons.appendChild(createProjectbuttonElement);
+
+  // create project
+  createProjectbuttonElement.addEventListener('click', () => {
+    const projectName = projectNameInput.value.trim();
+    const projectGodotVersion = projectGodotVersionInput.value;
+
+    if (projectName.length > 3) {
+      const getCurrentProjects = require('../../helpers/Project/getCurrentProjects');
+      const currentProjects = getCurrentProjects(godotHubPath).flat();
+
+      // check if project name exists
+      const projectExists = currentProjects.map(currentProject => {
+        const { name } = currentProject;
+        if (projectName === name) {
+          return true;
+        }
+      });
+
+      console.log(projectExists);
+      console.log(projectExists.includes(true));
+
+      if (projectExists.includes(true)) {
+        warningElement.textContent = 'Project name exists';
+      } else {
+        const createProject = require('../../helpers/Project/createProject');
+        createProject(godotHubPath, projectName, projectGodotVersion);
+        body.removeChild(createProjectParentElement);
+        renderProjects(godotHubPath);
+      }
+    } else {
+      // show warning for short project name
+      if (projectName.length === 0) {
+        warningElement.textContent = 'Project name can\'t be empty';
+      } else {
+        warningElement.textContent = 'Project name is too short';
+      }
+    }
+
+    console.log(projectName);
+    console.log(projectGodotVersion);
+  });
 });
