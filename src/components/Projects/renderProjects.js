@@ -7,29 +7,36 @@ const renderProjects = (godotHubPath) => {
 
   const projectsList = document.querySelector('#projects-list');
 
+  while (projectsList.firstChild) {
+    projectsList.removeChild(projectsList.firstChild);
+  }
+
   currentProjectsList.forEach(currentProjects => {
     if (currentProjects.length > 0) {
       currentProjects.forEach(currentProject => {
-        const { name, version, projectPath, filePath, godotPath } = currentProject;
+        // only render valid projects
+        if (currentProject) {
+          const { name, version, projectPath, filePath, godotPath } = currentProject;
 
-        const project = `<li 
-            class="project"
-            data-name="${name}"
-            data-version="${version}"
-            data-project-path="${projectPath}"
-            data-file-path="${filePath}"
-            data-godot-path="${godotPath}"
-          >
-          <h2>${name}</h2>
-          <h3>${version}</h3>
-          <span class="project-options">
-            <p class="launch">Launch</p>
-            <p class="edit">Edit</p>
-            <p class="delete">Delete</p>
-          </span>
-        </li>`;
+          const project = `<li 
+              class="project"
+              data-name="${name}"
+              data-version="${version}"
+              data-project-path="${projectPath}"
+              data-file-path="${filePath}"
+              data-godot-path="${godotPath}"
+            >
+            <h2>${name}</h2>
+            <h3>${version}</h3>
+            <span class="project-options">
+              <p class="launch">Launch</p>
+              <p class="edit">Edit</p>
+              <p class="delete">Delete</p>
+            </span>
+          </li>`;
 
-        projectsList.insertAdjacentHTML('beforeend', project);
+          projectsList.insertAdjacentHTML('beforeend', project);
+        }
       });
     }
   });
