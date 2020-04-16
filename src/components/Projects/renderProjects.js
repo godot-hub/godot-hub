@@ -55,6 +55,18 @@ const renderProjects = (godotHubPath) => {
       const editProject = require('../../helpers/Project/editProject');
       editProject(projectPath, godotHubPath, godotPath);
     });
+
+    // delete project on click
+    const deleteElement = project.querySelector('.delete');
+    deleteElement.addEventListener('click', (e) => {
+      const currentProjectListData = e.target.parentElement.parentElement.dataset;
+      const { name, version, projectPath, filePath, godotPath } = currentProjectListData;
+
+      // delete project
+      const deleteProject = require('../../helpers/Project/deleteProject');
+      deleteProject(projectPath);
+      renderProjects(godotHubPath);
+    });
   });
 };
 
