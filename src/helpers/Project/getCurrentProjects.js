@@ -18,7 +18,7 @@ const getcurrentProjects = (godotHubPath) => {
       if (release.includes('mono')) {
         const godotVersion = release.slice(0, release.indexOf('-'));
 
-        godotName = getReleaseName(godotVersion, 'godot', true);
+        godotName = getReleaseName(godotVersion, 'mono', true);
       } else {
         godotName = getReleaseName(release, 'godot');
       }
@@ -42,13 +42,23 @@ const getcurrentProjects = (godotHubPath) => {
             }
           } else {
             if (currentProjectFiles.includes('project.godot')) {
-              return {
-                name: currentProject,
-                version: release,
-                projectPath: path.join(releasesPath, release, 'Projects', currentProject),
-                filePath: path.join(releasesPath, release, 'Projects', currentProject, 'project.godot'),
-                godotPath: path.join(releasesPath, release, 'Engine', godotName)
-              };
+              if (release.includes('mono')) {
+                return {
+                  name: currentProject,
+                  version: release,
+                  projectPath: path.join(releasesPath, release, 'Projects', currentProject),
+                  filePath: path.join(releasesPath, release, 'Projects', currentProject, 'project.godot'),
+                  godotPath: path.join(releasesPath, release, 'Engine', godotName.dirName, godotName.fileName)
+                };
+              } else {
+                return {
+                  name: currentProject,
+                  version: release,
+                  projectPath: path.join(releasesPath, release, 'Projects', currentProject),
+                  filePath: path.join(releasesPath, release, 'Projects', currentProject, 'project.godot'),
+                  godotPath: path.join(releasesPath, release, 'Engine', godotName)
+                };
+              }
             }
           }
         });
