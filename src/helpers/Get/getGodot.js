@@ -1,5 +1,6 @@
 const { ipcRenderer } = require('electron');
 const path = require('path');
+const fs = require('fs');
 const initScFile = require('../Init/initScFile');
 const initReleaseDir = require('../Init/initReleaseDir');
 const initProjectsDir = require('../Init/initProjectsDir');
@@ -25,6 +26,15 @@ const getGodot = (url, godotHubPath, filename, version) => {
     initScFile(godotHubPath, version);
     console.log('getGodot - DONE');
     renderVersions(godotHubPath);
+
+    // change permission and make version 1 executable
+    if (parseInt(version[0]) === 1) {
+      const getReleaseName = require('../Releases/getReleaseName');
+      const versionFileName = getReleaseName(version, 'godot');
+      const versionFilePath = path.join(godotHubPath, 'Releases', version, 'Engine', versionFileName);
+
+      fs.chmodSync(versionFilePath, '755');
+    }
   });
 };
 
