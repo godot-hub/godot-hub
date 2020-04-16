@@ -17,7 +17,7 @@ const uninstallVersion = (releasePath, godotHubPath) => {
 
       fs.rmdirSync(releasePath);
 
-      // rerender if there release is uninstalled
+      // rerender if release got uninstalled
       if (!fs.existsSync(releasePath)) {
         renderVersions(godotHubPath);
       }
