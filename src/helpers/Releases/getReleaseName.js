@@ -59,15 +59,28 @@ const getReleaseName = (version, type, mono = false) => {
     let releaseName;
 
     if (parseInt(version[0]) < 3) {
-      switch (type) {
-        case 'godot':
-          releaseName = `Godot_v${version}_stable_${OS}`;
-          break;
-        case 'export templates':
-          releaseName = `Godot_v${version}_stable_export_templates.tpz`;
-          break;
-        default:
-          break;
+      if (version[0] === 1) {
+        switch (type) {
+          case 'godot':
+            releaseName = `Godot_v${version}_stable_${OS}`;
+            break;
+          case 'export templates':
+            releaseName = `Godot_v${version}_stable_export_templates.tpz`;
+            break;
+          default:
+            break;
+        }
+      } else {
+        switch (type) {
+          case 'godot':
+            releaseName = `Godot_v${version}-stable_${OS}`;
+            break;
+          case 'export templates':
+            releaseName = `Godot_v${version}_stable_export_templates.tpz`;
+            break;
+          default:
+            break;
+        }
       }
     } else {
       if (mono) {
