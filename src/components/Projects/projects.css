@@ -251,3 +251,7 @@ header {
   padding-left: 10%;
   font-size: 0.9rem;
 }
+
+.empty {
+  color: #F44336;
+}
