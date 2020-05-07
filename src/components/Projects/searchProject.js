@@ -61,8 +61,7 @@ const searchProject = (godotHubPath, currentProjectsList) => {
 
           // delete project
           const deleteProject = require('../../helpers/Project/deleteProject');
-          deleteProject(projectPath);
-          renderProjects(godotHubPath);
+          deleteProject(projectPath, godotHubPath);
         });
       });
     } else {

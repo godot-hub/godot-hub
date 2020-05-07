@@ -1,26 +1,23 @@
-const path = require('path');
-const fs = require('fs');
-const renderVersions = require('../../components/Versions/renderVersions');
+const fs = require('fs-extra');
+const renderProjects = require('../../components/Projects/renderProjects');
 
 // delete project based on its path
 const deleteProject = (projectPath, godotHubPath) => {
+  console.log(projectPath);
   try {
     if (fs.existsSync(projectPath)) {
-      fs.readdirSync(projectPath).forEach((file) => {
-        const curPath = path.join(projectPath, String(file));
-        if (fs.lstatSync(curPath).isDirectory()) {
-          deleteProject(curPath);
+      fs.remove(projectPath, err => {
+        console.log(projectPath);
+        if (err) {
+          console.error(new Error(err));
         } else {
-          fs.unlinkSync(curPath);
+          // rerender if project got deleted
+          if (!fs.existsSync(projectPath)) {
+            console.log(godotHubPath);
+            renderProjects(godotHubPath);
+          }
         }
       });
-
-      fs.rmdirSync(projectPath);
-
-      // rerender if project got deleted
-      if (!fs.existsSync(projectPath)) {
-        renderVersions(godotHubPath);
-      }
     }
   } catch (err) {
     console.error(new Error(err));
