@@ -1,8 +1,8 @@
 const dialog = require('electron').remote.dialog;
 const path = require('path');
-const renderProjects = require('./renderProjects');
 const validateImportProject = require('./validateImportProject');
 const importProject = require('../../helpers/Project/importProject');
+const renderImportProjectProgress = require('./renderImportProjectProgress');
 
 // render import project dialog
 const renderImportProject = (godotHubPath) => {
@@ -135,14 +135,14 @@ const renderImportProject = (godotHubPath) => {
           projectPathWarningElement.textContent = 'no project selected';
         }
       } else {
+        renderImportProjectProgress(importProjectBody);
+
         const src = projectPathInput.value;
         const projectName = path.parse(src).name;
         const version = projectGodotVersionInput.value;
         const target = path.join(godotHubPath, 'Releases', version, 'Projects', projectName);
 
-        importProject(src, target);
-        body.removeChild(importProjectParentElement);
-        renderProjects(godotHubPath);
+        importProject(src, target, godotHubPath, body, importProjectParentElement);
       }
     });
   });

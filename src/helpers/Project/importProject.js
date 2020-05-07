@@ -1,21 +1,15 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs-extra');
+const renderProjects = require('../../components/Projects/renderProjects');
 
 // import a project into godot hub based on its release version and path
-const importProject = (src, target) => {
+const importProject = (src, target, godotHubPath, body, importProjectParentElement) => {
   try {
-    fs.mkdirSync(target);
-    const files = fs.readdirSync(src);
+    fs.copy(src, target, err => {
+      if (err) console.error(new Error(err));
 
-    for (let i = 0; i < files.length; i++) {
-      const current = fs.lstatSync(path.join(src, files[i]));
-      // repeat if its a directory
-      if (current.isDirectory()) {
-        importProject(path.join(src, files[i]), path.join(target, files[i]));
-      } else {
-        fs.copyFileSync(path.join(src, files[i]), path.join(target, files[i]));
-      }
-    }
+      body.removeChild(importProjectParentElement);
+      renderProjects(godotHubPath);
+    });
   } catch (err) {
     console.error(new Error(err));
   }
