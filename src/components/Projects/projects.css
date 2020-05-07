@@ -255,3 +255,12 @@ header {
 .empty {
   color: #F44336;
 }
+
+#importing {
+  color: #56B7FF;
+  font-weight: bold;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  align-self: center;
+}

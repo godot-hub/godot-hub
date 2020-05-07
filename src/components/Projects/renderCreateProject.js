@@ -128,7 +128,16 @@ const renderCreateProject = (godotHubPath) => {
           const createProject = require('../../helpers/Project/createProject');
           createProject(godotHubPath, projectName, projectGodotVersion);
           body.removeChild(createProjectParentElement);
-          renderProjects(godotHubPath);
+
+          const search = document.querySelector('#search');
+          const searchProject = require('./searchProject');
+
+          // rerender projects if searching is active when creating or importing a project
+          if (search.value.length > 0) {
+            searchProject(godotHubPath);
+          } else {
+            renderProjects(godotHubPath);
+          }
         }
       } else {
         // show warning for short project name

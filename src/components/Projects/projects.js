@@ -23,16 +23,12 @@ renderCreateProject(godotHubPath);
 const renderImportProject = require('./renderImportProject');
 renderImportProject(godotHubPath);
 
-// get current projects
-const getCurrentProjects = require('../../helpers/Project/getCurrentProjects');
-const currentProjectsList = getCurrentProjects(godotHubPath).flat();
-
 // search project
 const searchProject = require('./searchProject');
 const search = document.querySelector('#search');
 
 search.addEventListener('keyup', () => {
-  searchProject(godotHubPath, currentProjectsList);
+  searchProject(godotHubPath);
 });
 
 search.addEventListener('search', () => {

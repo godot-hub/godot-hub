@@ -8,7 +8,16 @@ const importProject = (src, target, godotHubPath, body, importProjectParentEleme
       if (err) console.error(new Error(err));
 
       body.removeChild(importProjectParentElement);
-      renderProjects(godotHubPath);
+
+      const search = document.querySelector('#search');
+      const searchProject = require('../../components/Projects/searchProject');
+
+      // rerender projects if searching is active when creating or importing a project
+      if (search.value.length > 0) {
+        searchProject(godotHubPath);
+      } else {
+        renderProjects(godotHubPath);
+      }
     });
   } catch (err) {
     console.error(new Error(err));

@@ -2,10 +2,14 @@ const renderProjects = require('./renderProjects');
 const search = document.querySelector('#search');
 
 // filter and show projects available that match search text based on project name
-const searchProject = (godotHubPath, currentProjectsList) => {
+const searchProject = (godotHubPath) => {
   if (search.value.length === 0) {
     renderProjects(godotHubPath);
   } else {
+    // get current projects
+    const getCurrentProjects = require('../../helpers/Project/getCurrentProjects');
+    const currentProjectsList = getCurrentProjects(godotHubPath).flat();
+
     const projectsList = document.querySelector('#projects-list');
 
     while (projectsList.firstChild) {
