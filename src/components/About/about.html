@@ -5,9 +5,26 @@
     <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self';" />
     <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="about.css">
   </head>
   <body>
     <h1><span id="back">&larr;</span> About</h1>
+    <section id="body">
+      <section id="logo-parent">
+        <img id='logo' src='../../images/godot-hub-logo.png'>
+        <h2><a href="https://github.com/godot-hub/godot-hub" target="_blank">Godot Hub</a></h2>
+        <h3 id="version"></h3>
+      </section>
+      <section id="description">
+        <h2>Description</h2>
+        <p id="description-text">manage Godot versions, projects, and navigate helpful tutorials / videos to get you started on making games in <a href="https://godotengine.org/" target="_blank">Godot</a></p>
+      </section>
+      <section id="core-team">
+        <h2>Core Team</h2>
+        <h4><a href="https://github.com/mrwanashraf" target="_blank">Mrwan Ashraf</a> - Creator & Lead Developer</h4>
+        <h4><a href="https://github.com/Mainman002" target="_blank">Johnathan Mueller</a> - Co-Creator & Lead Tester</h4>
+      </section>
+    </section>
     <script src="about.js"></script>
   </body>
 </html>
