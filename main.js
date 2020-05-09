@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, net, Menu } = require('electron');
+const { app, BrowserWindow, ipcMain, net, Menu, shell } = require('electron');
 const path = require('path');
 const process = require('process');
 const fs = require('fs');
@@ -24,6 +24,9 @@ function createWindow () {
     icon: path.join(__dirname, '/src/images/godot-hub-logo.png')
   });
 
+  // set background color
+  win.setBackgroundColor('#1F1F1F');
+
   // show first time component if there is no defined path for godot hub
   const godotHubConfigPath = path.join(process.cwd(), 'godot-hub.json');
 
@@ -45,6 +48,12 @@ function createWindow () {
 
   // Open the DevTools.
   // win.webContents.openDevTools();
+
+  // open url in default browser
+  win.webContents.on('new-window', (event, url) => {
+    event.preventDefault();
+    shell.openExternal(url);
+  });
 
   // show window when it's ready
   win.webContents.on('did-finish-load', () => {
