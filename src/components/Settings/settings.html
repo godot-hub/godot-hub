@@ -5,10 +5,20 @@
     <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self';" />
     <link rel="stylesheet" type="text/css" href="../main.css">
-    <link rel="stylesheet" type="text/css" href="about.css">
+    <link rel="stylesheet" type="text/css" href="settings.css">
   </head>
   <body>
     <h1><span id="back">&larr;</span> Settings</h1>
+    <section>
+      <h3>Godot Hub Path</h3>
+      <article>
+        <input id="godot-hub-path" type="text" disabled>
+        <button id="change-path">Change</button>
+      </article>
+    </section>
+    <section>
+      <h3>Default Godot Version</h3>
+    </section>
     <script src="settings.js"></script>
   </body>
 </html>

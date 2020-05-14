@@ -14,11 +14,18 @@ const initGodotHubConfig = (godotHubPath) => {
   if (!fs.existsSync(godotHubConfigPath)) {
     fs.writeFileSync(godotHubConfigPath, JSON.stringify(godotHubConfig, null, 2));
   } else {
-    const godotHubFile = fs.readFileSync(godotHubConfigPath);
+    // current godot hub path
+    const currentGodotHubConfigPath = path.join(process.cwd(), 'godot-hub.json');
+    const currentGodotHubPath = JSON.parse(fs.readFileSync(currentGodotHubConfigPath)).godotHubPath;
 
-    // modify godot hub path if godot hub key exists
-    godotHubFile.godotHubPath = godotHubConfigPath;
-    fs.writeFileSync(godotHubConfigPath, JSON.stringify(godotHubConfig, null, 2));
+    // change godot hub path only if new path is different
+    if (String(currentGodotHubPath) !== String(godotHubPath)) {
+      const godotHubFile = fs.readFileSync(godotHubConfigPath);
+
+      // modify godot hub path if godot hub key exists
+      godotHubFile.godotHubPath = godotHubConfigPath;
+      fs.writeFileSync(godotHubConfigPath, JSON.stringify(godotHubConfig, null, 2));
+    }
   }
 };
 

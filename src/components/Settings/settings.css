@@ -1,0 +1,45 @@
+section {
+  padding-left: 1%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+article {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+#change-path {
+  margin-left: 1%;
+  background-color: #363636;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 1%;
+  width: 10%;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#godot-hub-path {
+  width: 50%;
+  height: auto;
+  align-self: center;
+  border: none;
+  border-radius: 5px;
+  background-color: #1F1F1F;
+  color: white;
+  padding: 1%;
+  outline: none;
+}
+
+#godot-hub-path:disabled {
+  width: 60%;
+  font-size: 1rem;
+  background-color: hsl(0, 0%, 17%);
+}
