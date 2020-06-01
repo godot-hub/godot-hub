@@ -1,8 +1,9 @@
 const getCurrentProjects = require('../../helpers/Project/getCurrentProjects');
 const renderProjects = require('./renderProjects');
+const sortReleaseList = require('../../helpers/Releases/sortReleaseList');
 
 // render create project dialog
-const renderCreateProject = (godotHubPath) => {
+const renderCreateProject = (godotHubPath, godotHubConfigPath) => {
   const body = document.querySelector('body');
   const createProjectbutton = document.querySelector('#create-project');
 
@@ -64,7 +65,14 @@ const renderCreateProject = (godotHubPath) => {
     versionParent.appendChild(projectGodotVersionInput);
 
     const getInstalledReleases = require('../../helpers/Releases/getInstalledReleases');
-    const installedReleases = getInstalledReleases(godotHubPath);
+    let installedReleases = getInstalledReleases(godotHubPath);
+
+    // sort releases only if there is a default godot version selected by user
+    const sortedReleases = sortReleaseList(installedReleases, godotHubConfigPath);
+
+    if (sortedReleases) {
+      installedReleases = sortedReleases;
+    }
 
     // show installed versions when selecting project godot version
     if (installedReleases.length > 0) {
