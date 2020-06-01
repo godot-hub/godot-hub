@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 
 // render godot versions based on data provided
-const renderVersions = (godotHubPath) => {
+const renderVersions = (godotHubPath, godotHubConfigPath) => {
   // render installed releases as available releases in versions view
   const getInstalledReleases = require('../../helpers/Releases/getInstalledReleases');
   const installedReleases = getInstalledReleases(godotHubPath);
@@ -82,13 +82,14 @@ const renderVersions = (godotHubPath) => {
 
     const releaseBody = document.querySelector('#release-' + release + '-body');
 
-    cachedReleases[release].map(release => {
+    cachedReleases[release].map(currentCachedRelease => {
       // filter out installed releases from available versions
-      console.log(installedReleases);
-      if (!installedReleases.includes(release.version)) {
-        console.log(installedReleases.includes(release.version));
-        releaseBody.insertAdjacentHTML('beforeend', availableReleaseElement(release));
-      }
+      currentCachedRelease.forEach(currentRelease => {
+        if (!installedReleases.includes(currentRelease.version)) {
+          console.log(installedReleases.includes(currentRelease.version));
+          releaseBody.insertAdjacentHTML('beforeend', availableReleaseElement(currentRelease));
+        }
+      });
     });
   }
 
@@ -101,7 +102,7 @@ const renderVersions = (godotHubPath) => {
       const { type, url, version } = e.target.parentElement.dataset;
       const parent = e.target.parentElement;
 
-      installGodotVersion(parent, type, url, version, godotHubPath);
+      installGodotVersion(parent, type, url, version, godotHubPath, godotHubConfigPath);
     });
   });
 

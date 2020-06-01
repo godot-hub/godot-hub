@@ -7,9 +7,10 @@ const initEngineDir = require('../Init/initEngineDir');
 const initEditorDataDir = require('../Init/initEditorDataDir');
 const initTemplatesDir = require('../Init/initTemplatesDir');
 const renderVersions = require('../../components/Versions/renderVersions');
+const setLatestInstalledReleaseVersion = require('../Releases/setLatestInstalledReleaseVersion');
 
 // download Godot Mono based on provided specific version
-const getMono = (url, monoPath, filename, monoDir, version, godotHubPath) => {
+const getMono = (url, monoPath, filename, monoDir, version, godotHubPath, godotHubConfigPath) => {
   const filePath = path.join(monoPath, 'Engine', filename);
 
   // init required directories
@@ -26,6 +27,7 @@ const getMono = (url, monoPath, filename, monoDir, version, godotHubPath) => {
     console.log('getMono - DONE');
 
     renderVersions(godotHubPath);
+    setLatestInstalledReleaseVersion(version, godotHubConfigPath);
   });
 };
 

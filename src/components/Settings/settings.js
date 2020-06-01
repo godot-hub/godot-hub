@@ -66,3 +66,70 @@ changePathElement.addEventListener('click', async () => {
     }
   }
 });
+
+// default godot version
+const getInstalledReleases = require('../../helpers/Releases/getInstalledReleases');
+const installedReleases = getInstalledReleases(godotHubPath);
+const sortedInstalledReleases = installedReleases.sort((a, b) => {
+  const aVersion = a.split('.');
+  const bVersion = b.split('.');
+
+  for (let i = 0; i < aVersion.length; i++) {
+    if (parseInt(aVersion[i]) > parseInt(bVersion[i])) {
+      return 1;
+    } else if (parseInt(bVersion[i]) > parseInt(aVersion[i])) {
+      return -1;
+    }
+  }
+}).reverse();
+
+const defaultGodotVersionInput = document.querySelector('#default-godot-version');
+let optionsList = [
+  'Last Installed Version',
+  'Newest Godot Version',
+  'Newest Mono Version',
+  'Oldest Godot Version',
+  'Oldest Mono Version',
+  ...sortedInstalledReleases
+];
+
+// reorder options list based on default godot version if it exists
+const getDefaultRelease = require('../../helpers/Releases/getDefaultRelease');
+const defaultRelease = getDefaultRelease(godotHubConfigPath);
+
+// reorder options list
+if (defaultRelease) {
+  console.log(getDefaultRelease(godotHubConfigPath));
+  const defaultReleaseIndex = optionsList.indexOf(defaultRelease);
+
+  // optionsList.splice(0, 0, optionsList[defaultReleaseIndex]);
+
+  const sortedOptionList = [];
+
+  optionsList.forEach(release => {
+    if (release === optionsList[defaultReleaseIndex]) {
+      sortedOptionList.unshift(release);
+    } else {
+      sortedOptionList.push(release);
+    }
+  });
+
+  optionsList = sortedOptionList;
+}
+
+// render options
+optionsList.forEach(option => {
+  const optionElement = document.createElement('option');
+  const optionElementText = document.createTextNode(option);
+  optionElement.appendChild(optionElementText);
+  defaultGodotVersionInput.appendChild(optionElement);
+});
+
+// change default godot version
+const setDefaultRelease = require('../../helpers/Releases/setDefaultRelease');
+
+defaultGodotVersionInput.addEventListener('change', (e) => {
+  console.log(e.target.value);
+  const defaultGodotVersion = e.target.value;
+  setDefaultRelease(godotHubConfigPath, defaultGodotVersion);
+});

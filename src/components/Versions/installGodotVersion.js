@@ -4,11 +4,11 @@ const getMonoURL = require('../../helpers/URL/getMonoURL');
 const getOSinfo = require('../../helpers/getOSinfo');
 
 // install godot version, show download progress & stop download button
-const installGodotVersion = (parent, type, url, version, godotHubPath) => {
+const installGodotVersion = (parent, type, url, version, godotHubPath, godotHubConfigPath) => {
   if (type === 'mono') {
     const OS = getOSinfo(true);
 
-    getMonoURL(url, OS, version, godotHubPath);
+    getMonoURL(url, OS, version, godotHubPath, godotHubConfigPath);
 
     const progressElement = parent.querySelector('.progress');
     const stopDownloadElement = parent.querySelector('.stop');
@@ -48,7 +48,7 @@ const installGodotVersion = (parent, type, url, version, godotHubPath) => {
             const { type, url, version } = e.target.parentElement.dataset;
             const parent = e.target.parentElement;
 
-            installGodotVersion(parent, type, url, version, godotHubPath);
+            installGodotVersion(parent, type, url, version, godotHubPath, godotHubConfigPath);
           });
         });
       }
@@ -68,7 +68,7 @@ const installGodotVersion = (parent, type, url, version, godotHubPath) => {
   } else {
     const OS = getOSinfo();
 
-    getGodotURL(url, OS, version, godotHubPath);
+    getGodotURL(url, OS, version, godotHubPath, godotHubConfigPath);
 
     const progressElement = parent.querySelector('.progress');
     const stopDownloadElement = parent.querySelector('.stop');
@@ -108,7 +108,7 @@ const installGodotVersion = (parent, type, url, version, godotHubPath) => {
             const { type, url, version } = e.target.parentElement.dataset;
             const parent = e.target.parentElement;
 
-            installGodotVersion(parent, type, url, version, godotHubPath);
+            installGodotVersion(parent, type, url, version, godotHubPath, godotHubConfigPath);
           });
         });
       }

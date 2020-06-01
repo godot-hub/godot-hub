@@ -1,4 +1,3 @@
-const path = require('path');
 const cacheFilterReleases = require('../Cache/cacheFilterReleases');
 
 // filter releases to only include desired info

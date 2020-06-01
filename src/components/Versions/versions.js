@@ -14,4 +14,4 @@ const godotHubPath = JSON.parse(fs.readFileSync(godotHubConfigPath)).godotHubPat
 
 // render installed releases as available releases in versions view
 const renderVersions = require('./renderVersions');
-renderVersions(godotHubPath);
+renderVersions(godotHubPath, godotHubConfigPath);

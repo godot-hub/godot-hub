@@ -4,7 +4,7 @@ const getFileNameFromURL = require('../URL/getFileNameFromURL');
 const getMono = require('../Get/getMono');
 
 // return the full url of a mono version based on its godot version, OS and arch
-const getMonoURL = (url, OS, version, godotHubPath) => {
+const getMonoURL = (url, OS, version, godotHubPath, godotHubConfigPath) => {
   try {
     console.log(`mono url: ${url}`);
     console.log(`mono OS info: ${OS}`);
@@ -38,7 +38,7 @@ const getMonoURL = (url, OS, version, godotHubPath) => {
         const monoFileName = getFileNameFromURL(monoURL);
         const monoDir = monoFileName.slice(0, -4);
 
-        getMono(monoURL, monoPath, monoFileName, monoDir, version, godotHubPath);
+        getMono(monoURL, monoPath, monoFileName, monoDir, version, godotHubPath, godotHubConfigPath);
       }
     });
   } catch (e) {

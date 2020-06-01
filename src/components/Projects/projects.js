@@ -17,11 +17,11 @@ renderProjects(godotHubPath);
 
 // create project
 const renderCreateProject = require('./renderCreateProject');
-renderCreateProject(godotHubPath);
+renderCreateProject(godotHubPath, godotHubConfigPath);
 
 // import project
 const renderImportProject = require('./renderImportProject');
-renderImportProject(godotHubPath);
+renderImportProject(godotHubPath, godotHubConfigPath);
 
 // search project
 const searchProject = require('./searchProject');
