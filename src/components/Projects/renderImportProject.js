@@ -3,9 +3,10 @@ const path = require('path');
 const validateImportProject = require('./validateImportProject');
 const importProject = require('../../helpers/Project/importProject');
 const renderImportProjectProgress = require('./renderImportProjectProgress');
+const sortReleaseList = require('../../helpers/Releases/sortReleaseList');
 
 // render import project dialog
-const renderImportProject = (godotHubPath) => {
+const renderImportProject = (godotHubPath, godotHubConfigPath) => {
   const body = document.querySelector('body');
   const importProjectbutton = document.querySelector('#import-project');
 
@@ -90,7 +91,14 @@ const renderImportProject = (godotHubPath) => {
     versionParent.appendChild(projectGodotVersionInput);
 
     const getInstalledReleases = require('../../helpers/Releases/getInstalledReleases');
-    const installedReleases = getInstalledReleases(godotHubPath);
+    let installedReleases = getInstalledReleases(godotHubPath);
+
+    // sort releases only if there is a default godot version selected by user
+    const sortedReleases = sortReleaseList(installedReleases, godotHubConfigPath);
+
+    if (sortedReleases) {
+      installedReleases = sortedReleases;
+    }
 
     // show installed versions when selecting project godot version
     if (installedReleases.length > 0) {
