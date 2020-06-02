@@ -36,6 +36,11 @@ const getNewestGodotRelease = (releaseList) => {
 
   const defaultReleaseIndex = releaseList.indexOf(defaultRelease);
 
+  // allow only valid godot version
+  if (defaultReleaseIndex < 0) {
+    return;
+  }
+
   const sortedReleaseList = [];
 
   releaseList.forEach((release) => {
