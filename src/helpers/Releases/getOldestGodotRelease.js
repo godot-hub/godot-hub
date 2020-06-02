@@ -24,6 +24,11 @@ const getOldestGodotRelease = (releaseList) => {
   const defaultRelease = oldestGodotVersion[0];
   const defaultReleaseIndex = releaseList.indexOf(defaultRelease);
 
+  // allow only valid godot version
+  if (defaultReleaseIndex < 0) {
+    return;
+  }
+
   const sortedReleaseList = [];
 
   releaseList.forEach((release) => {
