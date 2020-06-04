@@ -7,9 +7,9 @@ const getGodotURL = (url, OS, version, godotHubPath, godotHubConfigPath) => {
   try {
     console.log(`getGodotURL url: ${url}, OS: ${OS}`);
 
-    ipcRenderer.send('getGodotURL-request', { url, OS });
+    ipcRenderer.send('getGodotURL-request', { url, OS, version });
 
-    ipcRenderer.on('getGodotURL-response', (event, arg) => {
+    ipcRenderer.on(`getGodotURL-response-${version}`, (event, arg) => {
       const { data, url } = arg;
 
       console.log(`godot data: ${data}`);

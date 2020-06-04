@@ -16,9 +16,9 @@ const getMonoURL = (url, OS, version, godotHubPath, godotHubConfigPath) => {
       return false;
     }
 
-    ipcRenderer.send('getMonoURL-request', { url, OS });
+    ipcRenderer.send('getMonoURL-request', { url, OS, version });
 
-    ipcRenderer.on('getMonoURL-response', (event, arg) => {
+    ipcRenderer.on(`getMonoURL-response-${version}`, (event, arg) => {
       const { data, url } = arg;
       console.log(`getMonoURL-response: ${data}, ${url}`);
       // parsing DOM and getting required elements for releases

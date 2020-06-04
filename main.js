@@ -119,7 +119,7 @@ ipcMain.on('scrapURL-request', (event, arg) => {
 
 // getMonoURL request
 ipcMain.on('getMonoURL-request', (event, arg) => {
-  const { OS, url } = arg;
+  const { OS, url, version } = arg;
 
   console.log(`ipcMain getMonoURL Request: ${OS}, ${url}`);
 
@@ -134,7 +134,7 @@ ipcMain.on('getMonoURL-request', (event, arg) => {
       data += chunk;
     });
     res.on('end', () => {
-      event.sender.send('getMonoURL-response', { data, url: url });
+      event.sender.send(`getMonoURL-response-${version}`, { data, url: url });
     });
   });
   req.end();
@@ -142,7 +142,7 @@ ipcMain.on('getMonoURL-request', (event, arg) => {
 
 // getGodotURL request
 ipcMain.on('getGodotURL-request', (event, arg) => {
-  const { OS, url } = arg;
+  const { OS, url, version } = arg;
 
   console.log(`ipcMain getGodotURL Request: ${OS}, ${url}`);
 
@@ -157,7 +157,7 @@ ipcMain.on('getGodotURL-request', (event, arg) => {
       data += chunk;
     });
     res.on('end', () => {
-      event.sender.send('getGodotURL-response', { data, url: url });
+      event.sender.send(`getGodotURL-response-${version}`, { data, url: url });
     });
   });
   req.end();
@@ -256,7 +256,7 @@ ipcMain.on('getGodot-request', (event, arg) => {
 
         console.log('getGodot - Unzipped!');
 
-        event.sender.send('getGodot-Done');
+        event.sender.send(`getGodot-Done-${version}`);
       });
     });
   });
@@ -355,7 +355,7 @@ ipcMain.on('getMono-request', (event, arg) => {
 
         console.log('getMono - Unzipped!');
 
-        event.sender.send('getMono-Done');
+        event.sender.send(`getMono-Done-${version}`);
       });
       console.log('getMono - DONE');
     });

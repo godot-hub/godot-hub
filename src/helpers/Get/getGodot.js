@@ -23,7 +23,7 @@ const getGodot = (url, godotHubPath, filename, version, godotHubConfigPath) => {
   const filePath = path.join(godotHubPath, 'Releases', version, 'Engine', filename);
 
   ipcRenderer.send('getGodot-request', { url, path: filePath, extractTarget: path.join(godotHubPath, 'Releases', version, 'Engine'), version });
-  ipcRenderer.on('getGodot-Done', () => {
+  ipcRenderer.on(`getGodot-Done-${version}`, () => {
     initScFile(godotHubPath, version);
     console.log('getGodot - DONE');
     renderVersions(godotHubPath);
