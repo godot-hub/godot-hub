@@ -1,26 +1,22 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs-extra');
 const renderVersions = require('./renderVersions');
 
 // uninstall a specific release's engine directory
 const uninstallVersion = (releasePath, godotHubPath) => {
   try {
     if (fs.existsSync(releasePath)) {
-      fs.readdirSync(releasePath).forEach((file) => {
-        const curPath = path.join(releasePath, String(file));
-        if (fs.lstatSync(curPath).isDirectory()) {
-          uninstallVersion(curPath);
+      fs.remove(releasePath, err => {
+        console.log(releasePath);
+        if (err) {
+          console.error(new Error(err));
         } else {
-          fs.unlinkSync(curPath);
+          // rerender if project got deleted
+          if (!fs.existsSync(releasePath)) {
+            console.log(godotHubPath);
+            renderVersions(godotHubPath);
+          }
         }
       });
-
-      fs.rmdirSync(releasePath);
-
-      // rerender if release got uninstalled
-      if (!fs.existsSync(releasePath)) {
-        renderVersions(godotHubPath);
-      }
     }
   } catch (err) {
     console.error(new Error(err));
