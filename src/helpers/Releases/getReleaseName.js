@@ -71,15 +71,29 @@ const getReleaseName = (version, type, mono = false) => {
             break;
         }
       } else if (parseInt(version[0]) === 2) {
-        switch (type) {
-          case 'godot':
-            releaseName = `Godot_v${version}-stable_${OS}`;
-            break;
-          case 'export templates':
-            releaseName = `Godot_v${version}_stable_export_templates.tpz`;
-            break;
-          default:
-            break;
+        // if version is 2.0.x
+        if (parseInt(version[2]) < 1) {
+          switch (type) {
+            case 'godot':
+              releaseName = `Godot_v${version}_stable_${OS}`;
+              break;
+            case 'export templates':
+              releaseName = `Godot_v${version}_stable_export_templates.tpz`;
+              break;
+            default:
+              break;
+          }
+        } else {
+          switch (type) {
+            case 'godot':
+              releaseName = `Godot_v${version}-stable_${OS}`;
+              break;
+            case 'export templates':
+              releaseName = `Godot_v${version}-stable_export_templates.tpz`;
+              break;
+            default:
+              break;
+          }
         }
       }
     } else {
