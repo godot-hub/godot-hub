@@ -34,8 +34,8 @@
     "semistandard": "^14.2.0"
   },
   "dependencies": {
-    "extract-zip": "^1.6.7",
+    "extract-zip": "^2.0.0",
     "fs-extra": "^9.0.1",
-    "graceful-fs": "^4.2.3"
+    "graceful-fs": "^4.2.4"
   }
 }
