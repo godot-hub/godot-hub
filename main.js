@@ -19,7 +19,8 @@ function createWindow () {
     minWidth: 1024,
     minHeight: 768,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true
     },
     icon: path.join(__dirname, '/src/images/godot-hub-logo.png')
   });
