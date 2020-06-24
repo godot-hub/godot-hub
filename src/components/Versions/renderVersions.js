@@ -182,9 +182,9 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
 
   installedElements.forEach(installedElement => {
     installedElement.addEventListener('click', (e) => {
-      const releaseName = e.target.parentElement.dataset.name;
-      const releasePath = path.join(godotHubPath, 'Releases', releaseName, 'Engine');
-      uninstallVersion(releasePath, godotHubPath);
+      const { version } = e.target.parentElement.dataset;
+      const releasePath = path.join(godotHubPath, 'Releases', version, 'Engine');
+      uninstallVersion(releasePath, godotHubPath, godotHubConfigPath);
     });
   });
 };
