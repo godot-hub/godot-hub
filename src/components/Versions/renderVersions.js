@@ -3,6 +3,11 @@ const fs = require('fs');
 
 // render godot versions based on data provided
 const renderVersions = (godotHubPath, godotHubConfigPath) => {
+  console.log(`render versions godotHubConfigPath: ${godotHubConfigPath}`);
+  // get cached releases
+  const cachedReleasesPath = path.join(godotHubPath, '.cache', 'sortReleases.json');
+  const cachedReleases = JSON.parse(fs.readFileSync(cachedReleasesPath));
+
   // render installed releases as available releases in versions view
   const getInstalledReleases = require('../../helpers/Releases/getInstalledReleases');
   const installedReleases = getInstalledReleases(godotHubPath);
@@ -12,20 +17,89 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
   while (installedVersionsListElement.firstChild) {
     installedVersionsListElement.removeChild(installedVersionsListElement.firstChild);
   }
-  const installedReleaseElement = (name) => {
-    return `
-      <article
-        data-name="${name}"
-      >
-        <p>Godot ${name}</p>
-        <p class="uninstall">Uninstall</p>
-      </article>
-    `;
+
+  // get installed release export templates
+  const getInstalledReleaseExportTemplates = require('../../helpers/Releases/getInstalledReleaseExportTemplates');
+  const installedReleaseExportTemplates = getInstalledReleaseExportTemplates(godotHubPath, installedReleases);
+
+  const installedReleaseElement = (info) => {
+    const { type, name, url, version } = info;
+
+    // show which releases have installed export templates
+    if (installedReleaseExportTemplates.includes(version)) {
+      if (type === 'mono') {
+        return `
+        <article
+          id="installed-release-${name}"
+          data-type="${type}"
+          data-name="${name}"
+          data-version="${version}"
+          data-url="${url}"
+          data-godot-version="${info.godotVersion}"
+        >
+          <p>Godot ${version}</p>
+          <p class="uninstall">Uninstall</p>
+        </article>
+      `;
+      } else {
+        return `
+        <article
+          id="installed-release-${name}"
+          data-type="${type}" 
+          data-name="${name}"
+          data-version="${version}"
+          data-url="${url}"
+        >
+          <p>Godot ${version}</p>
+          <p class="uninstall">Uninstall</p>
+        </article>
+      `;
+      }
+    } else {
+      if (type === 'mono') {
+        return `
+        <article
+          id="installed-release-${name}"
+          data-type="${type}"
+          data-name="${name}"
+          data-version="${version}"
+          data-url="${url}"
+          data-godot-version="${info.godotVersion}"
+        >
+          <p>Godot ${version}</p>
+          <p class="install-export-templates">Install Export Templates</p>
+          <p class="uninstall">Uninstall</p>
+        </article>
+      `;
+      } else {
+        return `
+        <article
+          id="installed-release-${name}"
+          data-type="${type}" 
+          data-name="${name}"
+          data-version="${version}"
+          data-url="${url}"
+        >
+          <p>Godot ${version}</p>
+          <p class="install-export-templates">Install Export Templates</p>
+          <p class="uninstall">Uninstall</p>
+        </article>
+      `;
+      }
+    }
   };
 
-  installedReleases.map(release => {
-    installedVersionsListElement.insertAdjacentHTML('beforeend', installedReleaseElement(release));
-  });
+  for (const release in cachedReleases) {
+    cachedReleases[release].map(currentCachedRelease => {
+      // render installed elements only
+      currentCachedRelease.forEach(currentRelease => {
+        if (installedReleases.includes(currentRelease.version)) {
+          console.log(currentRelease);
+          installedVersionsListElement.insertAdjacentHTML('beforeend', installedReleaseElement(currentRelease));
+        }
+      });
+    });
+  }
 
   // render available releases as available releases in versions view
   const availableVersionsListElement = document.querySelector('#available-versions-list');
@@ -33,10 +107,6 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
   while (availableVersionsListElement.firstChild) {
     availableVersionsListElement.removeChild(availableVersionsListElement.firstChild);
   }
-
-  // get cached releases
-  const cachedReleasesPath = path.join(godotHubPath, '.cache', 'sortReleases.json');
-  const cachedReleases = JSON.parse(fs.readFileSync(cachedReleasesPath));
 
   const availableReleaseElement = (info) => {
     const { type, name, url, version } = info;
