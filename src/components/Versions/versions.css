@@ -22,8 +22,9 @@ article {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 20vh;
-  width: 20vw;
+  min-height: 22vh;
+  min-width: 22vw;
+  padding: 2%;
   border-radius: 10px;
   font-weight: bold;
   font-size: 1.1rem;
@@ -31,16 +32,16 @@ article {
   margin-bottom: 2.5%;
 }
 
-.install, .uninstall {
+.install, .uninstall, .install-export-templates {
   cursor: pointer;
 }
 
-.install {
+.install, .install-export-templates {
   color: #56B7FF;
 }
 
 .uninstall {
-  color: #1F1F1F;
+  color: #F44336;
 }
 
 .release-section section {
@@ -68,5 +69,69 @@ h2 {
 
 .stop {
   cursor: pointer;
-  color: #56B7FF;
+  color: #F44336;
+}
+
+#confirm-uninstall-version-parent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(31, 31, 31, 0.5);
+}
+
+#confirm-uninstall-version-element {
+  width: 50%;
+  height: 25%;
+  background-color: #363636;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2%;
+}
+
+#confirm-uninstall-version-element p {
+  margin-bottom: 5%;
+}
+
+#uninstall-version-body {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#confirm-uninstall-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
+#confirm-uninstall-buttons button {
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 2%;
+  width: 20%;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#confirm-uninstall-button {
+  background-color: #F44336;
+}
+
+#cancel-uninstall-button {
+  background-color: #56B7FF;
 }
