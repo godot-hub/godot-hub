@@ -2,6 +2,7 @@
 const { ipcRenderer } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const process = require('process');
 
 // godot hub path
 const godotHubConfigPath = path.join(process.cwd(), 'godot-hub.json');
@@ -57,7 +58,7 @@ initConfigDir(godotHubPath);
   } else {
     const cachedReleases = JSON.parse(fs.readFileSync(cachedReleasesPath));
     const lastRelease = Object.keys(cachedReleases)[Object.keys(cachedReleases).length - 1];
-    const lastReleaseVersion = cachedReleases[lastRelease][0].version;
+    const lastReleaseVersion = cachedReleases[lastRelease][0][0].version;
 
     console.log(await checkLastReleaseVersion(lastReleaseVersion));
 
