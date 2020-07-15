@@ -177,14 +177,14 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
   });
 
   // uninstall godot version
-  const uninstallVersion = require('./uninstallVersion');
+  const confirmUnistallVersion = require('./confirmUninstallVersion');
   const installedElements = document.querySelectorAll('.uninstall');
 
   installedElements.forEach(installedElement => {
     installedElement.addEventListener('click', (e) => {
       const { version } = e.target.parentElement.dataset;
       const releasePath = path.join(godotHubPath, 'Releases', version, 'Engine');
-      uninstallVersion(releasePath, godotHubPath, godotHubConfigPath);
+      confirmUnistallVersion(version, releasePath, godotHubPath, godotHubConfigPath);
     });
   });
 };
