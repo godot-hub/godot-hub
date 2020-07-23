@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 // create a templates directory for a specific release version if it doesn't exist
-const initTemplatesDir = (godotHubPath, version, mono, monoDir) => {
+const initTemplatesDir = (godotHubPath, version, mono = false, monoDir = '') => {
   let dirPath;
 
   if (mono) {
