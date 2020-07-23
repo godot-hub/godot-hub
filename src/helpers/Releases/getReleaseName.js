@@ -65,7 +65,10 @@ const getReleaseName = (version, type, mono = false) => {
             releaseName = `Godot_v${version}_stable_${OS}`;
             break;
           case 'export templates':
-            releaseName = `Godot_v${version}_stable_export_templates.tpz`;
+            releaseName = {
+              fileName: `Godot_v${version}_stable_export_templates.tpz`,
+              dirName: `${version}.stable`
+            };
             break;
           default:
             break;
@@ -78,7 +81,10 @@ const getReleaseName = (version, type, mono = false) => {
               releaseName = `Godot_v${version}_stable_${OS}`;
               break;
             case 'export templates':
-              releaseName = `Godot_v${version}_stable_export_templates.tpz`;
+              releaseName = {
+                fileName: `Godot_v${version}_stable_export_templates.tpz`,
+                dirName: `${version}.stable`
+              };
               break;
             default:
               break;
@@ -89,7 +95,10 @@ const getReleaseName = (version, type, mono = false) => {
               releaseName = `Godot_v${version}-stable_${OS}`;
               break;
             case 'export templates':
-              releaseName = `Godot_v${version}-stable_export_templates.tpz`;
+              releaseName = {
+                fileName: `Godot_v${version}-stable_export_templates.tpz`,
+                dirName: `${version}.stable`
+              };
               break;
             default:
               break;
@@ -113,7 +122,10 @@ const getReleaseName = (version, type, mono = false) => {
             }
             break;
           case 'mono export templates':
-            releaseName = `Godot_v${version}-stable_mono_export_templates.tpz`;
+            releaseName = {
+              fileName: `Godot_v${version}-stable_mono_export_templates.tpz`,
+              dirName: `${version}.stable.mono`
+            };
             break;
           default:
             break;
@@ -131,7 +143,10 @@ const getReleaseName = (version, type, mono = false) => {
             }
             break;
           case 'export templates':
-            releaseName = `Godot_v${version}-stable_export_templates.tpz`;
+            releaseName = {
+              fileName: `Godot_v${version}-stable_export_templates.tpz`,
+              dirName: `${version}.stable`
+            };
             break;
           default:
             break;
