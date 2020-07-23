@@ -2,16 +2,15 @@ const { ipcRenderer } = require('electron');
 const path = require('path');
 const getFileNameFromURL = require('../URL/getFileNameFromURL');
 const getExportTemplates = require('../Get/getExportTemplates');
-const installExportTemplates = require('../Install/installExportTemplates');
 
 // return the full url of export templates based on its godot version
-const getExportTemplatesURL = (url, download = false, version = false) => {
+const getExportTemplatesURL = (url, version, godotHubPath) => {
   try {
     console.log(`getExportTemplatesURL url: ${url}`);
 
-    ipcRenderer.send('getExportTemplatesURL-request', { url });
+    ipcRenderer.send('getExportTemplatesURL-request', { url, version });
 
-    ipcRenderer.on('getExportTemplatesURL-response', (event, arg) => {
+    ipcRenderer.on(`getExportTemplatesURL-response-${version}`, (event, arg) => {
       const { data, url } = arg;
 
       console.log(`godot data: ${data}`);
@@ -22,21 +21,15 @@ const getExportTemplatesURL = (url, download = false, version = false) => {
       const targetRelease = listOfReleases.filter(list => list.includes('export_templates.tpz'));
       console.log(`target Release: ${targetRelease}`);
 
-      if (download & !version) {
-        // return if release is matching request url
-        if (targetRelease) {
-          console.log(`getExportTemplatesURL: ${url}${targetRelease}`);
+      // return if release is matching request url
+      if (targetRelease) {
+        console.log(`getExportTemplatesURL: ${url}${targetRelease}`);
 
-          const exportTemplatesURL = `${url}${targetRelease}`;
-          const exportTemplatesPath = path.join('Godot-Hub', 'Releases', '3.2');
-          const exportTemplatesFileName = getFileNameFromURL(exportTemplatesURL);
+        const exportTemplatesURL = `${url}${targetRelease}`;
+        const exportTemplatesPath = path.join('Releases', version);
+        const exportTemplatesFileName = getFileNameFromURL(exportTemplatesURL);
 
-          getExportTemplates(exportTemplatesURL, exportTemplatesPath, exportTemplatesFileName);
-        }
-      } else { // install export templates
-        const installExportTemplatesURL = `${url}${targetRelease}`;
-
-        installExportTemplates(installExportTemplatesURL, version);
+        getExportTemplates(exportTemplatesURL, exportTemplatesPath, exportTemplatesFileName, godotHubPath, version);
       }
     });
   } catch (e) {
