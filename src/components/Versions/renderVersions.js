@@ -187,6 +187,23 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
       confirmUnistallVersion(version, releasePath, godotHubPath, godotHubConfigPath);
     });
   });
+
+  // install export templates
+  const installExportTemplateElements = document.querySelectorAll('.install-export-templates');
+  const installVersionExportTemplates = require('./installVersionExportTemplates');
+
+  installExportTemplateElements.forEach(installExportTemplateElement => {
+    installExportTemplateElement.addEventListener('click', (e) => {
+      const { type, url, version, godotVersion } = e.target.parentElement.dataset;
+      const parent = e.target.parentElement;
+
+      if (godotVersion) {
+        installVersionExportTemplates(parent, type, url, version, godotVersion, godotHubPath, godotHubConfigPath);
+      } else {
+        installVersionExportTemplates(parent, type, url, version, false, godotHubPath, godotHubConfigPath);
+      }
+    });
+  });
 };
 
 module.exports = renderVersions;
