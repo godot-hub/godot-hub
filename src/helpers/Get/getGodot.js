@@ -26,7 +26,7 @@ const getGodot = (url, godotHubPath, filename, version, godotHubConfigPath) => {
   ipcRenderer.on(`getGodot-Done-${version}`, () => {
     initScFile(godotHubPath, version);
     console.log('getGodot - DONE');
-    renderVersions(godotHubPath);
+    renderVersions(godotHubPath, godotHubConfigPath);
     setLatestInstalledReleaseVersion(version, godotHubConfigPath);
 
     // change permission and make version 1 executable

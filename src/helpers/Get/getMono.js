@@ -11,6 +11,7 @@ const setLatestInstalledReleaseVersion = require('../Releases/setLatestInstalled
 
 // download Godot Mono based on provided specific version
 const getMono = (url, monoPath, filename, monoDir, version, godotHubPath, godotHubConfigPath) => {
+  console.log(`getMono godotHubConfigPath: ${godotHubConfigPath}`);
   const filePath = path.join(monoPath, 'Engine', filename);
 
   // init required directories
@@ -26,7 +27,7 @@ const getMono = (url, monoPath, filename, monoDir, version, godotHubPath, godotH
 
     console.log('getMono - DONE');
 
-    renderVersions(godotHubPath);
+    renderVersions(godotHubPath, godotHubConfigPath);
     setLatestInstalledReleaseVersion(version, godotHubConfigPath);
   });
 };

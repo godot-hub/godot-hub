@@ -1,56 +1,45 @@
 const fs = require('fs');
-const { rename } = require('graceful-fs');
+const { renameSync } = require('graceful-fs');
 const path = require('path');
-const process = require('process');
 const extract = require('extract-zip');
-const initEditorDatadir = require('../Init/initEditorDataDir');
-const initTemplatesDir = require('../Init/initTemplatesDir');
 const getFileNameFromURL = require('../URL/getFileNameFromURL');
 const changeFileExtension = require('../Change/changeFileExtension');
 
 // install export templates if its not installed depending on its godot version
-const installExportTemplates = (url, version) => {
-  initEditorDatadir(version);
-  initTemplatesDir(version);
+const installExportTemplates = async (url, version, godotHubPath) => {
+  try {
+    const dirPath = path.join(godotHubPath, 'Releases', version, 'Engine', 'editor_data', 'templates', `${version}.stable`);
+    const exportTemplatesFileNameWithoutExtension = getFileNameFromURL(url).slice(0, -4);
+    const exportTemplatesDirPath = path.join(godotHubPath, 'Releases', version, 'Engine', 'editor_data', 'templates', exportTemplatesFileNameWithoutExtension);
+    const exportTemplatesPath = path.join(godotHubPath, 'Releases', version, 'Engine');
+    const zippedExportTemplatesPath = path.join(godotHubPath, 'Releases', version, 'Engine', `${exportTemplatesFileNameWithoutExtension}.zip`);
+    const installPath = path.join(godotHubPath, 'Releases', version, 'Engine', 'editor_data', 'templates');
 
-  const dirPath = path.join(process.cwd(), 'Godot-Hub', 'Releases', version, 'Engine', 'editor_data', 'templates', `${version}.stable`);
-  const exportTemplatesFileNameWithoutExtension = getFileNameFromURL(url).slice(0, -4);
-  const exportTemplatesDirPath = path.join(process.cwd(), 'Godot-Hub', 'Releases', version, 'Engine', 'editor_data', 'templates', exportTemplatesFileNameWithoutExtension);
-  const exportTemplatesPath = path.join(process.cwd(), 'Godot-Hub', 'Releases', version, 'Engine');
-  const zippedExportTemplatesPath = path.join(process.cwd(), 'Godot-Hub', 'Releases', version, 'Engine', `${exportTemplatesFileNameWithoutExtension}.zip`);
-  const installPath = path.join(process.cwd(), 'Godot-Hub', 'Releases', version, 'Engine', 'editor_data', 'templates');
+    if (!fs.existsSync(dirPath) && !fs.existsSync(exportTemplatesDirPath)) {
+      // change file extension
+      changeFileExtension(exportTemplatesPath, exportTemplatesFileNameWithoutExtension, '.tpz', '.zip');
 
-  if (!fs.existsSync(dirPath) && !fs.existsSync(exportTemplatesDirPath)) {
-    // change file extension
-    changeFileExtension(path.join(exportTemplatesPath), exportTemplatesFileNameWithoutExtension, '.tpz', '.zip');
+      // extract export templates
+      await extract(zippedExportTemplatesPath, { dir: installPath });
 
-    // extract export templates
-    extract(zippedExportTemplatesPath, { dir: installPath }, (err) => {
       console.log('extracting');
-
-      if (err) {
-        console.error(new Error(err));
-      }
-
       console.log(`${exportTemplatesFileNameWithoutExtension}.zip - Unzipped!`);
 
       // change directory name of installed export templates
       const currentPath = path.join(installPath, 'templates');
 
-      rename(currentPath, dirPath, (err) => {
-        if (err) {
-          console.error(new Error(err));
-        }
+      renameSync(currentPath, dirPath);
 
-        console.log(`${currentPath} changed to ${dirPath}`);
-      });
+      console.log(`${currentPath} changed to ${dirPath}`);
 
-      changeFileExtension(path.join(exportTemplatesPath), exportTemplatesFileNameWithoutExtension, '.zip', '.tpz');
+      changeFileExtension(exportTemplatesPath, exportTemplatesFileNameWithoutExtension, '.zip', '.tpz');
 
       console.log('DONE extracting');
-    });
-  } else {
-    console.log('export templates is already installed');
+    } else {
+      console.log('export templates is already installed');
+    }
+  } catch (err) {
+    console.error(new Error(err));
   }
 };
 

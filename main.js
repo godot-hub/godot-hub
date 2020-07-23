@@ -5,8 +5,8 @@ const fs = require('fs');
 const extract = require('extract-zip');
 
 // handle error exceptions and rejections
-process.on('unhandledRejection', (e) => console.error(new Error(e)));
-process.on('uncaughtException', (e) => console.error(new Error(e)));
+process.on('unhandledRejection', (err) => console.error(new Error(err)));
+process.on('uncaughtException', (err) => console.error(new Error(err)));
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -166,7 +166,7 @@ ipcMain.on('getGodotURL-request', (event, arg) => {
 
 // getExportTemplatesURL request
 ipcMain.on('getExportTemplatesURL-request', (event, arg) => {
-  const { url } = arg;
+  const { url, version } = arg;
 
   console.log(`ipcMain getExportTemplatesURL Request: ${url}`);
 
@@ -181,7 +181,7 @@ ipcMain.on('getExportTemplatesURL-request', (event, arg) => {
       data += chunk;
     });
     res.on('end', () => {
-      event.sender.send('getExportTemplatesURL-response', { data, url: url });
+      event.sender.send(`getExportTemplatesURL-response-${version}`, { data, url: url });
     });
   });
   req.end();
@@ -189,7 +189,7 @@ ipcMain.on('getExportTemplatesURL-request', (event, arg) => {
 
 // getMonoExportTemplatesURL request
 ipcMain.on('getMonoExportTemplatesURL-request', (event, arg) => {
-  const { url } = arg;
+  const { url, version } = arg;
 
   console.log(`ipcMain getMonoExportTemplatesURL Request: ${url}`);
 
@@ -204,7 +204,7 @@ ipcMain.on('getMonoExportTemplatesURL-request', (event, arg) => {
       data += chunk;
     });
     res.on('end', () => {
-      event.sender.send('getMonoExportTemplatesURL-response', { data, url: url });
+      event.sender.send(`getMonoExportTemplatesURL-response-${version}`, { data, url: url });
     });
   });
   req.end();
@@ -248,17 +248,15 @@ ipcMain.on('getGodot-request', (event, arg) => {
       });
     });
 
-    res.on('end', () => {
-      fs.writeFileSync(path, Buffer.concat(data));
-      extract(path, { dir: extractTarget }, (err) => {
-        if (err) {
-          console.error(new Error(err));
-        }
-
+    res.on('end', async () => {
+      try {
+        fs.writeFileSync(path, Buffer.concat(data));
+        await extract(path, { dir: extractTarget });
         console.log('getGodot - Unzipped!');
-
         event.sender.send(`getGodot-Done-${version}`);
-      });
+      } catch (err) {
+        console.error(new Error(err));
+      }
     });
   });
 
@@ -273,7 +271,7 @@ ipcMain.on('getGodot-request', (event, arg) => {
 
 // getExportTemplates request
 ipcMain.on('getExportTemplates-request', (event, arg) => {
-  const { url, path } = arg;
+  const { url, path, version } = arg;
 
   if (fs.existsSync(path)) {
     console.log('getExportTemplates exists');
@@ -293,17 +291,32 @@ ipcMain.on('getExportTemplates-request', (event, arg) => {
     console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
     console.log(`content-length:  ${res.headers['content-length']}`);
 
+    const totalLength = res.headers['content-length'];
+
     res.on('data', (chunk) => {
       data.push(chunk);
       dataLength += chunk.length;
-      console.log(`progress: ${dataLength} / ${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100)}%`);
-      event.sender.send('getExportTemplates-progress', Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100));
+      console.log(`progress: ${dataLength} / ${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(totalLength) * 100)}%`);
+      event.sender.send(`getExportTemplates${version}-progress`, {
+        percentage: Math.floor(parseInt(dataLength) / parseInt(totalLength) * 100),
+        total: totalLength,
+        current: dataLength,
+        totalMB: (totalLength / (1024 * 1024)).toFixed(2),
+        currentMB: (dataLength / (1024 * 1024)).toFixed(2)
+      });
     });
 
     res.on('end', () => {
       fs.writeFileSync(path, Buffer.concat(data));
       console.log('getExportTemplates - DONE');
+      event.sender.send(`getExportTemplates-Done-${version}`);
     });
+  });
+
+  // stop download
+  ipcMain.on(`getExportTemplates-Stop-${version}`, () => {
+    req.abort();
+    console.log('stopped downloading export templates');
   });
 
   req.end();
@@ -347,18 +360,15 @@ ipcMain.on('getMono-request', (event, arg) => {
       });
     });
 
-    res.on('end', () => {
-      fs.writeFileSync(path, Buffer.concat(data));
-      extract(path, { dir: extractTarget }, (err) => {
-        if (err) {
-          console.error(new Error(err));
-        }
-
-        console.log('getMono - Unzipped!');
-
+    res.on('end', async () => {
+      try {
+        fs.writeFileSync(path, Buffer.concat(data));
+        await extract(path, { dir: extractTarget });
+        console.log('getGodot - Unzipped!');
         event.sender.send(`getMono-Done-${version}`);
-      });
-      console.log('getMono - DONE');
+      } catch (err) {
+        console.error(new Error(err));
+      }
     });
   });
 
@@ -373,7 +383,7 @@ ipcMain.on('getMono-request', (event, arg) => {
 
 // getMonoExportTemplates request
 ipcMain.on('getMonoExportTemplates-request', (event, arg) => {
-  const { url, path } = arg;
+  const { url, path, version } = arg;
 
   if (fs.existsSync(path)) {
     console.log('getMonoExportTemplates exists');
@@ -393,17 +403,32 @@ ipcMain.on('getMonoExportTemplates-request', (event, arg) => {
     console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
     console.log(`content-length:  ${res.headers['content-length']}`);
 
+    const totalLength = res.headers['content-length'];
+
     res.on('data', (chunk) => {
       data.push(chunk);
       dataLength += chunk.length;
-      console.log(`progress: ${dataLength} / ${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100)}%`);
-      event.sender.send('getMonoExportTemplates-progress', Math.floor(parseInt(dataLength) / parseInt(res.headers['content-length']) * 100));
+      console.log(`progress: ${dataLength} / ${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(totalLength) * 100)}%`);
+      event.sender.send(`getMonoExportTemplates${version}-progress`, {
+        percentage: Math.floor(parseInt(dataLength) / parseInt(totalLength) * 100),
+        total: totalLength,
+        current: dataLength,
+        totalMB: (totalLength / (1024 * 1024)).toFixed(2),
+        currentMB: (dataLength / (1024 * 1024)).toFixed(2)
+      });
     });
 
     res.on('end', () => {
       fs.writeFileSync(path, Buffer.concat(data));
       console.log('getMonoExportTemplates - DONE');
+      event.sender.send(`getMonoExportTemplates-Done-${version}`);
     });
+  });
+
+  // stop download
+  ipcMain.on(`getMonoExportTemplates-Stop-${version}`, () => {
+    req.abort();
+    console.log('stopped downloading mono export templates');
   });
 
   req.end();
