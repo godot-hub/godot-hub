@@ -2,10 +2,9 @@ const { ipcRenderer } = require('electron');
 const path = require('path');
 const getFileNameFromURL = require('../URL/getFileNameFromURL');
 const getMonoExportTemplates = require('../Get/getMonoExportTemplates');
-const installMonoExportTemplates = require('../Install/installMonoExportTemplates');
 
 // return the full url of export templates based on its godot mono version
-const getMonoExporTemplatesURL = (url, version, OS, download = false) => {
+const getMonoExporTemplatesURL = (url, version, godotVersion, OS, godotHubPath) => {
   try {
     console.log(`mono url: ${url}`);
 
@@ -15,11 +14,9 @@ const getMonoExporTemplatesURL = (url, version, OS, download = false) => {
       return false;
     }
 
-    const monoRequestURL = `${url}mono/`;
+    ipcRenderer.send('getMonoURL-request', { url, OS, version });
 
-    ipcRenderer.send('getMonoURL-request', { url: monoRequestURL, OS });
-
-    ipcRenderer.on('getMonoURL-response', (event, arg) => {
+    ipcRenderer.on(`getMonoURL-response-${version}`, (event, arg) => {
       const { data } = arg;
       const resURL = arg.url;
 
@@ -34,9 +31,9 @@ const getMonoExporTemplatesURL = (url, version, OS, download = false) => {
       const monoFileName = getFileNameFromURL(monoURL);
       const monoDir = monoFileName.slice(0, -4);
 
-      ipcRenderer.send('getMonoExportTemplatesURL-request', { url: monoRequestURL });
+      ipcRenderer.send('getMonoExportTemplatesURL-request', { url, version });
 
-      ipcRenderer.on('getMonoExportTemplatesURL-response', (event, arg) => {
+      ipcRenderer.on(`getMonoExportTemplatesURL-response-${version}`, (event, arg) => {
         const { data, url } = arg;
 
         console.log(`godot data: ${data}`);
@@ -47,22 +44,15 @@ const getMonoExporTemplatesURL = (url, version, OS, download = false) => {
         const targetRelease = listOfReleases.filter(list => list.includes('mono_export_templates.tpz'));
         console.log(`target Release: ${targetRelease}`);
 
-        if (download) {
-          // return if release is matching request url
-          if (targetRelease) {
-            console.log(`getMonoExportTemplatesURL: ${url}${targetRelease}`);
+        // return if release is matching request url
+        if (targetRelease) {
+          console.log(`getMonoExportTemplatesURL: ${url}${targetRelease}`);
 
-            const monoExportTemplatesURL = `${url}${targetRelease}`;
-            const monoExportTemplatesPath = path.join('Godot-Hub', 'Releases', '3.2');
-            const monoExportTemplatesFileName = getFileNameFromURL(monoExportTemplatesURL);
+          const monoExportTemplatesURL = `${url}${targetRelease}`;
+          const monoExportTemplatesPath = path.join('Releases', version);
+          const monoExportTemplatesFileName = getFileNameFromURL(monoExportTemplatesURL);
 
-            getMonoExportTemplates(monoExportTemplatesURL, monoExportTemplatesPath, monoExportTemplatesFileName, monoDir);
-          }
-        } else {
-          // install export templates
-          const installMonoExportTemplatesURL = `${url}${targetRelease}`;
-
-          installMonoExportTemplates(installMonoExportTemplatesURL, version, monoDir);
+          getMonoExportTemplates(monoExportTemplatesURL, monoExportTemplatesPath, monoExportTemplatesFileName, monoDir, godotHubPath, version, godotVersion);
         }
       });
     });
