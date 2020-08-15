@@ -4,9 +4,10 @@ const path = require('path');
 const extract = require('extract-zip');
 const getFileNameFromURL = require('../URL/getFileNameFromURL');
 const changeFileExtension = require('../Change/changeFileExtension');
+const renderVersions = require('../../components/Versions/renderVersions');
 
 // install export templates if its not installed depending on its godot version
-const installExportTemplates = async (url, version, godotHubPath) => {
+const installExportTemplates = async (url, version, godotHubPath, godotHubConfigPath) => {
   try {
     const dirPath = path.join(godotHubPath, 'Releases', version, 'Engine', 'editor_data', 'templates', `${version}.stable`);
     const exportTemplatesFileNameWithoutExtension = getFileNameFromURL(url).slice(0, -4);
@@ -19,10 +20,11 @@ const installExportTemplates = async (url, version, godotHubPath) => {
       // change file extension
       changeFileExtension(exportTemplatesPath, exportTemplatesFileNameWithoutExtension, '.tpz', '.zip');
 
+      console.log('extracting');
+
       // extract export templates
       await extract(zippedExportTemplatesPath, { dir: installPath });
 
-      console.log('extracting');
       console.log(`${exportTemplatesFileNameWithoutExtension}.zip - Unzipped!`);
 
       // change directory name of installed export templates
@@ -35,6 +37,8 @@ const installExportTemplates = async (url, version, godotHubPath) => {
       changeFileExtension(exportTemplatesPath, exportTemplatesFileNameWithoutExtension, '.zip', '.tpz');
 
       console.log('DONE extracting');
+
+      renderVersions(godotHubPath, godotHubConfigPath);
     } else {
       console.log('export templates is already installed');
     }
