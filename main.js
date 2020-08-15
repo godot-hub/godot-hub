@@ -22,11 +22,9 @@ function createWindow () {
       nodeIntegration: true,
       enableRemoteModule: true
     },
+    backgroundColor: '#1F1F1F',
     icon: path.join(__dirname, '/src/images/godot-hub-logo.png')
   });
-
-  // set background color
-  win.setBackgroundColor('#1F1F1F');
 
   // show first time component if there is no defined path for godot hub
   const godotHubConfigPath = path.join(process.cwd(), 'godot-hub.json');
@@ -168,8 +166,6 @@ ipcMain.on('getGodotURL-request', (event, arg) => {
 ipcMain.on('getExportTemplatesURL-request', (event, arg) => {
   const { url, version } = arg;
 
-  console.log(`ipcMain getExportTemplatesURL Request: ${url}`);
-
   let data = '';
   const req = net.request(url);
   // return data on request response
@@ -224,7 +220,6 @@ ipcMain.on('getGodot-request', (event, arg) => {
 
   const req = net.request(url);
 
-  const data = [];
   let dataLength = 0;
 
   // return data on request response
@@ -234,12 +229,14 @@ ipcMain.on('getGodot-request', (event, arg) => {
     console.log(`content-length:  ${res.headers['content-length']}`);
 
     const totalLength = res.headers['content-length'];
+    const file = fs.createWriteStream(path);
+
+    res.pipe(file);
 
     res.on('data', (chunk) => {
-      data.push(chunk);
       dataLength += chunk.length;
       console.log(`progress: ${dataLength} / ${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(totalLength) * 100)}%`);
-      event.sender.send(`${version}-progress`, {
+      event.sender.send(`getGodot-${version}-progress`, {
         percentage: Math.floor(parseInt(dataLength) / parseInt(totalLength) * 100),
         total: totalLength,
         current: dataLength,
@@ -250,7 +247,6 @@ ipcMain.on('getGodot-request', (event, arg) => {
 
     res.on('end', async () => {
       try {
-        fs.writeFileSync(path, Buffer.concat(data));
         await extract(path, { dir: extractTarget });
         console.log('getGodot - Unzipped!');
         event.sender.send(`getGodot-Done-${version}`);
@@ -261,7 +257,10 @@ ipcMain.on('getGodot-request', (event, arg) => {
   });
 
   // stop download
-  ipcMain.on('getGodot-Stop', () => {
+  ipcMain.on(`getGodot-Stop-${version}`, () => {
+    if (fs.existsSync(path)) {
+      fs.unlinkSync(path);
+    }
     req.abort();
     console.log('stopped downloading godot');
   });
@@ -282,7 +281,6 @@ ipcMain.on('getExportTemplates-request', (event, arg) => {
 
   const req = net.request(url);
 
-  const data = [];
   let dataLength = 0;
 
   // return data on request response
@@ -292,12 +290,14 @@ ipcMain.on('getExportTemplates-request', (event, arg) => {
     console.log(`content-length:  ${res.headers['content-length']}`);
 
     const totalLength = res.headers['content-length'];
+    const file = fs.createWriteStream(path);
+
+    res.pipe(file);
 
     res.on('data', (chunk) => {
-      data.push(chunk);
       dataLength += chunk.length;
       console.log(`progress: ${dataLength} / ${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(totalLength) * 100)}%`);
-      event.sender.send(`getExportTemplates${version}-progress`, {
+      event.sender.send(`getExportTemplates-${version}-progress`, {
         percentage: Math.floor(parseInt(dataLength) / parseInt(totalLength) * 100),
         total: totalLength,
         current: dataLength,
@@ -307,19 +307,23 @@ ipcMain.on('getExportTemplates-request', (event, arg) => {
     });
 
     res.on('end', () => {
-      fs.writeFileSync(path, Buffer.concat(data));
       console.log('getExportTemplates - DONE');
       event.sender.send(`getExportTemplates-Done-${version}`);
+      event.sender.send(`getExportTemplates-Installing-${version}`);
     });
   });
 
+  req.end();
+
   // stop download
   ipcMain.on(`getExportTemplates-Stop-${version}`, () => {
+    if (fs.existsSync(path)) {
+      fs.unlinkSync(path);
+    }
     req.abort();
     console.log('stopped downloading export templates');
+    ipcMain.removeAllListeners(`getExportTemplates-Stop-${version}`);
   });
-
-  req.end();
 });
 
 // getMono request
@@ -336,7 +340,6 @@ ipcMain.on('getMono-request', (event, arg) => {
 
   const req = net.request(url);
 
-  const data = [];
   let dataLength = 0;
 
   // return data on request response
@@ -346,12 +349,14 @@ ipcMain.on('getMono-request', (event, arg) => {
     console.log(`content-length:  ${res.headers['content-length']}`);
 
     const totalLength = res.headers['content-length'];
+    const file = fs.createWriteStream(path);
+
+    res.pipe(file);
 
     res.on('data', (chunk) => {
-      data.push(chunk);
       dataLength += chunk.length;
-      console.log(`progress: ${dataLength} / ${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(totalLength) * 100)}%`);
-      event.sender.send(`${version}-progress`, {
+      console.log(`progress: ${dataLength} / ${res.headers['content-length']} ${Math.floor((parseInt(dataLength) / parseInt(totalLength)) * 100)}%`);
+      event.sender.send(`getMono-${version}-progress`, {
         percentage: Math.floor(parseInt(dataLength) / parseInt(totalLength) * 100),
         total: totalLength,
         current: dataLength,
@@ -362,7 +367,6 @@ ipcMain.on('getMono-request', (event, arg) => {
 
     res.on('end', async () => {
       try {
-        fs.writeFileSync(path, Buffer.concat(data));
         await extract(path, { dir: extractTarget });
         console.log('getGodot - Unzipped!');
         event.sender.send(`getMono-Done-${version}`);
@@ -373,9 +377,13 @@ ipcMain.on('getMono-request', (event, arg) => {
   });
 
   // stop download
-  ipcMain.on('getMono-Stop', () => {
+  ipcMain.on(`getMono-Stop-${version}`, () => {
+    if (fs.existsSync(path)) {
+      fs.unlinkSync(path);
+    }
     req.abort();
     console.log('stopped downloading mono');
+    ipcMain.removeAllListeners(`getMono-Stop-${version}`);
   });
 
   req.end();
@@ -394,7 +402,6 @@ ipcMain.on('getMonoExportTemplates-request', (event, arg) => {
 
   const req = net.request(url);
 
-  const data = [];
   let dataLength = 0;
 
   // return data on request response
@@ -404,12 +411,14 @@ ipcMain.on('getMonoExportTemplates-request', (event, arg) => {
     console.log(`content-length:  ${res.headers['content-length']}`);
 
     const totalLength = res.headers['content-length'];
+    const file = fs.createWriteStream(path);
+
+    res.pipe(file);
 
     res.on('data', (chunk) => {
-      data.push(chunk);
       dataLength += chunk.length;
       console.log(`progress: ${dataLength} / ${res.headers['content-length']} ${Math.floor(parseInt(dataLength) / parseInt(totalLength) * 100)}%`);
-      event.sender.send(`getMonoExportTemplates${version}-progress`, {
+      event.sender.send(`getMonoExportTemplates-${version}-progress`, {
         percentage: Math.floor(parseInt(dataLength) / parseInt(totalLength) * 100),
         total: totalLength,
         current: dataLength,
@@ -419,19 +428,23 @@ ipcMain.on('getMonoExportTemplates-request', (event, arg) => {
     });
 
     res.on('end', () => {
-      fs.writeFileSync(path, Buffer.concat(data));
       console.log('getMonoExportTemplates - DONE');
       event.sender.send(`getMonoExportTemplates-Done-${version}`);
+      event.sender.send(`getMonoExportTemplates-Installing-${version}`);
     });
   });
 
+  req.end();
+
   // stop download
   ipcMain.on(`getMonoExportTemplates-Stop-${version}`, () => {
+    if (fs.existsSync(path)) {
+      fs.unlinkSync(path);
+    }
     req.abort();
     console.log('stopped downloading mono export templates');
+    ipcMain.removeAllListeners(`getMonoExportTemplates-Stop-${version}`);
   });
-
-  req.end();
 });
 
 // pass release info to index.js
