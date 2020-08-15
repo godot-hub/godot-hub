@@ -40,6 +40,7 @@ const getMonoURL = (url, OS, version, godotHubPath, godotHubConfigPath) => {
 
         getMono(monoURL, monoPath, monoFileName, monoDir, version, godotHubPath, godotHubConfigPath);
       }
+      ipcRenderer.removeAllListeners(`getMonoURL-response-${version}`);
     });
   } catch (e) {
     console.error(new Error(e));

@@ -12,17 +12,17 @@ const getScrappedURL = () => {
       const listOfReleases = [...elements.getElementsByClassName('n')].map(n => n.innerHTML);
 
       // logging
-      console.log(`data = ${arg}`);
-      console.log(`elements: ${elements}`);
-      console.log(`class of n = ${[...elements.getElementsByClassName('n')]}`);
-      console.log(`releases = ${listOfReleases}`);
-      console.log(`url = ${url}`);
+      // console.log(`data = ${arg}`);
+      // console.log(`elements: ${elements}`);
+      // console.log(`class of n = ${[...elements.getElementsByClassName('n')]}`);
+      // console.log(`releases = ${listOfReleases}`);
+      // console.log(`url = ${url}`);
 
       // get OS and arch info for mono
       const monoOS = getOSinfo(true);
       const OS = getOSinfo();
 
-      console.log(`url: ${url}, OS: ${OS}, version: ${version}`);
+      // console.log(`url: ${url}, OS: ${OS}, version: ${version}`);
 
       // pass release info to main to get passed to index.js
       ipcRenderer.send('release-info-main', {

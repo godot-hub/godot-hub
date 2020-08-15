@@ -29,6 +29,7 @@ const getGodotURL = (url, OS, version, godotHubPath, godotHubConfigPath) => {
 
         getGodot(godotURL, godotHubPath, godotFileName, version, godotHubConfigPath);
       }
+      ipcRenderer.removeAllListeners(`getGodotURL-response-${version}`);
     });
   } catch (e) {
     console.error(new Error(e));

@@ -29,6 +29,7 @@ const getMono = (url, monoPath, filename, monoDir, version, godotHubPath, godotH
 
     renderVersions(godotHubPath, godotHubConfigPath);
     setLatestInstalledReleaseVersion(version, godotHubConfigPath);
+    ipcRenderer.removeAllListeners(`getMono-Done-${version}`);
   });
 };
 

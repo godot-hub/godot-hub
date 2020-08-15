@@ -37,6 +37,7 @@ const getGodot = (url, godotHubPath, filename, version, godotHubConfigPath) => {
 
       fs.chmodSync(versionFilePath, '755');
     }
+    ipcRenderer.removeAllListeners(`getGodot-Done-${version}`);
   });
 };
 
