@@ -1,9 +1,9 @@
 const path = require('path');
 const fs = require('fs');
+const { ipcRenderer } = require('electron');
 
 // render godot versions based on data provided
 const renderVersions = (godotHubPath, godotHubConfigPath) => {
-  console.log(`render versions godotHubConfigPath: ${godotHubConfigPath}`);
   // get cached releases
   const cachedReleasesPath = path.join(godotHubPath, '.cache', 'sortReleases.json');
   const cachedReleases = JSON.parse(fs.readFileSync(cachedReleasesPath));
@@ -69,6 +69,8 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
           <p>Godot ${version}</p>
           <p class="install-export-templates">Install Export Templates</p>
           <p class="uninstall">Uninstall</p>
+          <p class="progress hidden">0% - 0/0 MB</p>
+          <p class="stop-mono-export-templates-download hidden">Stop Download</p>
         </article>
       `;
       } else {
@@ -83,6 +85,8 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
           <p>Godot ${version}</p>
           <p class="install-export-templates">Install Export Templates</p>
           <p class="uninstall">Uninstall</p>
+          <p class="progress hidden">0% - 0/0 MB</p>
+          <p class="stop-export-templates-download hidden">Stop Download</p>
         </article>
       `;
       }
@@ -90,15 +94,15 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
   };
 
   for (const release in cachedReleases) {
-    cachedReleases[release].map(currentCachedRelease => {
+    for (const currentCachedRelease of cachedReleases[release]) {
       // render installed elements only
-      currentCachedRelease.forEach(currentRelease => {
+      for (const currentRelease of currentCachedRelease) {
         if (installedReleases.includes(currentRelease.version)) {
           console.log(currentRelease);
           installedVersionsListElement.insertAdjacentHTML('beforeend', installedReleaseElement(currentRelease));
         }
-      });
-    });
+      }
+    }
   }
 
   // render available releases as available releases in versions view
@@ -122,6 +126,8 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
       >
         <p>Godot ${version}</p>
         <p class="install">Install</p>
+        <p class="progress hidden">0% - 0/0 MB</p>
+        <p class="stop-mono-download hidden">Stop Download</p>
       </article>
     `;
     } else {
@@ -134,6 +140,8 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
       >
         <p>Godot ${version}</p>
         <p class="install">Install</p>
+        <p class="progress hidden">0% - 0/0 MB</p>
+        <p class="stop-godot-download hidden">Stop Download</p>
       </article>
     `;
     }
@@ -152,58 +160,163 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
 
     const releaseBody = document.querySelector('#release-' + release + '-body');
 
-    cachedReleases[release].map(currentCachedRelease => {
-      // filter out installed releases from available versions
-      currentCachedRelease.forEach(currentRelease => {
+    for (const currentCachedRelease of cachedReleases[release]) {
+      for (const currentRelease of currentCachedRelease) {
         if (!installedReleases.includes(currentRelease.version)) {
           console.log(installedReleases.includes(currentRelease.version));
           releaseBody.insertAdjacentHTML('beforeend', availableReleaseElement(currentRelease));
         }
-      });
-    });
+      }
+    }
   }
 
   // install godot version
   const installGodotVersion = require('./installGodotVersion');
   const installElements = document.querySelectorAll('.install');
 
-  installElements.forEach(installElement => {
-    installElement.addEventListener('click', (e) => {
-      const { type, url, version } = e.target.parentElement.dataset;
-      const parent = e.target.parentElement;
+  function installVersion (e) {
+    const { type, url, version } = e.target.parentElement.dataset;
+    const parent = e.target.parentElement;
 
-      installGodotVersion(parent, type, url, version, godotHubPath, godotHubConfigPath);
-    });
-  });
+    installGodotVersion(parent, type, url, version, godotHubPath, godotHubConfigPath);
+  }
+
+  for (const installElement of installElements) {
+    installElement.addEventListener('click', installVersion);
+  }
 
   // uninstall godot version
   const confirmUnistallVersion = require('./confirmUninstallVersion');
   const installedElements = document.querySelectorAll('.uninstall');
 
-  installedElements.forEach(installedElement => {
-    installedElement.addEventListener('click', (e) => {
-      const { version } = e.target.parentElement.dataset;
-      const releasePath = path.join(godotHubPath, 'Releases', version, 'Engine');
-      confirmUnistallVersion(version, releasePath, godotHubPath, godotHubConfigPath);
-    });
-  });
+  function uninstallGodotVersion (e) {
+    const { version } = e.target.parentElement.dataset;
+    const releasePath = path.join(godotHubPath, 'Releases', version, 'Engine');
+    confirmUnistallVersion(version, releasePath, godotHubPath, godotHubConfigPath);
+  }
+
+  for (const installedElement of installedElements) {
+    installedElement.addEventListener('click', uninstallGodotVersion);
+  }
 
   // install export templates
   const installExportTemplateElements = document.querySelectorAll('.install-export-templates');
   const installVersionExportTemplates = require('./installVersionExportTemplates');
 
-  installExportTemplateElements.forEach(installExportTemplateElement => {
-    installExportTemplateElement.addEventListener('click', (e) => {
-      const { type, url, version, godotVersion } = e.target.parentElement.dataset;
+  function installExportTemplate (e) {
+    const { type, url, version, godotVersion } = e.target.parentElement.dataset;
+    const parent = e.target.parentElement;
+
+    if (godotVersion) {
+      installVersionExportTemplates(parent, type, url, version, godotVersion, godotHubPath, godotHubConfigPath);
+    } else {
+      installVersionExportTemplates(parent, type, url, version, false, godotHubPath, godotHubConfigPath);
+    }
+  }
+
+  for (const installExportTemplateElement of installExportTemplateElements) {
+    installExportTemplateElement.addEventListener('click', installExportTemplate);
+  }
+
+  // stop mono download
+  const stopMonoDownloadElements = document.querySelectorAll('.stop-mono-download');
+
+  for (const stopMonoDownloadElement of stopMonoDownloadElements) {
+    stopMonoDownloadElement.addEventListener('click', (e) => {
+      const { type, url, version } = e.target.parentElement.dataset;
       const parent = e.target.parentElement;
 
-      if (godotVersion) {
-        installVersionExportTemplates(parent, type, url, version, godotVersion, godotHubPath, godotHubConfigPath);
-      } else {
-        installVersionExportTemplates(parent, type, url, version, false, godotHubPath, godotHubConfigPath);
-      }
+      ipcRenderer.send(`getMono-Stop-${version}`);
+
+      const progressElement = parent.querySelector('.progress');
+      const stopDownloadElement = parent.querySelector('.stop-mono-download');
+      const installElement = parent.querySelector('.install');
+
+      stopDownloadElement.classList.add('hidden');
+      progressElement.classList.add('hidden');
+      installElement.classList.remove('hidden');
+
+      progressElement.textContent = '0% - 0/0 MB';
+
+      ipcRenderer.removeAllListeners(`getMono-${version}-progress`);
     });
-  });
+  }
+
+  // stop godot download
+  const stopGodotDownloadElements = document.querySelectorAll('.stop-godot-download');
+
+  for (const stopGodotDownloadElement of stopGodotDownloadElements) {
+    stopGodotDownloadElement.addEventListener('click', (e) => {
+      const { type, url, version } = e.target.parentElement.dataset;
+      const parent = e.target.parentElement;
+
+      ipcRenderer.send(`getGodot-Stop-${version}`);
+
+      const progressElement = parent.querySelector('.progress');
+      const stopDownloadElement = parent.querySelector('.stop-godot-download');
+      const installElement = parent.querySelector('.install');
+
+      stopDownloadElement.classList.add('hidden');
+      progressElement.classList.add('hidden');
+      installElement.classList.remove('hidden');
+
+      progressElement.textContent = '0% - 0/0 MB';
+
+      ipcRenderer.removeAllListeners(`getGodot-${version}-progress`);
+    });
+  }
+
+  // stop mono export templates download
+  const stopMonoExportTemplatesDownloadElements = document.querySelectorAll('.stop-mono-export-templates-download');
+
+  for (const stopMonoExportTemplatesDownloadElement of stopMonoExportTemplatesDownloadElements) {
+    stopMonoExportTemplatesDownloadElement.addEventListener('click', (e) => {
+      const { type, url, version } = e.target.parentElement.dataset;
+      const parent = e.target.parentElement;
+
+      ipcRenderer.send(`getMonoExportTemplates-Stop-${version}`);
+
+      const progressElement = parent.querySelector('.progress');
+      const stopDownloadElement = parent.querySelector('.stop-mono-export-templates-download');
+      const installElement = parent.querySelector('.install-export-templates');
+      const uninstallElement = parent.querySelector('.uninstall');
+
+      stopDownloadElement.classList.add('hidden');
+      progressElement.classList.add('hidden');
+      installElement.classList.remove('hidden');
+      uninstallElement.classList.remove('hidden');
+
+      progressElement.textContent = '0% - 0/0 MB';
+
+      ipcRenderer.removeAllListeners(`getMonoExportTemplates-${version}-progress`);
+    });
+  }
+
+  // stop export templates download
+  const stopExportTemplatesDownloadElements = document.querySelectorAll('.stop-export-templates-download');
+
+  for (const stopExportTemplatesDownloadElement of stopExportTemplatesDownloadElements) {
+    stopExportTemplatesDownloadElement.addEventListener('click', (e) => {
+      const { type, url, version } = e.target.parentElement.dataset;
+      const parent = e.target.parentElement;
+
+      ipcRenderer.send(`getExportTemplates-Stop-${version}`);
+
+      const progressElement = parent.querySelector('.progress');
+      const stopDownloadElement = parent.querySelector('.stop-export-templates-download');
+      const installElement = parent.querySelector('.install-export-templates');
+      const uninstallElement = parent.querySelector('.uninstall');
+
+      stopDownloadElement.classList.add('hidden');
+      progressElement.classList.add('hidden');
+      installElement.classList.remove('hidden');
+      uninstallElement.classList.remove('hidden');
+
+      progressElement.textContent = '0% - 0/0 MB';
+
+      ipcRenderer.removeAllListeners(`getExportTemplates-${version}-progress`);
+    });
+  }
 };
 
 module.exports = renderVersions;
