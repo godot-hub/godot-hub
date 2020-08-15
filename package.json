@@ -5,6 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "debug": "electron --inspect=8080 .",
     "fmt": "semistandard --fix",
     "lint": "eslint --init"
   },
