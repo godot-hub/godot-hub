@@ -1,4 +1,3 @@
-const path = require('path');
 const { ipcRenderer } = require('electron');
 const getExportTemplatesURL = require('../../helpers/URL/getExportTemplatesURL');
 const getMonoExportTemplatesURL = require('../../helpers/URL/getMonoExportTemplatesURL');
@@ -9,153 +8,64 @@ const installVersionExportTemplates = (parent, type, url, version, godotVersion,
   if (type === 'mono') {
     const OS = getOSinfo(true);
 
-    getMonoExportTemplatesURL(url, version, godotVersion, OS, godotHubPath);
+    getMonoExportTemplatesURL(url, version, godotVersion, OS, godotHubPath, godotHubConfigPath);
 
     const progressElement = parent.querySelector('.progress');
-    const stopDownloadElement = parent.querySelector('.stop');
+    const stopDownloadElement = parent.querySelector('.stop-mono-export-templates-download');
     const installElement = parent.querySelector('.install-export-templates');
     const uninstallElement = parent.querySelector('.uninstall');
 
-    if (!progressElement) {
-      // show progress element
-      const progress = document.createElement('p');
-      const progressText = document.createTextNode('0% - 0/0 MB');
-      progress.appendChild(progressText);
+    progressElement.classList.remove('hidden');
+    stopDownloadElement.classList.remove('hidden');
+    installElement.classList.add('hidden');
+    uninstallElement.classList.add('hidden');
 
-      parent.removeChild(installElement);
-      parent.removeChild(uninstallElement);
-      parent.appendChild(progress);
-      progress.setAttribute('class', 'progress');
+    ipcRenderer.on(`getMonoExportTemplates-${version}-progress`, (event, arg) => {
+      const { percentage, total, current, totalMB, currentMB } = arg;
+      console.log(`
+        percentage: ${percentage}\n
+        total: ${total}\n
+        current: ${current}\n
+        totalMB: ${totalMB}MB\n
+        currentMB: ${currentMB}MB\n
+      `);
 
-      if (!stopDownloadElement) {
-        // show stop download element
-        const stopDownload = document.createElement('p');
-        const stopDownloadText = document.createTextNode('Stop Download');
-        stopDownload.setAttribute('class', 'stop');
-        stopDownload.appendChild(stopDownloadText);
-        parent.appendChild(stopDownload);
+      progressElement.textContent = ` ${percentage}% - ${currentMB}/${totalMB} MB`;
+    });
 
-        stopDownload.addEventListener('click', () => {
-          parent.removeChild(progress);
-          parent.removeChild(stopDownload);
-
-          ipcRenderer.send(`getMonoExportTemplates-Stop-${version}`);
-
-          const install = document.createElement('p');
-          const installText = document.createTextNode('Install Export Templates');
-          install.appendChild(installText);
-          parent.appendChild(install);
-          install.setAttribute('class', 'install-export-templates');
-
-          install.addEventListener('click', (e) => {
-            const { type, url, version } = e.target.parentElement.dataset;
-            const parent = e.target.parentElement;
-
-            installVersionExportTemplates(parent, type, url, version, godotVersion, godotHubPath);
-          });
-
-          const confirmUnistallVersion = require('./confirmUninstallVersion');
-          const uninstall = document.createElement('p');
-          const uninstallText = document.createTextNode('Uninstall');
-          uninstall.appendChild(uninstallText);
-          parent.appendChild(uninstall);
-          uninstall.setAttribute('class', 'uninstall');
-
-          uninstall.addEventListener('click', (e) => {
-            const { type, url, version } = e.target.parentElement.dataset;
-            const releasePath = path.join(godotHubPath, 'Releases', version, 'Engine');
-            confirmUnistallVersion(version, releasePath, godotHubPath, godotHubConfigPath);
-          });
-        });
-      }
-
-      ipcRenderer.on(`getMonoExportTemplates${version}-progress`, (event, arg) => {
-        const { percentage, total, current, totalMB, currentMB } = arg;
-        console.log(`
-          percentage: ${percentage}\n
-          total: ${total}\n
-          current: ${current}\n
-          totalMB: ${totalMB}MB\n
-          currentMB: ${currentMB}MB\n
-        `);
-        progress.textContent = ` ${percentage}% - ${currentMB}/${totalMB} MB`;
-      });
-    }
+    ipcRenderer.on(`getMonoExportTemplates-Installing-${version}`, () => {
+      progressElement.textContent = 'Installing ...';
+      ipcRenderer.removeAllListeners(`getMonoExportTemplates-Installing-${version}`);
+    });
   } else {
-    const OS = getOSinfo();
-
-    getExportTemplatesURL(url, version, godotHubPath);
+    getExportTemplatesURL(url, version, godotHubPath, godotHubConfigPath);
 
     const progressElement = parent.querySelector('.progress');
-    const stopDownloadElement = parent.querySelector('.stop');
+    const stopDownloadElement = parent.querySelector('.stop-export-templates-download');
     const installElement = parent.querySelector('.install-export-templates');
     const uninstallElement = parent.querySelector('.uninstall');
 
-    if (!progressElement) {
-      // show progress element
-      const progress = document.createElement('p');
-      const progressText = document.createTextNode('0% - 0/0 MB');
-      progress.appendChild(progressText);
+    progressElement.classList.remove('hidden');
+    stopDownloadElement.classList.remove('hidden');
+    installElement.classList.add('hidden');
+    uninstallElement.classList.add('hidden');
 
-      parent.removeChild(installElement);
-      parent.removeChild(uninstallElement);
-      parent.appendChild(progress);
-      progress.setAttribute('class', 'progress');
+    ipcRenderer.on(`getExportTemplates-${version}-progress`, (event, arg) => {
+      const { percentage, total, current, totalMB, currentMB } = arg;
+      console.log(`
+        percentage: ${percentage}\n
+        total: ${total}\n
+        current: ${current}\n
+        totalMB: ${totalMB}MB\n
+        currentMB: ${currentMB}MB\n
+      `);
+      progressElement.textContent = ` ${percentage}% - ${currentMB}/${totalMB} MB`;
+    });
 
-      if (!stopDownloadElement) {
-        // show stop download element
-        const stopDownload = document.createElement('p');
-        const stopDownloadText = document.createTextNode('Stop Download');
-        stopDownload.setAttribute('class', 'stop');
-        stopDownload.appendChild(stopDownloadText);
-        parent.appendChild(stopDownload);
-
-        stopDownload.addEventListener('click', () => {
-          parent.removeChild(progress);
-          parent.removeChild(stopDownload);
-
-          ipcRenderer.send(`getExportTemplates-Stop-${version}`);
-
-          const install = document.createElement('p');
-          const installText = document.createTextNode('Install Export Templates');
-          install.appendChild(installText);
-          parent.appendChild(install);
-          install.setAttribute('class', 'install-export-templates');
-
-          install.addEventListener('click', (e) => {
-            const { type, url, version } = e.target.parentElement.dataset;
-            const parent = e.target.parentElement;
-
-            installVersionExportTemplates(parent, type, url, version, godotVersion, godotHubPath);
-          });
-
-          const confirmUnistallVersion = require('./confirmUninstallVersion');
-          const uninstall = document.createElement('p');
-          const uninstallText = document.createTextNode('Uninstall');
-          uninstall.appendChild(uninstallText);
-          parent.appendChild(uninstall);
-          uninstall.setAttribute('class', 'uninstall');
-
-          uninstall.addEventListener('click', (e) => {
-            const { type, url, version } = e.target.parentElement.dataset;
-            const releasePath = path.join(godotHubPath, 'Releases', version, 'Engine');
-            confirmUnistallVersion(version, releasePath, godotHubPath, godotHubConfigPath);
-          });
-        });
-      }
-
-      ipcRenderer.on(`getExportTemplates${version}-progress`, (event, arg) => {
-        const { percentage, total, current, totalMB, currentMB } = arg;
-        console.log(`
-          percentage: ${percentage}\n
-          total: ${total}\n
-          current: ${current}\n
-          totalMB: ${totalMB}MB\n
-          currentMB: ${currentMB}MB\n
-        `);
-        progress.textContent = ` ${percentage}% - ${currentMB}/${totalMB} MB`;
-      });
-    }
+    ipcRenderer.on(`getExportTemplates-Installing-${version}`, () => {
+      progressElement.textContent = 'Installing ...';
+      ipcRenderer.removeAllListeners(`getExportTemplates-Installing-${version}`);
+    });
   }
 };
 
