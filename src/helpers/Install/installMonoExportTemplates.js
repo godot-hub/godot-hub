@@ -4,9 +4,10 @@ const path = require('path');
 const extract = require('extract-zip');
 const getFileNameFromURL = require('../URL/getFileNameFromURL');
 const changeFileExtension = require('../Change/changeFileExtension');
+const renderVersions = require('../../components/Versions/renderVersions');
 
 // install export templates if its not installed depending on its godot version
-const installMonoExportTemplates = async (url, version, monoDir, godotHubPath, godotVersion) => {
+const installMonoExportTemplates = async (url, version, monoDir, godotHubPath, godotVersion, godotHubConfigPath) => {
   try {
     const dirPath = path.join(godotHubPath, 'Releases', version, 'Engine', monoDir, 'editor_data', 'templates', `${godotVersion}.stable.mono`);
     const monoExportTemplatesFileNameWithoutExtension = getFileNameFromURL(url).slice(0, -4);
@@ -17,12 +18,13 @@ const installMonoExportTemplates = async (url, version, monoDir, godotHubPath, g
 
     if (!fs.existsSync(dirPath) && !fs.existsSync(monoExportTemplatesDirPath)) {
       // change file extension
-      changeFileExtension(path.join(monoExportTemplatesPath), monoExportTemplatesFileNameWithoutExtension, '.tpz', '.zip');
+      changeFileExtension(monoExportTemplatesPath, monoExportTemplatesFileNameWithoutExtension, '.tpz', '.zip');
+
+      console.log('extracting');
 
       // extract export templates
       await extract(zippedExportTemplatesPath, { dir: installPath });
 
-      console.log('extracting');
       console.log(`${monoExportTemplatesFileNameWithoutExtension}.zip - Unzipped!`);
 
       // change directory name of installed export templates
@@ -36,6 +38,8 @@ const installMonoExportTemplates = async (url, version, monoDir, godotHubPath, g
       changeFileExtension(path.join(monoExportTemplatesPath), monoExportTemplatesFileNameWithoutExtension, '.zip', '.tpz');
 
       console.log('DONE extracting');
+
+      renderVersions(godotHubPath, godotHubConfigPath);
     } else {
       console.log('mono export templates is already installed');
     }
