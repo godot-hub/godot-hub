@@ -67,7 +67,7 @@ h2 {
   font-size: 0.8rem;
 }
 
-.stop {
+p[class^="stop"] {
   cursor: pointer;
   color: #F44336;
 }
@@ -134,4 +134,8 @@ h2 {
 
 #cancel-uninstall-button {
   background-color: #56B7FF;
+}
+
+.hidden {
+  display: none;
 }
