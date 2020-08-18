@@ -1,13 +1,13 @@
 const fs = require('fs');
-const { renameSync } = require('graceful-fs');
+const { rename } = require('graceful-fs');
 const path = require('path');
-const extract = require('extract-zip');
+const AdmZip = require('adm-zip');
 const getFileNameFromURL = require('../URL/getFileNameFromURL');
 const changeFileExtension = require('../Change/changeFileExtension');
 const renderVersions = require('../../components/Versions/renderVersions');
 
 // install export templates if its not installed depending on its godot version
-const installExportTemplates = async (url, version, godotHubPath, godotHubConfigPath) => {
+const installExportTemplates = (url, version, godotHubPath, godotHubConfigPath) => {
   try {
     const dirPath = path.join(godotHubPath, 'Releases', version, 'Engine', 'editor_data', 'templates', `${version}.stable`);
     const exportTemplatesFileNameWithoutExtension = getFileNameFromURL(url).slice(0, -4);
@@ -23,22 +23,27 @@ const installExportTemplates = async (url, version, godotHubPath, godotHubConfig
       console.log('extracting');
 
       // extract export templates
-      await extract(zippedExportTemplatesPath, { dir: installPath });
+      const zip = new AdmZip(zippedExportTemplatesPath);
+      zip.extractAllTo(installPath, true);
 
       console.log(`${exportTemplatesFileNameWithoutExtension}.zip - Unzipped!`);
 
       // change directory name of installed export templates
       const currentPath = path.join(installPath, 'templates');
 
-      renameSync(currentPath, dirPath);
+      rename(currentPath, dirPath, (err) => {
+        if (err) {
+          console.error(new Error(err));
+        }
 
-      console.log(`${currentPath} changed to ${dirPath}`);
+        console.log(`${currentPath} changed to ${dirPath}`);
 
-      changeFileExtension(exportTemplatesPath, exportTemplatesFileNameWithoutExtension, '.zip', '.tpz');
+        changeFileExtension(exportTemplatesPath, exportTemplatesFileNameWithoutExtension, '.zip', '.tpz');
 
-      console.log('DONE extracting');
+        console.log('DONE extracting');
 
-      renderVersions(godotHubPath, godotHubConfigPath);
+        renderVersions(godotHubPath, godotHubConfigPath);
+      });
     } else {
       console.log('export templates is already installed');
     }

@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const { rename } = require('graceful-fs');
 
 // change file extension based on its path, filename and extension provided
 const changeFileExtension = (filePath, filename, extension, desiredExtension) => {
@@ -13,7 +14,7 @@ const changeFileExtension = (filePath, filename, extension, desiredExtension) =>
   if (fs.existsSync(currentPath)) {
     // check if desired file exetnsion already exists
     if (!fs.existsSync(desiredPath)) {
-      fs.rename(currentPath, desiredPath, (err) => {
+      rename(currentPath, desiredPath, (err) => {
         if (err) {
           console.error(new Error(err));
         }
