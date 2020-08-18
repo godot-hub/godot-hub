@@ -43,6 +43,7 @@ const installMonoExportTemplates = (url, version, monoDir, godotHubPath, godotVe
 
         console.log('DONE extracting');
 
+        sessionStorage.removeItem(`mono-export-templates-${version}`);
         renderVersions(godotHubPath, godotHubConfigPath);
       });
     } else {

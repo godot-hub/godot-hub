@@ -10,6 +10,8 @@ const installGodotVersion = (parent, type, url, version, godotHubPath, godotHubC
 
     getMonoURL(url, OS, version, godotHubPath, godotHubConfigPath);
 
+    sessionStorage.setItem(`mono-${version}`, true);
+
     const progressElement = parent.querySelector('.progress');
     const stopDownloadElement = parent.querySelector('.stop-mono-download');
     const installElement = parent.querySelector('.install');
@@ -33,6 +35,8 @@ const installGodotVersion = (parent, type, url, version, godotHubPath, godotHubC
     const OS = getOSinfo();
 
     getGodotURL(url, OS, version, godotHubPath, godotHubConfigPath);
+
+    sessionStorage.setItem(`godot-${version}`, true);
 
     const progressElement = parent.querySelector('.progress');
     const stopDownloadElement = parent.querySelector('.stop-godot-download');

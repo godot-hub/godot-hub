@@ -57,38 +57,75 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
       }
     } else {
       if (type === 'mono') {
-        return `
-        <article
-          id="installed-release-${name}"
-          data-type="${type}"
-          data-name="${name}"
-          data-version="${version}"
-          data-url="${url}"
-          data-godot-version="${info.godotVersion}"
-        >
-          <p>Godot ${version}</p>
-          <p class="install-export-templates">Install Export Templates</p>
-          <p class="uninstall">Uninstall</p>
-          <p class="progress hidden">0% - 0/0 MB</p>
-          <p class="stop-mono-export-templates-download hidden">Stop Download</p>
-        </article>
-      `;
+        if (`mono-export-templates-${version}` in sessionStorage) {
+          return `
+          <article
+            id="installed-release-${name}"
+            data-type="${type}"
+            data-name="${name}"
+            data-version="${version}"
+            data-url="${url}"
+            data-godot-version="${info.godotVersion}"
+          >
+            <p>Godot ${version}</p>
+            <p class="install-export-templates hidden">Install Export Templates</p>
+            <p class="uninstall hidden">Uninstall</p>
+            <p class="progress">0% - 0/0 MB</p>
+            <p class="stop-mono-export-templates-download">Stop Download</p>
+          </article>
+        `;
+        } else {
+          return `
+          <article
+            id="installed-release-${name}"
+            data-type="${type}"
+            data-name="${name}"
+            data-version="${version}"
+            data-url="${url}"
+            data-godot-version="${info.godotVersion}"
+          >
+            <p>Godot ${version}</p>
+            <p class="install-export-templates">Install Export Templates</p>
+            <p class="uninstall">Uninstall</p>
+            <p class="progress hidden">0% - 0/0 MB</p>
+            <p class="stop-mono-export-templates-download hidden">Stop Download</p>
+          </article>
+        `;
+        }
       } else {
-        return `
-        <article
-          id="installed-release-${name}"
-          data-type="${type}" 
-          data-name="${name}"
-          data-version="${version}"
-          data-url="${url}"
-        >
-          <p>Godot ${version}</p>
-          <p class="install-export-templates">Install Export Templates</p>
-          <p class="uninstall">Uninstall</p>
-          <p class="progress hidden">0% - 0/0 MB</p>
-          <p class="stop-export-templates-download hidden">Stop Download</p>
-        </article>
-      `;
+        if (`export-templates-${version}` in sessionStorage) {
+          return `
+          <article
+            id="installed-release-${name}"
+            data-type="${type}" 
+            data-name="${name}"
+            data-version="${version}"
+            data-url="${url}"
+          >
+            <p>Godot ${version}</p>
+            <p class="install-export-templates hidden">Install Export Templates</p>
+            <p class="uninstall hidden">Uninstall</p>
+            <p class="progress">0% - 0/0 MB</p>
+            <p class="stop-export-templates-download">Stop Download</p>
+          </article>
+        `;
+        } else {
+          return `
+          <article
+            id="installed-release-${name}"
+            data-type="${type}" 
+            data-name="${name}"
+            data-version="${version}"
+            data-url="${url}"
+          >
+            <p>Godot ${version}</p>
+            <p class="install-export-templates">Install Export Templates</p>
+            <p class="uninstall">Uninstall</p>
+            <p class="progress hidden">0% - 0/0 MB</p>
+            <p class="stop-export-templates-download hidden">Stop Download</p>
+          </article>
+        `;
+        }
       }
     }
   };
@@ -116,34 +153,67 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
     const { type, name, url, version } = info;
 
     if (type === 'mono') {
-      return `
-      <article 
-        data-type="${type}"
-        data-name="${name}"
-        data-version="${version}"
-        data-url="${url}"
-        data-godot-version="${info.godotVersion}"
-      >
-        <p>Godot ${version}</p>
-        <p class="install">Install</p>
-        <p class="progress hidden">0% - 0/0 MB</p>
-        <p class="stop-mono-download hidden">Stop Download</p>
-      </article>
-    `;
+      if (`mono-${version}` in sessionStorage) {
+        return `
+        <article 
+          data-type="${type}"
+          data-name="${name}"
+          data-version="${version}"
+          data-url="${url}"
+          data-godot-version="${info.godotVersion}"
+        >
+          <p>Godot ${version}</p>
+          <p class="install hidden">Install</p>
+          <p class="progress">0% - 0/0 MB</p>
+          <p class="stop-mono-download">Stop Download</p>
+        </article>
+      `;
+      } else {
+        return `
+        <article 
+          data-type="${type}"
+          data-name="${name}"
+          data-version="${version}"
+          data-url="${url}"
+          data-godot-version="${info.godotVersion}"
+        >
+          <p>Godot ${version}</p>
+          <p class="install">Install</p>
+          <p class="progress hidden">0% - 0/0 MB</p>
+          <p class="stop-mono-download hidden">Stop Download</p>
+        </article>
+      `;
+      }
     } else {
-      return `
-      <article 
-        data-type="${type}" 
-        data-name="${name}"
-        data-version="${version}"
-        data-url="${url}"
-      >
-        <p>Godot ${version}</p>
-        <p class="install">Install</p>
-        <p class="progress hidden">0% - 0/0 MB</p>
-        <p class="stop-godot-download hidden">Stop Download</p>
-      </article>
-    `;
+      if (`godot-${version}` in sessionStorage) {
+        return `
+        <article 
+          data-type="${type}" 
+          data-name="${name}"
+          data-version="${version}"
+          data-url="${url}"
+        >
+          <p>Godot ${version}</p>
+          <p class="install hidden">Install</p>
+          <p class="progress">0% - 0/0 MB</p>
+          <p class="stop-godot-download">Stop Download</p>
+        </article>
+      `;
+      } else {
+        return `
+        <article 
+          data-type="${type}" 
+          data-name="${name}"
+          data-version="${version}"
+          data-url="${url}"
+        >
+          <p>Godot ${version}</p>
+          <p class="install">Install</p>
+          <p class="progress hidden">0% - 0/0 MB</p>
+          <p class="stop-godot-download hidden">Stop Download</p>
+        </article>
+      `;
+      }
     }
   };
 
@@ -239,6 +309,7 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
       progressElement.textContent = '0% - 0/0 MB';
 
       ipcRenderer.removeAllListeners(`getMono-${version}-progress`);
+      sessionStorage.removeItem(`mono-${version}`);
     });
   }
 
@@ -263,6 +334,7 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
       progressElement.textContent = '0% - 0/0 MB';
 
       ipcRenderer.removeAllListeners(`getGodot-${version}-progress`);
+      sessionStorage.removeItem(`godot-${version}`);
     });
   }
 
@@ -289,6 +361,7 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
       progressElement.textContent = '0% - 0/0 MB';
 
       ipcRenderer.removeAllListeners(`getMonoExportTemplates-${version}-progress`);
+      sessionStorage.removeItem(`mono-export-templates-${version}`);
     });
   }
 
@@ -315,7 +388,66 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
       progressElement.textContent = '0% - 0/0 MB';
 
       ipcRenderer.removeAllListeners(`getExportTemplates-${version}-progress`);
+      sessionStorage.removeItem(`export-templates-${version}`);
     });
+  }
+
+  // sync download progress
+  const progressElements = document.querySelectorAll('.progress');
+
+  for (const progressElement of progressElements) {
+    const { type, url, version } = progressElement.parentElement.dataset;
+
+    if (type === 'mono') {
+      ipcRenderer.on(`getMono-${version}-progress`, (event, arg) => {
+        const { percentage, total, current, totalMB, currentMB } = arg;
+        console.log(`
+          percentage: ${percentage}\n
+          total: ${total}\n
+          current: ${current}\n
+          totalMB: ${totalMB}MB\n
+          currentMB: ${currentMB}MB\n
+        `);
+        progressElement.textContent = ` ${percentage}% - ${currentMB}/${totalMB} MB`;
+      });
+
+      ipcRenderer.on(`getMonoExportTemplates-${version}-progress`, (event, arg) => {
+        const { percentage, total, current, totalMB, currentMB } = arg;
+        console.log(`
+          percentage: ${percentage}\n
+          total: ${total}\n
+          current: ${current}\n
+          totalMB: ${totalMB}MB\n
+          currentMB: ${currentMB}MB\n
+        `);
+
+        progressElement.textContent = ` ${percentage}% - ${currentMB}/${totalMB} MB`;
+      });
+    } else {
+      ipcRenderer.on(`getGodot-${version}-progress`, (event, arg) => {
+        const { percentage, total, current, totalMB, currentMB } = arg;
+        console.log(`
+          percentage: ${percentage}\n
+          total: ${total}\n
+          current: ${current}\n
+          totalMB: ${totalMB}MB\n
+          currentMB: ${currentMB}MB\n
+        `);
+        progressElement.textContent = ` ${percentage}% - ${currentMB}/${totalMB} MB`;
+      });
+
+      ipcRenderer.on(`getExportTemplates-${version}-progress`, (event, arg) => {
+        const { percentage, total, current, totalMB, currentMB } = arg;
+        console.log(`
+          percentage: ${percentage}\n
+          total: ${total}\n
+          current: ${current}\n
+          totalMB: ${totalMB}MB\n
+          currentMB: ${currentMB}MB\n
+        `);
+        progressElement.textContent = ` ${percentage}% - ${currentMB}/${totalMB} MB`;
+      });
+    }
   }
 };
 

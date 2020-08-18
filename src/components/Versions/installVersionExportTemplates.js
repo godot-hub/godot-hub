@@ -10,6 +10,8 @@ const installVersionExportTemplates = (parent, type, url, version, godotVersion,
 
     getMonoExportTemplatesURL(url, version, godotVersion, OS, godotHubPath, godotHubConfigPath);
 
+    sessionStorage.setItem(`mono-export-templates-${version}`, true);
+
     const progressElement = parent.querySelector('.progress');
     const stopDownloadElement = parent.querySelector('.stop-mono-export-templates-download');
     const installElement = parent.querySelector('.install-export-templates');
@@ -39,6 +41,8 @@ const installVersionExportTemplates = (parent, type, url, version, godotVersion,
     });
   } else {
     getExportTemplatesURL(url, version, godotHubPath, godotHubConfigPath);
+
+    sessionStorage.setItem(`export-templates-${version}`, true);
 
     const progressElement = parent.querySelector('.progress');
     const stopDownloadElement = parent.querySelector('.stop-export-templates-download');

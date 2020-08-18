@@ -42,6 +42,7 @@ const installExportTemplates = (url, version, godotHubPath, godotHubConfigPath) 
 
         console.log('DONE extracting');
 
+        sessionStorage.removeItem(`export-templates-${version}`);
         renderVersions(godotHubPath, godotHubConfigPath);
       });
     } else {

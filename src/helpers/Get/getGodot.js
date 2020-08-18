@@ -26,6 +26,7 @@ const getGodot = (url, godotHubPath, filename, version, godotHubConfigPath) => {
   ipcRenderer.on(`getGodot-Done-${version}`, () => {
     initScFile(godotHubPath, version);
     console.log('getGodot - DONE');
+    sessionStorage.removeItem(`godot-${version}`);
     renderVersions(godotHubPath, godotHubConfigPath);
     setLatestInstalledReleaseVersion(version, godotHubConfigPath);
 
