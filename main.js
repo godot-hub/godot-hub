@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain, net, Menu, shell } = require('electron');
 const path = require('path');
 const process = require('process');
 const fs = require('fs');
-const extract = require('extract-zip');
+const AdmZip = require('adm-zip');
 
 // handle error exceptions and rejections
 process.on('unhandledRejection', (err) => console.error(new Error(err)));
@@ -247,7 +247,8 @@ ipcMain.on('getGodot-request', (event, arg) => {
 
     res.on('end', async () => {
       try {
-        await extract(path, { dir: extractTarget });
+        const zip = new AdmZip(path);
+        zip.extractAllTo(extractTarget, true);
         console.log('getGodot - Unzipped!');
         event.sender.send(`getGodot-Done-${version}`);
       } catch (err) {
@@ -367,7 +368,8 @@ ipcMain.on('getMono-request', (event, arg) => {
 
     res.on('end', async () => {
       try {
-        await extract(path, { dir: extractTarget });
+        const zip = new AdmZip(path);
+        zip.extractAllTo(extractTarget, true);
         console.log('getGodot - Unzipped!');
         event.sender.send(`getMono-Done-${version}`);
       } catch (err) {
