@@ -1,13 +1,13 @@
 const fs = require('fs');
-const { renameSync } = require('graceful-fs');
+const { rename } = require('graceful-fs');
 const path = require('path');
-const extract = require('extract-zip');
+const AdmZip = require('adm-zip');
 const getFileNameFromURL = require('../URL/getFileNameFromURL');
 const changeFileExtension = require('../Change/changeFileExtension');
 const renderVersions = require('../../components/Versions/renderVersions');
 
 // install export templates if its not installed depending on its godot version
-const installMonoExportTemplates = async (url, version, monoDir, godotHubPath, godotVersion, godotHubConfigPath) => {
+const installMonoExportTemplates = (url, version, monoDir, godotHubPath, godotVersion, godotHubConfigPath) => {
   try {
     const dirPath = path.join(godotHubPath, 'Releases', version, 'Engine', monoDir, 'editor_data', 'templates', `${godotVersion}.stable.mono`);
     const monoExportTemplatesFileNameWithoutExtension = getFileNameFromURL(url).slice(0, -4);
@@ -22,24 +22,29 @@ const installMonoExportTemplates = async (url, version, monoDir, godotHubPath, g
 
       console.log('extracting');
 
-      // extract export templates
-      await extract(zippedExportTemplatesPath, { dir: installPath });
+      // extract mono export templates
+      const zip = new AdmZip(zippedExportTemplatesPath);
+      zip.extractAllTo(installPath, true);
 
       console.log(`${monoExportTemplatesFileNameWithoutExtension}.zip - Unzipped!`);
 
-      // change directory name of installed export templates
+      // change directory name of installed mono export templates
       const currentPath = path.join(installPath, 'templates');
       const desiredPath = path.join(installPath, `${godotVersion}.stable.mono`);
 
-      renameSync(currentPath, desiredPath);
+      rename(currentPath, desiredPath, (err) => {
+        if (err) {
+          console.error(new Error(err));
+        }
 
-      console.log(`${currentPath} changed to ${desiredPath}`);
+        console.log(`${currentPath} changed to ${desiredPath}`);
 
-      changeFileExtension(path.join(monoExportTemplatesPath), monoExportTemplatesFileNameWithoutExtension, '.zip', '.tpz');
+        changeFileExtension(path.join(monoExportTemplatesPath), monoExportTemplatesFileNameWithoutExtension, '.zip', '.tpz');
 
-      console.log('DONE extracting');
+        console.log('DONE extracting');
 
-      renderVersions(godotHubPath, godotHubConfigPath);
+        renderVersions(godotHubPath, godotHubConfigPath);
+      });
     } else {
       console.log('mono export templates is already installed');
     }
