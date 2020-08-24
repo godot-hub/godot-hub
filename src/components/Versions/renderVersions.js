@@ -288,28 +288,15 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
     installExportTemplateElement.addEventListener('click', installExportTemplate);
   }
 
+  // confirm stop download
+  const confirmStopDownloadVersion = require('./Download/confirmStopDownloadVersion');
+
   // stop mono download
   const stopMonoDownloadElements = document.querySelectorAll('.stop-mono-download');
 
   for (const stopMonoDownloadElement of stopMonoDownloadElements) {
     stopMonoDownloadElement.addEventListener('click', (e) => {
-      const { type, url, version } = e.target.parentElement.dataset;
-      const parent = e.target.parentElement;
-
-      ipcRenderer.send(`getMono-Stop-${version}`);
-
-      const progressElement = parent.querySelector('.progress');
-      const stopDownloadElement = parent.querySelector('.stop-mono-download');
-      const installElement = parent.querySelector('.install');
-
-      stopDownloadElement.classList.add('hidden');
-      progressElement.classList.add('hidden');
-      installElement.classList.remove('hidden');
-
-      progressElement.textContent = '0% - 0/0 MB';
-
-      ipcRenderer.removeAllListeners(`getMono-${version}-progress`);
-      sessionStorage.removeItem(`mono-${version}`);
+      confirmStopDownloadVersion(e, 'mono');
     });
   }
 
@@ -318,23 +305,7 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
 
   for (const stopGodotDownloadElement of stopGodotDownloadElements) {
     stopGodotDownloadElement.addEventListener('click', (e) => {
-      const { type, url, version } = e.target.parentElement.dataset;
-      const parent = e.target.parentElement;
-
-      ipcRenderer.send(`getGodot-Stop-${version}`);
-
-      const progressElement = parent.querySelector('.progress');
-      const stopDownloadElement = parent.querySelector('.stop-godot-download');
-      const installElement = parent.querySelector('.install');
-
-      stopDownloadElement.classList.add('hidden');
-      progressElement.classList.add('hidden');
-      installElement.classList.remove('hidden');
-
-      progressElement.textContent = '0% - 0/0 MB';
-
-      ipcRenderer.removeAllListeners(`getGodot-${version}-progress`);
-      sessionStorage.removeItem(`godot-${version}`);
+      confirmStopDownloadVersion(e, 'godot');
     });
   }
 
@@ -343,25 +314,7 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
 
   for (const stopMonoExportTemplatesDownloadElement of stopMonoExportTemplatesDownloadElements) {
     stopMonoExportTemplatesDownloadElement.addEventListener('click', (e) => {
-      const { type, url, version } = e.target.parentElement.dataset;
-      const parent = e.target.parentElement;
-
-      ipcRenderer.send(`getMonoExportTemplates-Stop-${version}`);
-
-      const progressElement = parent.querySelector('.progress');
-      const stopDownloadElement = parent.querySelector('.stop-mono-export-templates-download');
-      const installElement = parent.querySelector('.install-export-templates');
-      const uninstallElement = parent.querySelector('.uninstall');
-
-      stopDownloadElement.classList.add('hidden');
-      progressElement.classList.add('hidden');
-      installElement.classList.remove('hidden');
-      uninstallElement.classList.remove('hidden');
-
-      progressElement.textContent = '0% - 0/0 MB';
-
-      ipcRenderer.removeAllListeners(`getMonoExportTemplates-${version}-progress`);
-      sessionStorage.removeItem(`mono-export-templates-${version}`);
+      confirmStopDownloadVersion(e, 'mono-export-templates');
     });
   }
 
@@ -370,25 +323,7 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
 
   for (const stopExportTemplatesDownloadElement of stopExportTemplatesDownloadElements) {
     stopExportTemplatesDownloadElement.addEventListener('click', (e) => {
-      const { type, url, version } = e.target.parentElement.dataset;
-      const parent = e.target.parentElement;
-
-      ipcRenderer.send(`getExportTemplates-Stop-${version}`);
-
-      const progressElement = parent.querySelector('.progress');
-      const stopDownloadElement = parent.querySelector('.stop-export-templates-download');
-      const installElement = parent.querySelector('.install-export-templates');
-      const uninstallElement = parent.querySelector('.uninstall');
-
-      stopDownloadElement.classList.add('hidden');
-      progressElement.classList.add('hidden');
-      installElement.classList.remove('hidden');
-      uninstallElement.classList.remove('hidden');
-
-      progressElement.textContent = '0% - 0/0 MB';
-
-      ipcRenderer.removeAllListeners(`getExportTemplates-${version}-progress`);
-      sessionStorage.removeItem(`export-templates-${version}`);
+      confirmStopDownloadVersion(e, 'export-templates');
     });
   }
 
