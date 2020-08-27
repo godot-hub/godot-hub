@@ -75,22 +75,41 @@ const renderVersions = (godotHubPath, godotHubConfigPath) => {
           </article>
         `;
         } else {
-          return `
-          <article
-            id="installed-release-${name}"
-            data-type="${type}"
-            data-name="${name}"
-            data-version="${version}"
-            data-url="${url}"
-            data-godot-version="${info.godotVersion}"
-          >
-            <p>Godot ${version}</p>
-            <p class="install-export-templates">Install Export Templates</p>
-            <p class="uninstall">Uninstall</p>
-            <p class="progress hidden">0% - 0/0 MB</p>
-            <p class="stop-mono-export-templates-download hidden">Stop Download</p>
-          </article>
-        `;
+          // keep track of mono versions that don't have export templates
+          const nonMonoExportTemplatesVersions = ['3.0-mono', '3.0.1-mono', '3.0.2-mono'];
+          // don't show option for installing export templates for non mono export templates versions
+          if (nonMonoExportTemplatesVersions.includes(version)) {
+            return `
+            <article
+              id="installed-release-${name}"
+              data-type="${type}"
+              data-name="${name}"
+              data-version="${version}"
+              data-url="${url}"
+              data-godot-version="${info.godotVersion}"
+            >
+              <p>Godot ${version}</p>
+              <p class="uninstall">Uninstall</p>
+            </article>
+          `;
+          } else {
+            return `
+            <article
+              id="installed-release-${name}"
+              data-type="${type}"
+              data-name="${name}"
+              data-version="${version}"
+              data-url="${url}"
+              data-godot-version="${info.godotVersion}"
+            >
+              <p>Godot ${version}</p>
+              <p class="install-export-templates">Install Export Templates</p>
+              <p class="uninstall">Uninstall</p>
+              <p class="progress hidden">0% - 0/0 MB</p>
+              <p class="stop-mono-export-templates-download hidden">Stop Download</p>
+            </article>
+          `;
+          }
         }
       } else {
         if (`export-templates-${version}` in sessionStorage) {
