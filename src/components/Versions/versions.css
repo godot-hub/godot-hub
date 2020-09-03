@@ -72,7 +72,7 @@ p[class^="stop"] {
   color: #F44336;
 }
 
-#confirm-uninstall-version-parent, #confirm-stop-download-version-parent {
+#confirm-uninstall-version-parent, #confirm-stop-download-version-parent, #confirm-stop-all-downloads-parent  {
   position: absolute;
   top: 0;
   left: 0;
@@ -85,7 +85,7 @@ p[class^="stop"] {
   background-color: rgba(31, 31, 31, 0.5);
 }
 
-#confirm-uninstall-version-element, #confirm-stop-download-version-element {
+#confirm-uninstall-version-element, #confirm-stop-download-version-element, #confirm-stop-all-downloads-element {
   width: 50%;
   height: 25%;
   background-color: #363636;
@@ -97,11 +97,20 @@ p[class^="stop"] {
   padding: 2%;
 }
 
-#confirm-uninstall-version-element p, #confirm-stop-download-version-element p {
+#confirm-stop-all-downloads-element {
+  width: 60%;
+  height: 35%;
+}
+
+#confirm-uninstall-version-element p, #confirm-stop-download-version-element p, #confirm-stop-all-downloads-element p {
   margin-bottom: 5%;
 }
 
-#uninstall-version-body, #stop-download-version-body {
+#confirm-stop-all-downloads-element p:first-child {
+  margin-bottom: 0%;
+}
+
+#uninstall-version-body, #stop-download-version-body, #stop-all-downloads-body {
   width: 100%;
   height: 100%;
   display: flex;
@@ -110,7 +119,7 @@ p[class^="stop"] {
   align-items: center;
 }
 
-#confirm-uninstall-buttons, #confirm-stop-download-buttons {
+#confirm-uninstall-buttons, #confirm-stop-download-buttons, #confirm-stop-all-downloads-buttons {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -118,7 +127,7 @@ p[class^="stop"] {
   width: 100%;
 }
 
-#confirm-uninstall-buttons button, #confirm-stop-download-buttons button {
+#confirm-uninstall-buttons button, #confirm-stop-download-buttons button, #confirm-stop-all-downloads-buttons button {
   color: white;
   border: none;
   border-radius: 5px;
@@ -128,11 +137,11 @@ p[class^="stop"] {
   cursor: pointer;
 }
 
-#confirm-uninstall-button, #confirm-stop-download-button {
+#confirm-uninstall-button, #confirm-stop-download-button, #confirm-stop-all-downloads-button {
   background-color: #F44336;
 }
 
-#cancel-uninstall-button, #cancel-stop-download-button {
+#cancel-uninstall-button, #cancel-stop-download-button, #cancel-stop-all-downloads-button {
   background-color: #56B7FF;
 }
 
