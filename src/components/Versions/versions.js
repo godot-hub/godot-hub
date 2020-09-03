@@ -1,11 +1,18 @@
 const fs = require('fs');
 const path = require('path');
-
 const { ipcRenderer } = require('electron');
+
 const back = document.querySelector('#back');
 
+const confirmStopAllDownloads = require('./Download/confirmStopAllDownloads');
+
 back.addEventListener('click', () => {
-  ipcRenderer.send('navigate', { filePath: './src/components/Index/index.html' });
+  // navigate back to main menu if there are no current downloads
+  if (!Object.keys(sessionStorage).length) {
+    ipcRenderer.send('navigate', { filePath: './src/components/Index/index.html' });
+  } else {
+    confirmStopAllDownloads();
+  }
 });
 
 // godot hub path
