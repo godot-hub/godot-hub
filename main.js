@@ -113,6 +113,7 @@ ipcMain.on('scrapURL-request', (event, arg) => {
       event.sender.send('scrapURL-response', { data, url, version });
     });
   });
+
   req.end();
 });
 
@@ -136,6 +137,7 @@ ipcMain.on('getMonoURL-request', (event, arg) => {
       event.sender.send(`getMonoURL-response-${version}`, { data, url: url });
     });
   });
+
   req.end();
 });
 
@@ -159,6 +161,7 @@ ipcMain.on('getGodotURL-request', (event, arg) => {
       event.sender.send(`getGodotURL-response-${version}`, { data, url: url });
     });
   });
+
   req.end();
 });
 
@@ -180,6 +183,7 @@ ipcMain.on('getExportTemplatesURL-request', (event, arg) => {
       event.sender.send(`getExportTemplatesURL-response-${version}`, { data, url: url });
     });
   });
+
   req.end();
 });
 
@@ -203,6 +207,7 @@ ipcMain.on('getMonoExportTemplatesURL-request', (event, arg) => {
       event.sender.send(`getMonoExportTemplatesURL-response-${version}`, { data, url: url });
     });
   });
+
   req.end();
 });
 
@@ -221,6 +226,7 @@ ipcMain.on('getGodot-request', (event, arg) => {
   const req = net.request(url);
 
   let dataLength = 0;
+  let file;
 
   // return data on request response
   req.on('response', (res) => {
@@ -229,7 +235,7 @@ ipcMain.on('getGodot-request', (event, arg) => {
     console.log(`content-length:  ${res.headers['content-length']}`);
 
     const totalLength = res.headers['content-length'];
-    const file = fs.createWriteStream(path);
+    file = fs.createWriteStream(path);
 
     res.pipe(file);
 
@@ -259,6 +265,7 @@ ipcMain.on('getGodot-request', (event, arg) => {
 
   // stop download
   ipcMain.on(`getGodot-Stop-${version}`, () => {
+    file.close();
     if (fs.existsSync(path)) {
       fs.unlinkSync(path);
     }
@@ -283,6 +290,7 @@ ipcMain.on('getExportTemplates-request', (event, arg) => {
   const req = net.request(url);
 
   let dataLength = 0;
+  let file;
 
   // return data on request response
   req.on('response', (res) => {
@@ -291,7 +299,7 @@ ipcMain.on('getExportTemplates-request', (event, arg) => {
     console.log(`content-length:  ${res.headers['content-length']}`);
 
     const totalLength = res.headers['content-length'];
-    const file = fs.createWriteStream(path);
+    file = fs.createWriteStream(path);
 
     res.pipe(file);
 
@@ -318,6 +326,7 @@ ipcMain.on('getExportTemplates-request', (event, arg) => {
 
   // stop download
   ipcMain.on(`getExportTemplates-Stop-${version}`, () => {
+    file.close();
     if (fs.existsSync(path)) {
       fs.unlinkSync(path);
     }
@@ -342,6 +351,7 @@ ipcMain.on('getMono-request', (event, arg) => {
   const req = net.request(url);
 
   let dataLength = 0;
+  let file;
 
   // return data on request response
   req.on('response', (res) => {
@@ -350,7 +360,7 @@ ipcMain.on('getMono-request', (event, arg) => {
     console.log(`content-length:  ${res.headers['content-length']}`);
 
     const totalLength = res.headers['content-length'];
-    const file = fs.createWriteStream(path);
+    file = fs.createWriteStream(path);
 
     res.pipe(file);
 
@@ -380,6 +390,7 @@ ipcMain.on('getMono-request', (event, arg) => {
 
   // stop download
   ipcMain.on(`getMono-Stop-${version}`, () => {
+    file.close();
     if (fs.existsSync(path)) {
       fs.unlinkSync(path);
     }
@@ -405,6 +416,7 @@ ipcMain.on('getMonoExportTemplates-request', (event, arg) => {
   const req = net.request(url);
 
   let dataLength = 0;
+  let file;
 
   // return data on request response
   req.on('response', (res) => {
@@ -413,7 +425,7 @@ ipcMain.on('getMonoExportTemplates-request', (event, arg) => {
     console.log(`content-length:  ${res.headers['content-length']}`);
 
     const totalLength = res.headers['content-length'];
-    const file = fs.createWriteStream(path);
+    file = fs.createWriteStream(path);
 
     res.pipe(file);
 
@@ -440,6 +452,7 @@ ipcMain.on('getMonoExportTemplates-request', (event, arg) => {
 
   // stop download
   ipcMain.on(`getMonoExportTemplates-Stop-${version}`, () => {
+    file.close();
     if (fs.existsSync(path)) {
       fs.unlinkSync(path);
     }
