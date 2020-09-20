@@ -1,7 +1,7 @@
 const { ipcRenderer } = require('electron');
 
 // show a warning and get confirmation from user to stop all downloads and navigate back to main menu
-const confirmStopAllDownloads = (e, type) => {
+const confirmStopAllDownloads = () => {
   const body = document.querySelector('body');
   // confirm stop all downloads parent eleement
   const confirmStopAllDownloadsElementParent = document.createElement('section');
@@ -43,18 +43,36 @@ const confirmStopAllDownloads = (e, type) => {
   confirmStopAllDownloadsButton.addEventListener('click', () => {
     if (Object.keys(sessionStorage).length) {
       const downloads = Object.keys(sessionStorage);
-      for (let download of downloads) {
+      console.log(downloads);
+      for (const download of downloads) {
+        // exclude ending mono from download
+        const downloadWithoutEndingMono = download.slice(0, download.lastIndexOf('-mono'));
         // extract version out of downlod name
-        const version = download.slice(download.lastIndexOf('-') + 1);
+        const version = download.includes('mono')
+          ? `${downloadWithoutEndingMono.slice(downloadWithoutEndingMono.lastIndexOf('-') + 1)}-mono`
+          : download.slice(download.lastIndexOf('-') + 1);
 
-        // stop download based on download type
-        if (download.includes('godot')) {
+        console.log(download);
+        console.log(downloadWithoutEndingMono);
+        console.log(version);
+
+        // stop download if its godot
+        if (download.includes(`godot-${version}`)) {
           ipcRenderer.send(`getGodot-Stop-${version}`);
-        } else if (download.includes('mono')) {
+        }
+
+        // stop download if its mono
+        if (download.includes(`mono-${version}`)) {
           ipcRenderer.send(`getMono-Stop-${version}`);
-        } else if (download.includes('export-templates')) {
+        }
+
+        // stop download if its export templates
+        if (download.includes(`export-templates-${version}`)) {
           ipcRenderer.send(`getExportTemplates-Stop-${version}`);
-        } else if (download.includes('mono-export-templates')) {
+        }
+
+        // stop download if its mono export templates
+        if (download.includes(`mono-export-templates-${version}`)) {
           ipcRenderer.send(`getMonoExportTemplates-Stop-${version}`);
         }
 
