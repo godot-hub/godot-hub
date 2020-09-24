@@ -223,6 +223,29 @@ ipcMain.on('getGodot-request', (event, arg) => {
   console.log(`ipcMain getGodot request: ${url}`);
   console.log('downloading godot');
 
+  const protocol = url.slice(0, url.indexOf(':') + 1);
+  const hostname = url.slice(protocol.length + 2 , url.indexOf('.org') + 4);
+  const requestPath = url.slice(hostname.length + 8);
+
+  let totalLength;
+
+  const totalLengthRequest = net.request({
+    method: 'HEAD',
+    protocol,
+    hostname,
+    port: 443,
+    path: requestPath
+  });
+
+  totalLengthRequest.on('response', (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    console.log(`content-length:  ${res.headers['content-length']}`);
+    totalLength = res.headers['content-length'];
+  });
+
+  totalLengthRequest.end();
+
   const req = net.request(url);
 
   let dataLength = 0;
@@ -234,7 +257,6 @@ ipcMain.on('getGodot-request', (event, arg) => {
     console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
     console.log(`content-length:  ${res.headers['content-length']}`);
 
-    const totalLength = res.headers['content-length'];
     file = fs.createWriteStream(path);
 
     res.pipe(file);
@@ -273,6 +295,10 @@ ipcMain.on('getGodot-request', (event, arg) => {
     console.log('stopped downloading godot');
   });
 
+  req.on('abort', () => {
+    console.log('aborted!');
+  });
+
   req.end();
 });
 
@@ -287,6 +313,29 @@ ipcMain.on('getExportTemplates-request', (event, arg) => {
 
   console.log(`ipcMain getExportTemplates request: ${url}`);
 
+  const protocol = url.slice(0, url.indexOf(':') + 1);
+  const hostname = url.slice(protocol.length + 2 , url.indexOf('.org') + 4);
+  const requestPath = url.slice(hostname.length + 8);
+
+  let totalLength;
+
+  const totalLengthRequest = net.request({
+    method: 'HEAD',
+    protocol,
+    hostname,
+    port: 443,
+    path: requestPath
+  });
+
+  totalLengthRequest.on('response', (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    console.log(`content-length:  ${res.headers['content-length']}`);
+    totalLength = res.headers['content-length'];
+  });
+
+  totalLengthRequest.end();
+
   const req = net.request(url);
 
   let dataLength = 0;
@@ -298,7 +347,6 @@ ipcMain.on('getExportTemplates-request', (event, arg) => {
     console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
     console.log(`content-length:  ${res.headers['content-length']}`);
 
-    const totalLength = res.headers['content-length'];
     file = fs.createWriteStream(path);
 
     res.pipe(file);
@@ -320,6 +368,10 @@ ipcMain.on('getExportTemplates-request', (event, arg) => {
       event.sender.send(`getExportTemplates-Done-${version}`);
       event.sender.send(`getExportTemplates-Installing-${version}`);
     });
+  });
+
+  req.on('abort', () => {
+    console.log('aborted!');
   });
 
   req.end();
@@ -348,6 +400,29 @@ ipcMain.on('getMono-request', (event, arg) => {
   console.log(`ipcMain getMono request: ${url}`);
   console.log('downloading mono');
 
+  const protocol = url.slice(0, url.indexOf(':') + 1);
+  const hostname = url.slice(protocol.length + 2 , url.indexOf('.org') + 4);
+  const requestPath = url.slice(hostname.length + 8);
+
+  let totalLength;
+
+  const totalLengthRequest = net.request({
+    method: 'HEAD',
+    protocol,
+    hostname,
+    port: 443,
+    path: requestPath
+  });
+
+  totalLengthRequest.on('response', (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    console.log(`content-length:  ${res.headers['content-length']}`);
+    totalLength = res.headers['content-length'];
+  });
+
+  totalLengthRequest.end();
+
   const req = net.request(url);
 
   let dataLength = 0;
@@ -355,11 +430,6 @@ ipcMain.on('getMono-request', (event, arg) => {
 
   // return data on request response
   req.on('response', (res) => {
-    console.log(`STATUS: ${res.statusCode}`);
-    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-    console.log(`content-length:  ${res.headers['content-length']}`);
-
-    const totalLength = res.headers['content-length'];
     file = fs.createWriteStream(path);
 
     res.pipe(file);
@@ -399,6 +469,10 @@ ipcMain.on('getMono-request', (event, arg) => {
     ipcMain.removeAllListeners(`getMono-Stop-${version}`);
   });
 
+  req.on('abort', () => {
+    console.log('aborted!');
+  });
+
   req.end();
 });
 
@@ -413,6 +487,29 @@ ipcMain.on('getMonoExportTemplates-request', (event, arg) => {
 
   console.log(`ipcMain getMonoExportTemplates request: ${url}`);
 
+  const protocol = url.slice(0, url.indexOf(':') + 1);
+  const hostname = url.slice(protocol.length + 2 , url.indexOf('.org') + 4);
+  const requestPath = url.slice(hostname.length + 8);
+
+  let totalLength;
+
+  const totalLengthRequest = net.request({
+    method: 'HEAD',
+    protocol,
+    hostname,
+    port: 443,
+    path: requestPath
+  });
+
+  totalLengthRequest.on('response', (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    console.log(`content-length:  ${res.headers['content-length']}`);
+    totalLength = res.headers['content-length'];
+  });
+
+  totalLengthRequest.end();
+
   const req = net.request(url);
 
   let dataLength = 0;
@@ -424,7 +521,6 @@ ipcMain.on('getMonoExportTemplates-request', (event, arg) => {
     console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
     console.log(`content-length:  ${res.headers['content-length']}`);
 
-    const totalLength = res.headers['content-length'];
     file = fs.createWriteStream(path);
 
     res.pipe(file);
@@ -446,6 +542,10 @@ ipcMain.on('getMonoExportTemplates-request', (event, arg) => {
       event.sender.send(`getMonoExportTemplates-Done-${version}`);
       event.sender.send(`getMonoExportTemplates-Installing-${version}`);
     });
+  });
+
+  req.on('abort', () => {
+    console.log('aborted!');
   });
 
   req.end();
