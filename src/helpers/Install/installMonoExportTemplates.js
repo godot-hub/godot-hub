@@ -24,7 +24,7 @@ const installMonoExportTemplates = (url, version, monoDir, godotHubPath, godotVe
 
       // extract mono export templates
       const zip = new AdmZip(zippedExportTemplatesPath);
-      zip.extractAllTo(installPath, true);
+      zip.extractAllToAsync(installPath, true, (err) => console.error(new Error(err)));
 
       console.log(`${monoExportTemplatesFileNameWithoutExtension}.zip - Unzipped!`);
 

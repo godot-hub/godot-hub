@@ -24,7 +24,7 @@ const installExportTemplates = (url, version, godotHubPath, godotHubConfigPath) 
 
       // extract export templates
       const zip = new AdmZip(zippedExportTemplatesPath);
-      zip.extractAllTo(installPath, true);
+      zip.extractAllToAsync(installPath, true, (err) => console.error(new Error(err)));
 
       console.log(`${exportTemplatesFileNameWithoutExtension}.zip - Unzipped!`);
 

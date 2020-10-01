@@ -224,7 +224,7 @@ ipcMain.on('getGodot-request', (event, arg) => {
   console.log('downloading godot');
 
   const protocol = url.slice(0, url.indexOf(':') + 1);
-  const hostname = url.slice(protocol.length + 2 , url.indexOf('.org') + 4);
+  const hostname = url.slice(protocol.length + 2, url.indexOf('.org') + 4);
   const requestPath = url.slice(hostname.length + 8);
 
   let totalLength;
@@ -314,7 +314,7 @@ ipcMain.on('getExportTemplates-request', (event, arg) => {
   console.log(`ipcMain getExportTemplates request: ${url}`);
 
   const protocol = url.slice(0, url.indexOf(':') + 1);
-  const hostname = url.slice(protocol.length + 2 , url.indexOf('.org') + 4);
+  const hostname = url.slice(protocol.length + 2, url.indexOf('.org') + 4);
   const requestPath = url.slice(hostname.length + 8);
 
   let totalLength;
@@ -401,7 +401,7 @@ ipcMain.on('getMono-request', (event, arg) => {
   console.log('downloading mono');
 
   const protocol = url.slice(0, url.indexOf(':') + 1);
-  const hostname = url.slice(protocol.length + 2 , url.indexOf('.org') + 4);
+  const hostname = url.slice(protocol.length + 2, url.indexOf('.org') + 4);
   const requestPath = url.slice(hostname.length + 8);
 
   let totalLength;
@@ -488,7 +488,7 @@ ipcMain.on('getMonoExportTemplates-request', (event, arg) => {
   console.log(`ipcMain getMonoExportTemplates request: ${url}`);
 
   const protocol = url.slice(0, url.indexOf(':') + 1);
-  const hostname = url.slice(protocol.length + 2 , url.indexOf('.org') + 4);
+  const hostname = url.slice(protocol.length + 2, url.indexOf('.org') + 4);
   const requestPath = url.slice(hostname.length + 8);
 
   let totalLength;
