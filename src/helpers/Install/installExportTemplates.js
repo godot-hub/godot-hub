@@ -24,26 +24,30 @@ const installExportTemplates = (url, version, godotHubPath, godotHubConfigPath) 
 
       // extract export templates
       const zip = new AdmZip(zippedExportTemplatesPath);
-      zip.extractAllToAsync(installPath, true, (err) => console.error(new Error(err)));
-
-      console.log(`${exportTemplatesFileNameWithoutExtension}.zip - Unzipped!`);
-
-      // change directory name of installed export templates
-      const currentPath = path.join(installPath, 'templates');
-
-      rename(currentPath, dirPath, (err) => {
+      zip.extractAllToAsync(installPath, true, (err) => {
         if (err) {
           console.error(new Error(err));
         }
 
-        console.log(`${currentPath} changed to ${dirPath}`);
+        console.log(`${exportTemplatesFileNameWithoutExtension}.zip - Unzipped!`);
 
-        changeFileExtension(exportTemplatesPath, exportTemplatesFileNameWithoutExtension, '.zip', '.tpz');
+        // change directory name of installed export templates
+        const currentPath = path.join(installPath, 'templates');
 
-        console.log('DONE extracting');
+        rename(currentPath, dirPath, (err) => {
+          if (err) {
+            console.error(new Error(err));
+          }
 
-        sessionStorage.removeItem(`export-templates-${version}`);
-        renderVersions(godotHubPath, godotHubConfigPath);
+          console.log(`${currentPath} changed to ${dirPath}`);
+
+          changeFileExtension(exportTemplatesPath, exportTemplatesFileNameWithoutExtension, '.zip', '.tpz');
+
+          console.log('DONE extracting');
+
+          sessionStorage.removeItem(`export-templates-${version}`);
+          renderVersions(godotHubPath, godotHubConfigPath);
+        });
       });
     } else {
       console.log('export templates is already installed');
