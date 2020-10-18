@@ -24,27 +24,31 @@ const installMonoExportTemplates = (url, version, monoDir, godotHubPath, godotVe
 
       // extract mono export templates
       const zip = new AdmZip(zippedExportTemplatesPath);
-      zip.extractAllToAsync(installPath, true, (err) => console.error(new Error(err)));
-
-      console.log(`${monoExportTemplatesFileNameWithoutExtension}.zip - Unzipped!`);
-
-      // change directory name of installed mono export templates
-      const currentPath = path.join(installPath, 'templates');
-      const desiredPath = path.join(installPath, `${godotVersion}.stable.mono`);
-
-      rename(currentPath, desiredPath, (err) => {
+      zip.extractAllToAsync(installPath, true, (err) => {
         if (err) {
           console.error(new Error(err));
         }
 
-        console.log(`${currentPath} changed to ${desiredPath}`);
+        console.log(`${monoExportTemplatesFileNameWithoutExtension}.zip - Unzipped!`);
 
-        changeFileExtension(path.join(monoExportTemplatesPath), monoExportTemplatesFileNameWithoutExtension, '.zip', '.tpz');
+        // change directory name of installed mono export templates
+        const currentPath = path.join(installPath, 'templates');
+        const desiredPath = path.join(installPath, `${godotVersion}.stable.mono`);
 
-        console.log('DONE extracting');
+        rename(currentPath, desiredPath, (err) => {
+          if (err) {
+            console.error(new Error(err));
+          }
 
-        sessionStorage.removeItem(`mono-export-templates-${version}`);
-        renderVersions(godotHubPath, godotHubConfigPath);
+          console.log(`${currentPath} changed to ${desiredPath}`);
+
+          changeFileExtension(path.join(monoExportTemplatesPath), monoExportTemplatesFileNameWithoutExtension, '.zip', '.tpz');
+
+          console.log('DONE extracting');
+
+          sessionStorage.removeItem(`mono-export-templates-${version}`);
+          renderVersions(godotHubPath, godotHubConfigPath);
+        });
       });
     } else {
       console.log('mono export templates is already installed');
