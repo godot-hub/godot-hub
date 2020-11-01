@@ -16,7 +16,12 @@ const searchProject = (godotHubPath) => {
       projectsList.removeChild(projectsList.firstChild);
     }
 
-    const filteredProjects = currentProjectsList.filter(project => project.name.toLowerCase().includes(search.value));
+    const filteredProjects = currentProjectsList.filter(project => {
+      // include project name, if project exists
+      if (project && project.name) {
+        return project.name.toLowerCase().includes(search.value);
+      }
+    });
 
     if (filteredProjects.length > 0) {
       filteredProjects.forEach(currentProject => {
