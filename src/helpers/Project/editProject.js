@@ -17,7 +17,9 @@ const editProject = (projectPath, godotPath) => {
     if (stderr) {
       console.log(stderr);
     }
-    console.log(stdout);
+    if (stdout) {
+      console.log(stdout);
+    }
   });
 
   // change directory back to godot hub path

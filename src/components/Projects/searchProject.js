@@ -59,7 +59,7 @@ const searchProject = (godotHubPath) => {
 
           // edit project
           const editProject = require('../../helpers/Project/editProject');
-          editProject(projectPath, godotHubPath, godotPath);
+          editProject(projectPath, godotPath);
         });
 
         // delete project on click
