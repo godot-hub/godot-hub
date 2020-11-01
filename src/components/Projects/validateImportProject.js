@@ -36,7 +36,12 @@ const validateImportProject = (args) => {
     console.log(godotProjectName);
 
     const currentProjects = getCurrentProjects(godotHubPath).flat();
-    const currentProjectsNames = currentProjects.map(project => project.name);
+    const currentProjectsNames = currentProjects.map(project => {
+      // include project name, if project exists
+      if (project && project.name) {
+        return project.name;
+      }
+    });
 
     console.log(currentProjects);
     console.log(currentProjectsNames);
