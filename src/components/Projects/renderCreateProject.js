@@ -119,11 +119,16 @@ const renderCreateProject = (godotHubPath, godotHubConfigPath) => {
       if (projectName.length > 3) {
         const currentProjects = getCurrentProjects(godotHubPath).flat();
 
+        console.log(currentProjects);
+
         // check if project name exists
         const projectExists = currentProjects.map(currentProject => {
-          const { name } = currentProject;
-          if (projectName === name) {
-            return true;
+          if (currentProject) {
+            const { name } = currentProject;
+
+            if (projectName === name) {
+              return true;
+            }
           }
         });
 
