@@ -1,4 +1,5 @@
 const getCurrentProjects = require('../../helpers/Project/getCurrentProjects');
+const confirmDeleteProject = require('./confirmDeleteProject');
 
 // render projects in projects view based on the current valid projects
 const renderProjects = (godotHubPath) => {
@@ -62,9 +63,7 @@ const renderProjects = (godotHubPath) => {
       const currentProjectListData = e.target.parentElement.parentElement.dataset;
       const { name, version, projectPath, filePath, godotPath } = currentProjectListData;
 
-      // delete project
-      const deleteProject = require('../../helpers/Project/deleteProject');
-      deleteProject(projectPath, godotHubPath);
+      confirmDeleteProject(projectPath, godotHubPath, name);
     });
   });
 };
