@@ -1,5 +1,4 @@
 const fs = require('fs-extra');
-const renderProjects = require('../../components/Projects/renderProjects');
 
 // delete project based on its path
 const deleteProject = (projectPath, godotHubPath) => {
@@ -14,6 +13,8 @@ const deleteProject = (projectPath, godotHubPath) => {
           // rerender if project got deleted
           if (!fs.existsSync(projectPath)) {
             console.log(godotHubPath);
+            const renderProjects = require('../../components/Projects/renderProjects');
+
             renderProjects(godotHubPath);
           }
         }
