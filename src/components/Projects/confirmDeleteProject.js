@@ -30,8 +30,13 @@ const confirmDeleteProject = (projectPath, godotHubPath, name) => {
   deleteProjectNameConfirmParent.setAttribute('id', 'delete-project-name-confirm-parent');
   const deleteProjectNameConfirmLabel = document.createElement('label');
   deleteProjectNameConfirmLabel.setAttribute('id', 'delete-project-name-confirm-label');
-  const deleteProjectNameConfirmLabelText = document.createTextNode(`write ${name} to delete`);
-  deleteProjectNameConfirmLabel.appendChild(deleteProjectNameConfirmLabelText);
+  deleteProjectNameConfirmLabel.appendChild(document.createTextNode('type '));
+  const deleteProjectNameConfirmLabelTextSpan = document.createElement('span');
+  deleteProjectNameConfirmLabelTextSpan.setAttribute('class', 'warningText');
+  const deleteProjectNameConfirmLabelTextProjectName = document.createTextNode(`${name}`);
+  deleteProjectNameConfirmLabelTextSpan.appendChild(deleteProjectNameConfirmLabelTextProjectName);
+  deleteProjectNameConfirmLabel.appendChild(deleteProjectNameConfirmLabelTextSpan);
+  deleteProjectNameConfirmLabel.appendChild(document.createTextNode(' to delete'));
   const deleteProjectNameConfirmTextBar = document.createElement('input');
   deleteProjectNameConfirmTextBar.setAttribute('id', 'delete-project-name-confirm-text-bar');
   deleteProjectNameConfirmTextBar.setAttribute('type', 'text');

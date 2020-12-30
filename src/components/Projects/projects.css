@@ -363,3 +363,7 @@ header {
 #cancel-delete-project-button {
   background-color: #56B7FF;
 }
+
+.warningText {
+  color: #F44336;
+}
