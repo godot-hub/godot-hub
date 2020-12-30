@@ -1,4 +1,5 @@
 const renderProjects = require('./renderProjects');
+const confirmDeleteProject = require('./confirmDeleteProject');
 const search = document.querySelector('#search');
 
 // filter and show projects available that match search text based on project name
@@ -68,9 +69,7 @@ const searchProject = (godotHubPath) => {
           const currentProjectListData = e.target.parentElement.parentElement.dataset;
           const { name, version, projectPath, filePath, godotPath } = currentProjectListData;
 
-          // delete project
-          const deleteProject = require('../../helpers/Project/deleteProject');
-          deleteProject(projectPath, godotHubPath);
+          confirmDeleteProject(projectPath, godotHubPath, name);
         });
       });
     } else {
