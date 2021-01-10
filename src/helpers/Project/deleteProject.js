@@ -12,6 +12,13 @@ const deleteProject = (projectPath, godotHubPath) => {
         } else {
           // rerender if project got deleted
           if (!fs.existsSync(projectPath)) {
+            const search = document.querySelector('#search');
+
+            // clear search bar after deleting project
+            if (search.value) {
+              search.value = '';
+            }
+
             console.log(godotHubPath);
             const renderProjects = require('../../components/Projects/renderProjects');
 
