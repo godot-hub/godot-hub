@@ -1,10 +1,10 @@
 const path = require('path');
-const process = require('process');
 const fs = require('fs');
+const os = require('os');
 
 // create godot hub config file
 const initGodotHubConfig = (godotHubPath) => {
-  const godotHubConfigPath = path.join(process.cwd(), 'godot-hub.json');
+  const godotHubConfigPath = path.join(os.homedir(), '.godot-hub.json');
 
   // configuration to be written in config file
   const godotHubConfig = {
@@ -15,7 +15,7 @@ const initGodotHubConfig = (godotHubPath) => {
     fs.writeFileSync(godotHubConfigPath, JSON.stringify(godotHubConfig, null, 2));
   } else {
     // current godot hub path
-    const currentGodotHubConfigPath = path.join(process.cwd(), 'godot-hub.json');
+    const currentGodotHubConfigPath = path.join(os.homedir(), '.godot-hub.json');
     const currentGodotHubPath = JSON.parse(fs.readFileSync(currentGodotHubConfigPath)).godotHubPath;
 
     // change godot hub path only if new path is different
