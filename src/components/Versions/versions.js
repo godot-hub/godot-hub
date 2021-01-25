@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 const { ipcRenderer } = require('electron');
 
 const back = document.querySelector('#back');
@@ -16,7 +17,7 @@ back.addEventListener('click', () => {
 });
 
 // godot hub path
-const godotHubConfigPath = path.join(process.cwd(), 'godot-hub.json');
+const godotHubConfigPath = path.join(os.homedir(), '.godot-hub.json');
 const godotHubPath = JSON.parse(fs.readFileSync(godotHubConfigPath)).godotHubPath;
 
 // render installed releases as available releases in versions view

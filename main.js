@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, net, Menu, shell } = require('electron');
 const path = require('path');
 const process = require('process');
+const os = require('os');
 const fs = require('fs');
 const AdmZip = require('adm-zip');
 
@@ -27,13 +28,13 @@ function createWindow () {
   });
 
   // show first time component if there is no defined path for godot hub
-  const godotHubConfigPath = path.join(process.cwd(), 'godot-hub.json');
+  const godotHubConfigPath = path.join(os.homedir(), '.godot-hub.json');
 
   if (!fs.existsSync(godotHubConfigPath)) {
     win.loadFile('./src/components/FirstTime/firstTime.html');
   } else if (fs.existsSync(godotHubConfigPath)) {
     // check if godot hub path
-    const currentGodotHubPath = JSON.parse(fs.readFileSync('godot-hub.json')).godotHubPath;
+    const currentGodotHubPath = JSON.parse(fs.readFileSync(godotHubConfigPath)).godotHubPath;
 
     if (fs.existsSync(currentGodotHubPath)) {
       win.loadFile('./src/components/Index/index.html');

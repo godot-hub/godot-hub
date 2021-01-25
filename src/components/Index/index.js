@@ -2,10 +2,10 @@
 const { ipcRenderer } = require('electron');
 const path = require('path');
 const fs = require('fs');
-const process = require('process');
+const os = require('os');
 
 // godot hub path
-const godotHubConfigPath = path.join(process.cwd(), 'godot-hub.json');
+const godotHubConfigPath = path.join(os.homedir(), '.godot-hub.json');
 const godotHubPath = JSON.parse(fs.readFileSync(godotHubConfigPath)).godotHubPath;
 
 // get elements

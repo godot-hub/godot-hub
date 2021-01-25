@@ -2,6 +2,7 @@ const { ipcRenderer } = require('electron');
 const dialog = require('electron').remote.dialog;
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
 const initGodotHubConfig = require('../../helpers/Init/initGodotHubConfig');
 const back = document.querySelector('#back');
 
@@ -11,7 +12,7 @@ back.addEventListener('click', () => {
 });
 
 // godot hub path
-const godotHubConfigPath = path.join(process.cwd(), 'godot-hub.json');
+const godotHubConfigPath = path.join(os.homedir(), '.godot-hub.json');
 const godotHubPath = JSON.parse(fs.readFileSync(godotHubConfigPath)).godotHubPath;
 
 // show godot hub path
@@ -58,7 +59,7 @@ changePathElement.addEventListener('click', async () => {
         // change godot hub path in config file
         initGodotHubConfig(newGodotHubPath);
         // updated godot hub path
-        const updatedGodotHubConfigPath = path.join(process.cwd(), 'godot-hub.json');
+        const updatedGodotHubConfigPath = path.join(os.homedir(), '.godot-hub.json');
         const updatedGodotHubPath = JSON.parse(fs.readFileSync(updatedGodotHubConfigPath)).godotHubPath;
         // reflect changed path on UI
         godotHubPathElement.value = updatedGodotHubPath;
