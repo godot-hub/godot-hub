@@ -1,24 +1,24 @@
 const fs = require('fs');
+const path = require('path');
 
 // set default release version in godot hub config
-const setDefaultRelease = (godotHubFilePath, defaultRelease) => {
-  const godotHubConfigFile = JSON.parse(fs.readFileSync(godotHubFilePath));
-
-  console.log(godotHubConfigFile.hasOwnProperty('defaultGodotVersion'));
+const setDefaultRelease = (godotHubPath, defaultRelease) => {
+  const configFilePath = path.join(godotHubPath, '.config', '.config.json');
+  const readConfigFile = JSON.parse(fs.readFileSync(configFilePath));
 
   // check if there is a default release version in the config file
-  if (godotHubConfigFile.hasOwnProperty('defaultGodotVersion')) {
-    const defaultGodotVersion = godotHubConfigFile.defaultGodotVersion;
+  if (readConfigFile.hasOwnProperty('defaultGodotVersion')) {
+    const defaultGodotVersion = readConfigFile.defaultGodotVersion;
 
     // modify default godot version only if its different
     if (String(defaultGodotVersion) !== String(defaultRelease)) {
-      godotHubConfigFile.defaultGodotVersion = defaultRelease;
+      readConfigFile.defaultGodotVersion = defaultRelease;
 
-      fs.writeFileSync(godotHubFilePath, JSON.stringify(godotHubConfigFile, null, 2));
+      fs.writeFileSync(configFilePath, JSON.stringify(readConfigFile, null, 2));
     }
   } else {
-    godotHubConfigFile.defaultGodotVersion = defaultRelease;
-    fs.writeFileSync(godotHubFilePath, JSON.stringify(godotHubConfigFile, null, 2));
+    readConfigFile.defaultGodotVersion = defaultRelease;
+    fs.writeFileSync(configFilePath, JSON.stringify(readConfigFile, null, 2));
   }
 };
 

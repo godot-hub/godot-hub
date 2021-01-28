@@ -5,6 +5,7 @@ const initCacheDir = require('../Init/initCacheDir');
 const initConfigDir = require('../Init/initConfigDir');
 const initReleasesDir = require('../Init/initReleasesDir');
 const initGodotHubConfig = require('../Init/initGodotHubConfig');
+const initConfigFile = require('../Init/initConfigFile');
 const { ipcRenderer } = require('electron');
 
 // create godot hub directory based on path provided
@@ -18,6 +19,7 @@ const createGodotHub = (createGodotHubPath) => {
     initConfigDir(godotHubPath);
     initReleasesDir(godotHubPath);
     initGodotHubConfig(godotHubPath);
+    initConfigFile(godotHubPath);
     ipcRenderer.send('navigate', { filePath: './src/components/Index/index.html' });
   }
 };

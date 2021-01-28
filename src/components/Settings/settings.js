@@ -96,14 +96,12 @@ let optionsList = [
 
 // reorder options list based on default godot version if it exists
 const getDefaultRelease = require('../../helpers/Releases/getDefaultRelease');
-const defaultRelease = getDefaultRelease(godotHubConfigPath);
+const defaultRelease = getDefaultRelease(godotHubPath);
 
 // reorder options list
 if (defaultRelease) {
   console.log(getDefaultRelease(godotHubConfigPath));
   const defaultReleaseIndex = optionsList.indexOf(defaultRelease);
-
-  // optionsList.splice(0, 0, optionsList[defaultReleaseIndex]);
 
   const sortedOptionList = [];
 
@@ -132,5 +130,5 @@ const setDefaultRelease = require('../../helpers/Releases/setDefaultRelease');
 defaultGodotVersionInput.addEventListener('change', (e) => {
   console.log(e.target.value);
   const defaultGodotVersion = e.target.value;
-  setDefaultRelease(godotHubConfigPath, defaultGodotVersion);
+  setDefaultRelease(godotHubPath, defaultGodotVersion);
 });
