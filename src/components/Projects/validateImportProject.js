@@ -49,7 +49,9 @@ const validateImportProject = (args) => {
     // check if the selected project doesn't exist
     if (currentProjectsNames.includes(godotProjectName)) {
       const currentProject = currentProjects.filter(project => {
-        return project.name === godotProjectName;
+        if (project && project.name) {
+          return project.name === godotProjectName;
+        }
       });
 
       const isNotValidProject = currentProject.map(project => {
