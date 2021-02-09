@@ -13,7 +13,7 @@ const renderProjects = (godotHubPath) => {
   }
 
   currentProjectsList.forEach(currentProjects => {
-    if (currentProjects.length > 0) {
+    if (currentProjects && currentProjects.length) {
       currentProjects.forEach(currentProject => {
         // only render valid projects
         if (currentProject) {
