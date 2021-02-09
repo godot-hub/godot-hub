@@ -127,8 +127,16 @@ optionsList.forEach(option => {
 // change default godot version
 const setDefaultRelease = require('../../helpers/Releases/setDefaultRelease');
 
+const lastDefaultGodotVersion = defaultGodotVersionInput.value;
+
 defaultGodotVersionInput.addEventListener('change', (e) => {
+  console.log(lastDefaultGodotVersion);
   console.log(e.target.value);
   const defaultGodotVersion = e.target.value;
-  setDefaultRelease(godotHubPath, defaultGodotVersion);
+  const defaultReleaseChanged = setDefaultRelease(godotHubPath, defaultGodotVersion);
+
+  // revert changes if file config file doesn't exist
+  if (defaultReleaseChanged === false) {
+    e.target.value = lastDefaultGodotVersion;
+  }
 });
