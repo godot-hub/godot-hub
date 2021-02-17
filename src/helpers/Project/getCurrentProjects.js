@@ -27,38 +27,47 @@ const getcurrentProjects = (godotHubPath) => {
 
       if (fs.existsSync(projectPath)) {
         const currentProjects = fs.readdirSync(projectPath).map(currentProject => {
-          const currentProjectFiles = fs.readdirSync(path.join(releasesPath, release, 'Projects', currentProject));
+          try {
+            const currentProjectFiles = fs.readdirSync(path.join(releasesPath, release, 'Projects', currentProject));
 
-          // only return valid projects depending on their release version
-          if (releaseVersion < 3) {
-            if (currentProjectFiles.includes('engine.cfg')) {
-              return {
-                name: currentProject,
-                version: release,
-                projectPath: path.join(releasesPath, release, 'Projects', currentProject),
-                filePath: path.join(releasesPath, release, 'Projects', currentProject, 'engine.cfg'),
-                godotPath: path.join(releasesPath, release, 'Engine', godotName)
-              };
-            }
-          } else {
-            if (currentProjectFiles.includes('project.godot')) {
-              if (release.includes('mono')) {
+            console.log(currentProjectFiles);
+
+            // only return valid projects depending on their release version
+            if (releaseVersion < 3) {
+              if (currentProjectFiles.includes('engine.cfg')) {
                 return {
                   name: currentProject,
                   version: release,
                   projectPath: path.join(releasesPath, release, 'Projects', currentProject),
-                  filePath: path.join(releasesPath, release, 'Projects', currentProject, 'project.godot'),
-                  godotPath: path.join(releasesPath, release, 'Engine', godotName.dirName, godotName.fileName)
-                };
-              } else {
-                return {
-                  name: currentProject,
-                  version: release,
-                  projectPath: path.join(releasesPath, release, 'Projects', currentProject),
-                  filePath: path.join(releasesPath, release, 'Projects', currentProject, 'project.godot'),
+                  filePath: path.join(releasesPath, release, 'Projects', currentProject, 'engine.cfg'),
                   godotPath: path.join(releasesPath, release, 'Engine', godotName)
                 };
               }
+            } else {
+              if (currentProjectFiles.includes('project.godot')) {
+                if (release.includes('mono')) {
+                  return {
+                    name: currentProject,
+                    version: release,
+                    projectPath: path.join(releasesPath, release, 'Projects', currentProject),
+                    filePath: path.join(releasesPath, release, 'Projects', currentProject, 'project.godot'),
+                    godotPath: path.join(releasesPath, release, 'Engine', godotName.dirName, godotName.fileName)
+                  };
+                } else {
+                  return {
+                    name: currentProject,
+                    version: release,
+                    projectPath: path.join(releasesPath, release, 'Projects', currentProject),
+                    filePath: path.join(releasesPath, release, 'Projects', currentProject, 'project.godot'),
+                    godotPath: path.join(releasesPath, release, 'Engine', godotName)
+                  };
+                }
+              }
+            }
+          } catch (err) {
+            // ignore error if current read is a file
+            if (!String(err).includes('ENOTDIR')) {
+              console.error(new Error(err.stack));
             }
           }
         });
