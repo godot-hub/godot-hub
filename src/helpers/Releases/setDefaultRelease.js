@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const initConfigFile = require('../Init/initConfigFile');
 
 // set default release version in godot hub config
 const setDefaultRelease = (godotHubPath, defaultRelease) => {
@@ -24,7 +25,9 @@ const setDefaultRelease = (godotHubPath, defaultRelease) => {
       fs.writeFileSync(configFilePath, JSON.stringify(readConfigFile, null, 2));
     }
   } else {
-    return false;
+    // create config file if it doesn't exist and rerun setDefaultRelease
+    initConfigFile(godotHubPath);
+    setDefaultRelease(godotHubPath, defaultRelease);
   }
 };
 
