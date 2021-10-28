@@ -30,14 +30,13 @@ const getGodot = (url, godotHubPath, filename, version, godotHubConfigPath) => {
     renderVersions(godotHubPath, godotHubConfigPath);
     setLatestInstalledReleaseVersion(version, godotHubConfigPath);
 
-    // change permission and make version 1 executable
-    if (parseInt(version[0]) === 1) {
-      const getReleaseName = require('../Releases/getReleaseName');
-      const versionFileName = getReleaseName(version, 'godot');
-      const versionFilePath = path.join(godotHubPath, 'Releases', version, 'Engine', versionFileName);
+    // make sure that godot version has the right permission to execute
+    const getReleaseName = require('../Releases/getReleaseName');
+    const versionFileName = getReleaseName(version, 'godot');
+    const versionFilePath = path.join(godotHubPath, 'Releases', version, 'Engine', versionFileName);
 
-      fs.chmodSync(versionFilePath, '755');
-    }
+    fs.chmodSync(versionFilePath, '755');
+
     ipcRenderer.removeAllListeners(`getGodot-Done-${version}`);
   });
 };
