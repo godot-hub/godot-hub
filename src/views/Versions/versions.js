@@ -10,7 +10,7 @@ const confirmStopAllDownloads = require('./Download/confirmStopAllDownloads');
 back.addEventListener('click', () => {
   // navigate back to main menu if there are no current downloads
   if (!Object.keys(sessionStorage).length) {
-    ipcRenderer.send('navigate', { filePath: './src/components/Index/index.html' });
+    ipcRenderer.send('navigate', { filePath: './src/views/Index/index.html' });
   } else {
     confirmStopAllDownloads();
   }

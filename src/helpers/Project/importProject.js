@@ -1,5 +1,5 @@
 const fs = require('fs-extra');
-const renderProjects = require('../../components/Projects/renderProjects');
+const renderProjects = require('../../views/Projects/renderProjects');
 
 // import a project into godot hub based on its release version and path
 const importProject = (src, target, godotHubPath, body, importProjectParentElement) => {
@@ -10,7 +10,7 @@ const importProject = (src, target, godotHubPath, body, importProjectParentEleme
       body.removeChild(importProjectParentElement);
 
       const search = document.querySelector('#search');
-      const searchProject = require('../../components/Projects/searchProject');
+      const searchProject = require('../../views/Projects/searchProject');
 
       // rerender projects if searching is active when creating or importing a project
       if (search.value.length > 0) {

@@ -4,7 +4,7 @@ const path = require('path');
 const AdmZip = require('adm-zip');
 const getFileNameFromURL = require('../URL/getFileNameFromURL');
 const changeFileExtension = require('../Change/changeFileExtension');
-const renderVersions = require('../../components/Versions/renderVersions');
+const renderVersions = require('../../views/Versions/renderVersions');
 
 // install export templates if its not installed depending on its godot version
 const installMonoExportTemplates = (url, version, monoDir, godotHubPath, godotVersion, godotHubConfigPath) => {

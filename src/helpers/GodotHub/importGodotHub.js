@@ -24,7 +24,7 @@ const importGodotHub = (godotHubPath) => {
   if (!isValidGodotHubDir.includes(false)) {
     initGodotHubConfig(godotHubPath);
     initConfigFile(godotHubPath);
-    ipcRenderer.send('navigate', { filePath: './src/components/Index/index.html' });
+    ipcRenderer.send('navigate', { filePath: './src/views/Index/index.html' });
   }
 };
 

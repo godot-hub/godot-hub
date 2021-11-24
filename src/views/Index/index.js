@@ -16,23 +16,23 @@ const about = document.querySelector('#about');
 const settings = document.querySelector('#settings');
 
 projects.addEventListener('click', () => {
-  ipcRenderer.send('navigate', { filePath: './src/components/Projects/projects.html' });
+  ipcRenderer.send('navigate', { filePath: './src/views/Projects/projects.html' });
 });
 
 versions.addEventListener('click', () => {
-  ipcRenderer.send('navigate', { filePath: './src/components/Versions/versions.html' });
+  ipcRenderer.send('navigate', { filePath: './src/views/Versions/versions.html' });
 });
 
 tutorials.addEventListener('click', () => {
-  ipcRenderer.send('navigate', { filePath: './src/components/Tutorials/tutorials.html' });
+  ipcRenderer.send('navigate', { filePath: './src/views/Tutorials/tutorials.html' });
 });
 
 about.addEventListener('click', () => {
-  ipcRenderer.send('navigate', { filePath: './src/components/About/about.html' });
+  ipcRenderer.send('navigate', { filePath: './src/views/About/about.html' });
 });
 
 settings.addEventListener('click', () => {
-  ipcRenderer.send('navigate', { filePath: './src/components/Settings/settings.html' });
+  ipcRenderer.send('navigate', { filePath: './src/views/Settings/settings.html' });
 });
 
 // Init important directories if they don't exist

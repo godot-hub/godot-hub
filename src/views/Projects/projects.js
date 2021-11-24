@@ -5,7 +5,7 @@ const os = require('os');
 const back = document.querySelector('#back');
 
 back.addEventListener('click', () => {
-  ipcRenderer.send('navigate', { filePath: './src/components/Index/index.html' });
+  ipcRenderer.send('navigate', { filePath: './src/views/Index/index.html' });
 });
 
 // godot hub path

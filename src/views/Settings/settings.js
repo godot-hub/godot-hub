@@ -5,10 +5,11 @@ const fs = require('fs');
 const os = require('os');
 const initGodotHubConfig = require('../../helpers/Init/initGodotHubConfig');
 const back = document.querySelector('#back');
+const confirmClearCache = require('./confirmClearCache');
 
 // go back to main menu on click event
 back.addEventListener('click', () => {
-  ipcRenderer.send('navigate', { filePath: './src/components/Index/index.html' });
+  ipcRenderer.send('navigate', { filePath: './src/views/Index/index.html' });
 });
 
 // godot hub path
@@ -139,4 +140,11 @@ defaultGodotVersionInput.addEventListener('change', (e) => {
   if (defaultReleaseChanged === false) {
     e.target.value = lastDefaultGodotVersion;
   }
+});
+
+// clear cache
+const clearCacheButton = document.querySelector('#clear-cache');
+
+clearCacheButton.addEventListener('click', async () => {
+  confirmClearCache(godotHubPath);
 });

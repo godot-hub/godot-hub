@@ -1,0 +1,142 @@
+section {
+  padding-left: 1%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+article {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+#change-path {
+  margin-left: 1%;
+  background-color: #363636;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 1%;
+  width: 10%;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#godot-hub-path {
+  width: 50%;
+  height: auto;
+  align-self: center;
+  border: none;
+  border-radius: 5px;
+  background-color: #1F1F1F;
+  color: white;
+  padding: 1%;
+  outline: none;
+}
+
+#godot-hub-path:disabled {
+  width: 60%;
+  font-size: 1rem;
+  background-color: hsl(0, 0%, 17%);
+}
+
+#default-godot-version {
+  width: 70%;
+  height: auto;
+  align-self: center;
+  border: none;
+  border-radius: 5px;
+  background-color: hsl(0, 0%, 17%);
+  color: white;
+  padding: 1%;
+  outline: none;
+}
+
+#clear-cache {
+  align-self: center;
+  background-color: #F44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 1%;
+  width: 15%;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#confirm-clear-cache-parent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(31, 31, 31, 0.5);
+}
+
+#confirm-clear-cache-element {
+  width: 50%;
+  height: 25%;
+  background-color: #363636;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2%;
+}
+
+#confirm-clear-cache-element {
+  width: 60%;
+  height: 35%;
+}
+
+#confirm-clear-cache-element p {
+  margin-bottom: 5%;
+}
+
+#confirm-clear-cache-element p:first-child {
+  margin-bottom: 0%;
+}
+
+#confirm-clear-cache-body {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#confirm-clear-cache-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
+#confirm-clear-cache-buttons button {
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 2%;
+  width: 20%;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#confirm-clear-cache-button {
+  background-color: #F44336;
+}
+
+#cancel-clear-cache-button {
+  background-color: #56B7FF;
+}

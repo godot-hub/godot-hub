@@ -7,7 +7,7 @@ const initProjectsDir = require('../Init/initProjectsDir');
 const initEngineDir = require('../Init/initEngineDir');
 const initEditorDataDir = require('../Init/initEditorDataDir');
 const initTemplatesDir = require('../Init/initTemplatesDir');
-const renderVersions = require('../../components/Versions/renderVersions');
+const renderVersions = require('../../views/Versions/renderVersions');
 const setLatestInstalledReleaseVersion = require('../Releases/setLatestInstalledReleaseVersion');
 
 // download Godot based on provided specific version

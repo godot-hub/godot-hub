@@ -20,7 +20,7 @@ const deleteProject = (projectPath, godotHubPath) => {
             }
 
             console.log(godotHubPath);
-            const renderProjects = require('../../components/Projects/renderProjects');
+            const renderProjects = require('../../views/Projects/renderProjects');
 
             renderProjects(godotHubPath);
           }

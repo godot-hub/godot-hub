@@ -3,7 +3,7 @@ const { app } = require('electron').remote;
 const back = document.querySelector('#back');
 
 back.addEventListener('click', () => {
-  ipcRenderer.send('navigate', { filePath: './src/components/Index/index.html' });
+  ipcRenderer.send('navigate', { filePath: './src/views/Index/index.html' });
 });
 
 // get current app version

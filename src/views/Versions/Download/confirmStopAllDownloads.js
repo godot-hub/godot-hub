@@ -79,7 +79,7 @@ const confirmStopAllDownloads = () => {
         sessionStorage.removeItem(download);
       }
     }
-    ipcRenderer.send('navigate', { filePath: './src/components/Index/index.html' });
+    ipcRenderer.send('navigate', { filePath: './src/views/Index/index.html' });
   });
 
   // cancel stop all downloads button
