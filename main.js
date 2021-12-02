@@ -21,7 +21,8 @@ function createWindow () {
     minHeight: 768,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true
+      enableRemoteModule: true,
+      contextIsolation: false
     },
     backgroundColor: '#1F1F1F',
     icon: path.join(__dirname, '/src/images/godot-hub-logo.png')
