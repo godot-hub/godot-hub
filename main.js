@@ -31,15 +31,15 @@ function createWindow () {
   const godotHubConfigPath = path.join(os.homedir(), '.godot-hub.json');
 
   if (!fs.existsSync(godotHubConfigPath)) {
-    win.loadFile('./src/components/FirstTime/firstTime.html');
+    win.loadFile('./src/views/FirstTime/firstTime.html');
   } else if (fs.existsSync(godotHubConfigPath)) {
     // check if godot hub path
     const currentGodotHubPath = JSON.parse(fs.readFileSync(godotHubConfigPath)).godotHubPath;
 
     if (fs.existsSync(currentGodotHubPath)) {
-      win.loadFile('./src/components/Index/index.html');
+      win.loadFile('./src/views/Index/index.html');
     } else {
-      win.loadFile('./src/components/FirstTime/firstTime.html');
+      win.loadFile('./src/views/FirstTime/firstTime.html');
     }
   }
 
