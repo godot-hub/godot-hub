@@ -6,7 +6,7 @@ const stopExportTemplatesDownload = require('./stopExportTemplatesDownload');
 // show a warning and get confirmation from user to stop download
 const confirmStopDownloadVersion = (e, type) => {
   const body = document.querySelector('body');
-  // confirm stop download version parent eleement
+  // confirm stop download version parent element
   const confirmStopDownloadVersionElementParent = document.createElement('section');
   confirmStopDownloadVersionElementParent.setAttribute('id', 'confirm-stop-download-version-parent');
   body.prepend(confirmStopDownloadVersionElementParent);

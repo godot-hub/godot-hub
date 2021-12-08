@@ -3,7 +3,7 @@ const { ipcRenderer } = require('electron');
 // show a warning and get confirmation from user to stop all downloads and navigate back to main menu
 const confirmStopAllDownloads = () => {
   const body = document.querySelector('body');
-  // confirm stop all downloads parent eleement
+  // confirm stop all downloads parent element
   const confirmStopAllDownloadsElementParent = document.createElement('section');
   confirmStopAllDownloadsElementParent.setAttribute('id', 'confirm-stop-all-downloads-parent');
   body.prepend(confirmStopAllDownloadsElementParent);

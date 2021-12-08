@@ -68,6 +68,17 @@ function createWindow () {
     // when you should delete the corresponding element.
     win = null;
   });
+
+  // prevent accidental app closing
+  win.on('close', async (event) => {
+    event.preventDefault();
+
+    win.webContents.send('should-quit');
+
+    ipcMain.on('quit', () => {
+      app.exit();
+    });
+  });
 }
 
 // This method will be called when Electron has finished

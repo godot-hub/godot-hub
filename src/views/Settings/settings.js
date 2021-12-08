@@ -148,3 +148,10 @@ const clearCacheButton = document.querySelector('#clear-cache');
 clearCacheButton.addEventListener('click', async () => {
   confirmClearCache(godotHubPath);
 });
+
+// handle confirm close godot hub
+const confirmCloseGodotHub = require('../../helpers/GodotHub/confirmCloseGodotHub');
+
+ipcRenderer.on('should-quit', () => {
+  confirmCloseGodotHub();
+});

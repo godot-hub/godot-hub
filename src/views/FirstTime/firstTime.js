@@ -1,3 +1,4 @@
+const { ipcRenderer } = require('electron');
 const dialog = require('electron').remote.dialog;
 const path = require('path');
 const importGodotHub = require('../../helpers/GodotHub/importGodotHub');
@@ -40,4 +41,11 @@ createElement.addEventListener('click', async () => {
 
     createGodotHub(godotHubPath);
   }
+});
+
+// handle confirm close godot hub
+const confirmCloseGodotHub = require('../../helpers/GodotHub/confirmCloseGodotHub');
+
+ipcRenderer.on('should-quit', () => {
+  confirmCloseGodotHub();
 });

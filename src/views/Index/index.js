@@ -68,3 +68,10 @@ initConfigDir(godotHubPath);
     }
   }
 })();
+
+// handle confirm close godot hub
+const confirmCloseGodotHub = require('../../helpers/GodotHub/confirmCloseGodotHub');
+
+ipcRenderer.on('should-quit', () => {
+  confirmCloseGodotHub();
+});

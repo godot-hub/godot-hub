@@ -4,7 +4,7 @@ const deleteProject = require('../../helpers/Project/deleteProject');
 const confirmDeleteProject = (projectPath, godotHubPath, name) => {
   const body = document.querySelector('body');
 
-  // confirm delete project parent eleement
+  // confirm delete project parent element
   const confirmDeleteProjectElementParent = document.createElement('section');
   confirmDeleteProjectElementParent.setAttribute('id', 'confirm-delete-project-parent');
   body.prepend(confirmDeleteProjectElementParent);

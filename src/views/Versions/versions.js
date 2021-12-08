@@ -23,3 +23,10 @@ const godotHubPath = JSON.parse(fs.readFileSync(godotHubConfigPath)).godotHubPat
 // render installed releases as available releases in versions view
 const renderVersions = require('./renderVersions');
 renderVersions(godotHubPath, godotHubConfigPath);
+
+// handle confirm close godot hub
+const confirmCloseGodotHub = require('../../helpers/GodotHub/confirmCloseGodotHub');
+
+ipcRenderer.on('should-quit', () => {
+  confirmCloseGodotHub();
+});

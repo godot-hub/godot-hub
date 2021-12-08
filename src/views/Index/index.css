@@ -16,7 +16,7 @@ div {
   align-items: center;
 }
 
-section {
+#projects, #versions, #tutorials, #settings, #about {
   background-color: #363636;
   display: flex;
   flex-direction: row;

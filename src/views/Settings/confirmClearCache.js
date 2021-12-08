@@ -1,12 +1,11 @@
 const clearCache = require('../../helpers/Cache/clearCache');
 const cacheReleases = require('../../helpers/Cache/cacheReleases');
-const { app } = require('electron').remote;
 
 // show a modal to confirm or cancel clearing cache
 const confirmClearCache = (godotHubPath) => {
   const body = document.querySelector('body');
 
-  // confirm clear Cache parent eleement
+  // confirm clear Cache parent element
   const confirmClearCacheElementParent = document.createElement('section');
   confirmClearCacheElementParent.setAttribute('id', 'confirm-clear-cache-parent');
   body.prepend(confirmClearCacheElementParent);
@@ -31,7 +30,7 @@ const confirmClearCache = (godotHubPath) => {
   const confirmClearCacheButtonsSection = document.createElement('section');
   confirmClearCacheButtonsSection.setAttribute('id', 'confirm-clear-cache-buttons');
   confirmClearCacheBodyElement.appendChild(confirmClearCacheButtonsSection);
-  // cofirm clear cache button
+  // confirm clear cache button
   const confirmClearCacheButton = document.createElement('button');
   confirmClearCacheButton.setAttribute('id', 'confirm-clear-cache-button');
   const confirmClearCacheButtonText = document.createTextNode('Yes');

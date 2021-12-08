@@ -9,3 +9,10 @@ back.addEventListener('click', () => {
 // get current app version
 const version = document.querySelector('#version');
 version.textContent = app.getVersion();
+
+// handle confirm close godot hub
+const confirmCloseGodotHub = require('../../helpers/GodotHub/confirmCloseGodotHub');
+
+ipcRenderer.on('should-quit', () => {
+  confirmCloseGodotHub();
+});

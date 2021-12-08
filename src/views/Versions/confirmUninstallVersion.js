@@ -3,7 +3,7 @@ const uninstallVersion = require('./uninstallVersion');
 // show a warning and get confirmation from user to delete version
 const confirmUninstallVersion = (version, releasePath, godotHubPath, godotHubConfigPath) => {
   const body = document.querySelector('body');
-  // confirm uninstall version parent eleement
+  // confirm uninstall version parent element
   const confirmUninstallVersionElementParent = document.createElement('section');
   confirmUninstallVersionElementParent.setAttribute('id', 'confirm-uninstall-version-parent');
   body.prepend(confirmUninstallVersionElementParent);
