@@ -20,6 +20,7 @@ function createWindow () {
     minWidth: 1024,
     minHeight: 768,
     webPreferences: {
+      devTools: !app.isPackaged,
       nodeIntegration: true,
       enableRemoteModule: true,
       contextIsolation: false
